@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- 内部系统：绝对禁止搜索引擎抓取 -->
+<meta name="robots" content="noindex,nofollow,noarchive,noimageindex">
+<meta name="referrer" content="no-referrer">
+<!-- 保持高安全性：不允许外部脚本、禁止表单提交外发 -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'">
+<title>内部数据看板 · 趣倉 FUNSTOCK</title>
+<link rel="icon" href="../assets/favicon.svg">
+<link rel="stylesheet" href="board.css">
+</head>
+<body>
+
+<!-- 顶部：极简内部导航 -->
+<header class="top">
+  <div class="brand-row">
+    <a class="brand-link" href="../index.html">
+      <img src="../assets/logo-horizontal-white.svg" alt="趣倉 FUNSTOCK" class="logo">
+    </a>
+    <div class="header-actions">
+      <span class="badge-internal">内部系统</span>
+      <a class="back-link" href="../index.html">退出看板 ↗</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- 登录门 -->
+  <section class="card login" id="gate">
+    <div class="eyebrow">FUNSTOCK · 内部数据</div>
+    <h1>数据看板</h1>
+    <p class="muted">本页面仅供趣仓有限公司内部员工及管理层查阅使用。</p>
+    <p class="muted">请输入管理员分配的访问密码。</p>
+
+    <p class="err hidden" id="err" role="alert"></p>
+
+    <form id="f" autocomplete="off">
+      <label class="field">
+        <span class="field-label">访问密码</span>
+        <input id="pw" type="password" required maxlength="256" autocomplete="current-password" placeholder="请输入密码...">
+      </label>
+      <button type="submit" id="go">进入系统</button>
+    </form>
+
+    <p class="muted small">数据以高强度加密形式保存于本地，解密过程完全在您的设备上完成，密码不会通过网络传输。</p>
+  </section>
+
+  <!-- app.js 渲染的看板内容区 -->
+  <div id="app" class="hidden"></div>
+</main>
+
+<footer>
+  <p class="slogan">连接全球智慧供应链</p>
+  <p class="copyright">© 2026 趣倉有限公司 FUNSTOCK LIMITED · 内部系统请勿外传</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

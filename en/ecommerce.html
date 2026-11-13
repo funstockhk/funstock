@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-commerce Operations - FUNSTOCK</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: { navy: '#0B2545', navy2: '#13315C', teal: '#0E9F96', amber: '#F5A524', ink: '#1E293B', muted: '#64748B', bg: '#F6F8FB' },
+        fontFamily: { sans: ['Inter', 'sans-serif'] }
+      }
+    }
+  }
+</script>
+<style>
+  body { font-family: 'Inter', sans-serif; color: #1E293B; background: #F6F8FB; overflow-x: hidden; }
+  .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1); }
+  .reveal.active { opacity: 1; transform: translateY(0); }
+
+  /* 推荐套餐的发光特效 */
+  @keyframes breathing-glow {
+    0% { box-shadow: 0 0 15px rgba(245, 165, 36, 0.2); border-color: rgba(245, 165, 36, 0.4); }
+    50% { box-shadow: 0 0 35px rgba(245, 165, 36, 0.6); border-color: rgba(245, 165, 36, 1); }
+    100% { box-shadow: 0 0 15px rgba(245, 165, 36, 0.2); border-color: rgba(245, 165, 36, 0.4); }
+  }
+  .card-glow { animation: breathing-glow 3s infinite; border-width: 2px; }
+
+  /* 导航骨架（防闪烁） */
+  .custom-nav { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #E2E8F0; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+  .nav-container { max-width: 1280px; margin: 0 auto; padding: 15px 24px; display: flex; justify-content: space-between; align-items: center; }
+  .nav-links { display: flex; align-items: center; gap: 24px; font-size: 14px; font-weight: 700; }
+  .nav-links a { color: #1E293B; text-decoration: none; transition: all 0.3s; }
+  .nav-links a:hover { color: #0E9F96; }
+  .nav-links a.active { color: #0E9F96; border-bottom: 2px solid #0E9F96; padding-bottom: 4px; }
+  .lang-switch { display: flex; align-items: center; gap: 8px; border-left: 1px solid #ccc; padding-left: 16px; margin-left: 8px; font-size: 12px; }
+  .lang-switch a { color: #64748B; }
+  .lang-switch a.active { color: #0E9F96; font-weight: bold; }
+  .menu-toggle { display: none; cursor: pointer; font-size: 28px; color: #0B2545; background: none; border: none; }
+  @media (max-width: 900px) {
+    .menu-toggle { display: block; }
+    .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(255,255,255,0.98); flex-direction: column; padding: 20px; gap: 16px; box-shadow: 0 10px 15px rgba(0,0,0,0.1); border-bottom: 1px solid #ddd; }
+    .nav-links.show { display: flex; }
+    .lang-switch { border-left: none; padding-left: 0; margin-left: 0; border-top: 1px solid #eee; padding-top: 16px; justify-content: flex-start; width: 100%; }
+  }
+</style>
+</head>
+<body class="antialiased flex flex-col min-h-screen">
+
+  <!-- 自动化占位符：全局导航 -->
+  <div id="global-header"></div>
+
+  <main class="flex-grow">
+    <!-- 首屏 -->
+    <section class="bg-navy py-24 text-center text-white relative overflow-hidden">
+      <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center"></div>
+      <div class="relative z-10 max-w-4xl mx-auto px-6 reveal active">
+        <div class="text-teal-300 font-bold text-sm tracking-widest uppercase mb-4">Cross-Border E-Commerce</div>
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-6">Full-Channel E-Commerce Operations</h1>
+        <p class="text-slate-300 text-lg leading-relaxed max-w-2xl mx-auto">
+          From store setup and localized product selection to digital marketing, we help Chinese brands seamlessly deploy on mainstream global platforms like Amazon, Shopee, and TikTok.
+        </p>
+      </div>
+    </section>
+
+    <!-- 平台矩阵 -->
+    <section class="py-20 bg-bg">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="text-center mb-16 reveal">
+          <h2 class="text-3xl font-bold text-navy mb-4">Mainstream Platforms · Full Coverage</h2>
+          <p class="text-muted">Mastering the underlying logic and traffic strategies of major cross-border platforms, we customize exclusive global expansion plans for you.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Amazon -->
+          <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 reveal">
+            <div class="w-16 h-16 rounded-xl bg-orange-100 text-orange-500 flex items-center justify-center text-3xl mb-6 shadow-sm">📦</div>
+            <h3 class="text-2xl font-bold text-navy mb-3">Amazon</h3>
+            <p class="text-sm text-muted mb-6 leading-relaxed">Deeply cultivating North American, European, and Japanese marketplaces. We provide account setup, in-depth product selection, extreme Listing optimization, FBA logistics, and PPC advertising to build hit product matrices.</p>
+            <ul class="space-y-2 text-sm text-slate-700 font-medium">
+              <li class="flex items-center gap-2"><span class="text-teal">✓</span> Account Registration & Brand Registry</li>
+              <li class="flex items-center gap-2"><span class="text-teal">✓</span> A9 Algorithm Optimization & Keyword Layout</li>
+            </ul>
+          </div>
+
+          <!-- Shopee -->
+          <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 reveal" style="transition-delay: 0.1s;">
+            <div class="w-16 h-16 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-3xl mb-6 shadow-sm">🛍️</div>
+            <h3 class="text-2xl font-bold text-navy mb-3">Shopee</h3>
+            <p class="text-sm text-muted mb-6 leading-relaxed">Targeting Southeast Asia and Taiwan markets. We offer localized store decoration, precise product selection strategies, major promotion campaign registration, and SLS overseas warehouse logistics to capture emerging market dividends.</p>
+            <ul class="space-y-2 text-sm text-slate-700 font-medium">
+              <li class="flex items-center gap-2"><span class="text-teal">✓</span> Southeast Asia Localized Operations</li>
+              <li class="flex items-center gap-2"><span class="text-teal">✓</span> Store Decoration & Conversion Rate Optimization</li>
+            </ul>
+          </div>
+
+          <!-- TikTok Shop -->
+          <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 reveal" style="transition-delay: 0.2s;">
+            <div class="w-16 h-16 rounded-xl bg-gray-900 text-white flex items-center justify-center text-3xl mb-6 shadow-sm">🎵</div>
+            <h3 class="text-2xl font-bold text-navy mb-3">TikTok Shop</h3>
+            <p class="text-sm text-muted mb-6 leading-relaxed">Mastering short video content dynamics and live-streaming sales logic. We provide overseas KOL outreach, creative short video planning, live studio setup, and full-process live operations to ignite social media traffic.</p>
+            <ul class="space-y-2 text-sm text-slate-700 font-medium">
+              <li class="flex items-center gap-2"><span class="text-teal">✓</span> Hit Short Video Content Planning</li>
+              <li class="flex items-center gap-2"><span class="text-teal">✓</span> Overseas KOL Marketing & Live Streaming</li>
+            </ul>
+          </div>
+
+          <!-- 独立站 -->
+          <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 reveal" style="transition-delay: 0.3s;">
+            <div class="w-16 h-16 rounded-xl bg-teal/10 text-teal flex items-center justify-center text-3xl mb-6 shadow-sm">🌐</div>
+            <h3 class="text-2xl font-bold text-navy mb-3">DTC Brand Website</h3>
+            <p class="text-sm text-muted mb-6 leading-relaxed">Based on mainstream systems like Shopify, we build high-conversion brand websites. Combined with Google/Facebook ad placements and SEO optimization, we help you establish a private domain traffic pool.</p>
+            <ul class="space-y-2 text-sm text-slate-700 font-medium">
+              <li class="flex items-center gap-2"><span class="text-teal">✓</span> High-Conversion Shopify Store Setup</li>
+              <li class="flex items-center gap-2"><span class="text-teal">✓</span> Google/FB Precision Ad Placements</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 服务套餐定价表 -->
+    <section class="py-24 bg-white border-t border-gray-100">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="text-center mb-16 reveal">
+          <div class="text-teal font-bold text-sm tracking-widest uppercase mb-2">Service Packages</div>
+          <h2 class="text-3xl font-extrabold text-navy mb-4">Flexible Service Packages</h2>
+          <p class="text-muted max-w-2xl mx-auto">Whether you are a startup brand just beginning or a traditional factory seeking comprehensive transformation, we have a matching operational plan for you.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+          
+          <!-- 套餐 1 -->
+          <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300 reveal">
+            <h3 class="text-xl font-bold text-navy mb-2">Basic Website Setup</h3>
+            <p class="text-xs text-muted mb-6 h-10">Suitable for startup teams with products ready to take their first step into cross-border markets.</p>
+            <div class="flex items-end gap-1 mb-8">
+              <span class="text-3xl font-extrabold text-navy">Custom Quote</span>
+            </div>
+            <ul class="space-y-4 text-sm text-slate-700 mb-8 border-t border-gray-100 pt-6">
+              <li class="flex items-center gap-3"><span class="text-teal text-lg">✓</span> Shopify / DTC Website Setup</li>
+              <li class="flex items-center gap-3"><span class="text-teal text-lg">✓</span> Basic UI Design & Decoration</li>
+              <li class="flex items-center gap-3"><span class="text-teal text-lg">✓</span> 20 Products Upload & Detail Pages</li>
+              <li class="flex items-center gap-3 text-gray-400"><span class="text-gray-300 text-lg">✕</span> Ad Placement & Traffic Generation</li>
+              <li class="flex items-center gap-3 text-gray-400"><span class="text-gray-300 text-lg">✕</span> KOL Outreach & Live Streaming</li>
+            </ul>
+            <a href="contact.html" class="block w-full py-3 text-center border-2 border-navy text-navy font-bold rounded-lg hover:bg-navy hover:text-white transition">Consult This Plan</a>
+          </div>
+
+          <!-- 套餐 2 -->
+          <div class="bg-navy rounded-2xl p-10 card-glow relative transform md:-translate-y-4 z-10 reveal" style="transition-delay: 0.1s;">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-amber text-navy text-xs font-bold px-4 py-1 rounded-full shadow-md whitespace-nowrap">Most Popular</div>
+            <h3 class="text-2xl font-bold text-white mb-2">Full-Service Operations</h3>
+            <p class="text-xs text-slate-300 mb-6 h-10">Suitable for sellers who want to fully entrust their stores to a professional team for rapid growth.</p>
+            <div class="flex items-end gap-1 mb-8">
+              <span class="text-4xl font-extrabold text-amber">Monthly Fee</span>
+            </div>
+            <ul class="space-y-4 text-sm text-slate-200 mb-8 border-t border-white/20 pt-6">
+              <li class="flex items-center gap-3"><span class="text-amber text-lg">✓</span> Includes all services in the "Basic Website Setup"</li>
+              <li class="flex items-center gap-3"><span class="text-amber text-lg">✓</span> In-depth Product Selection & Competitor Analysis</li>
+              <li class="flex items-center gap-3"><span class="text-amber text-lg">✓</span> Full PPC Ad Management</li>
+              <li class="flex items-center gap-3"><span class="text-amber text-lg">✓</span> Monthly Data Review & Optimization</li>
+              <li class="flex items-center gap-3"><span class="text-amber text-lg">✓</span> Dedicated Account Manager 1-on-1 Support</li>
+            </ul>
+            <a href="contact.html" class="block w-full py-3 text-center bg-amber text-navy font-bold rounded-lg hover:bg-amber-400 transition shadow-lg">Book Free Diagnosis</a>
+          </div>
+
+          <!-- 套餐 3 -->
+          <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300 reveal" style="transition-delay: 0.2s;">
+            <h3 class="text-xl font-bold text-navy mb-2">Brand Global Expansion</h3>
+            <p class="text-xs text-muted mb-6 h-10">Suitable for enterprises with supply chain advantages preparing to build global DTC brands.</p>
+            <div class="flex items-end gap-1 mb-8">
+              <span class="text-3xl font-extrabold text-navy">Custom Plan</span>
+            </div>
+            <ul class="space-y-4 text-sm text-slate-700 mb-8 border-t border-gray-100 pt-6">
+              <li class="flex items-center gap-3"><span class="text-teal text-lg">✓</span> Includes all services in "Full-Service Operations"</li>
+              <li class="flex items-center gap-3"><span class="text-teal text-lg">✓</span> Overseas KOL Matrix Outreach</li>
+              <li class="flex items-center gap-3"><span class="text-teal text-lg">✓</span> TikTok/IG Social Media Content Plan</li>
+              <li class="flex items-center gap-3"><span class="text-teal text-lg">✓</span> Overseas Live Studio Setup & Operations</li>
+              <li class="flex items-center gap-3"><span class="text-teal text-lg">✓</span> Brand IP & Compliance Guidance</li>
+            </ul>
+            <a href="contact.html" class="block w-full py-3 text-center border-2 border-navy text-navy font-bold rounded-lg hover:bg-navy hover:text-white transition">Get Custom Plan</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 底部 CTA -->
+    <section class="py-16 bg-bg text-center border-t border-gray-200">
+      <div class="max-w-3xl mx-auto px-6 reveal">
+        <h2 class="text-2xl font-bold text-navy mb-4">Unsure which package suits you?</h2>
+        <p class="text-muted mb-8 text-sm">Our senior consultants will recommend the most cost-effective global expansion path based on your products and budget.</p>
+        <a href="contact.html" class="inline-block px-8 py-3 bg-teal hover:bg-teal-600 text-white font-bold rounded-full transition shadow-lg">Get Free Expansion Assessment</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- 自动化占位符：全局底部 -->
+  <div id="global-footer"></div>
+
+  <!-- 引入全局脚本 -->
+  <script src="../assets/js/global.js"></script>
+  
+  <!-- 滚动入场特效脚本 -->
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('active'); }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach((el) => { observer.observe(el); });
+  </script>
+</body>
+</html>

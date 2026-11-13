@@ -1,0 +1,254 @@
+/* =========================================================
+   FUNSTOCK 内部看板样式 (V3 - 完美适配 app.js)
+   ========================================================= */
+
+:root{
+  --navy:   #0B2545;
+  --navy2:  #13315C;
+  --teal:   #0E9F96;
+  --teal-6: #0C8A82;
+  --amber:  #F5A524;
+  --ink:    #1E293B;
+  --muted:  #64748B;
+  --bg:     #F6F8FB;
+  --line:   #E2E8F0;
+  --white:  #FFFFFF;
+  --danger: #DC2626;
+
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --shadow-card: 0 10px 30px rgba(11, 37, 69, 0.04), 0 1px 3px rgba(0,0,0,0.02);
+  --shadow-hover: 0 20px 40px rgba(11, 37, 69, 0.08);
+  --shadow-btn:  0 10px 24px rgba(14,159,150,.25);
+}
+
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+
+body{
+  margin:0;
+  font-family: Inter, "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+  line-height:1.6;
+}
+
+a{ color: var(--teal); text-decoration:none; }
+.hidden{ display:none !important; }
+
+/* ---------- 顶部导航 ---------- */
+.top{
+  position: sticky; top:0; z-index:50;
+  background: var(--navy);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.brand-row{
+  max-width: 1080px; margin: 0 auto; padding: 14px 24px;
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+}
+.logo{ height: 36px; width:auto; display:block; }
+.header-actions{ display: flex; align-items: center; gap: 16px; }
+.badge-internal {
+  background: rgba(245, 165, 36, 0.15); color: var(--amber);
+  border: 1px solid rgba(245, 165, 36, 0.3); padding: 4px 10px;
+  border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: 0.05em;
+}
+.back-link{
+  font-size: 13px; font-weight: 700; color: rgba(255,255,255,.85);
+  padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.25);
+  transition: all .25s ease;
+}
+.back-link:hover{ color:#fff; background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.5); }
+
+/* ---------- 主容器 ---------- */
+#main{
+  flex:1 0 auto; width:100%; max-width: 1080px;
+  margin: 0 auto; padding: 40px 24px 64px;
+}
+
+/* =========================================================
+   登录门
+   ========================================================= */
+.card{
+  background: var(--white); border: 1px solid var(--line);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-card);
+  padding: 32px;
+}
+.login{ max-width: 480px; margin: 40px auto 0; position: relative; overflow: hidden; }
+.login::before{
+  content:""; position:absolute; top:-80px; right:-80px; width:220px; height:220px;
+  background: radial-gradient(circle, rgba(14,159,150,.15), transparent 70%); pointer-events:none;
+}
+.eyebrow{ display:inline-block; font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--teal); margin-bottom: 10px; }
+.login h1{ font-size: 28px; font-weight: 800; color: var(--navy); margin: 0 0 12px; }
+.muted{ color: var(--muted); font-size: 14px; margin: 0 0 10px; }
+.small{ font-size: 12px; line-height: 1.5; margin-top: 16px; }
+
+form#f{ margin-top: 22px; }
+.field{ display:block; margin-bottom: 20px; }
+.field-label{ display:block; font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+input#pw{
+  width:100%; padding: 14px 16px; font-size: 15px; color: var(--ink);
+  background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius-sm);
+  transition: all .3s ease; font-family: inherit;
+}
+input#pw:focus{ border-color: var(--teal); background:#fff; box-shadow: 0 4px 15px rgba(14,159,150,.12); outline:none; }
+button#go{
+  width:100%; padding: 15px 18px; font-size: 15px; font-weight: 800; color:#fff;
+  background: var(--teal); border: none; border-radius: var(--radius-sm);
+  cursor:pointer; transition: all .25s ease; box-shadow: var(--shadow-btn); font-family: inherit;
+}
+button#go:hover{ background: var(--teal-6); transform: translateY(-1px); }
+button#go:disabled{ opacity:.6; cursor:not-allowed; transform:none; }
+.err{ color: var(--danger); background: #FEF2F2; border: 1px solid #FECACA; border-radius: var(--radius-sm); padding: 12px 14px; font-size: 13px; margin: 4px 0 16px; }
+
+
+/* =========================================================
+   APP 渲染内容 (核心美化)
+   ========================================================= */
+#app {
+  max-width: 960px; margin: 0 auto;
+  animation: fadeUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* 1. 顶部问候与导航 */
+.hello{ margin-bottom: 24px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 10px; }
+.hello h1{ font-size: 32px; font-weight: 800; color: var(--navy); margin: 0; letter-spacing: -0.02em; }
+.hello .meta{ font-size: 13px; color: var(--muted); font-weight: 500; }
+
+.nav {
+  display: flex; gap: 8px; margin-bottom: 24px;
+  background: var(--white); padding: 8px; border-radius: 999px;
+  border: 1px solid var(--line); box-shadow: var(--shadow-card); width: fit-content;
+}
+.nav a {
+  padding: 8px 16px; border-radius: 999px; font-size: 14px; font-weight: 700; color: var(--muted);
+  transition: all 0.3s;
+}
+.nav a:hover { color: var(--navy); background: var(--bg); }
+.nav a.on { color: #fff; background: var(--navy); }
+
+/* 2. 区块标题 */
+.sec { margin-bottom: 40px; scroll-margin-top: 80px; }
+.sec-title { margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--line); display: flex; align-items: baseline; gap: 12px; }
+.sec-title h2 { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0; }
+.sec-title span { font-size: 14px; color: var(--muted); font-weight: 600; }
+
+/* 3. 卡片与网格 */
+.card {
+  background: var(--white); border: 1px solid var(--line);
+  border-radius: var(--radius-lg); padding: 24px; margin-bottom: 20px;
+  box-shadow: var(--shadow-card); transition: all 0.4s ease; position: relative; overflow: hidden;
+}
+.card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+.card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+  background: linear-gradient(to bottom, var(--teal), var(--navy));
+  opacity: 0; transition: opacity 0.3s;
+}
+.card:hover::before { opacity: 1; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+
+/* 键值对排版 */
+.kv { display: flex; flex-direction: column; gap: 4px; }
+.kv .k { font-size: 13px; color: var(--muted); font-weight: 600; letter-spacing: 0.02em; }
+.kv .v { font-size: 15px; color: var(--ink); font-weight: 700; }
+.kv .v.prog { color: var(--teal); }
+
+/* 4. 倒计时区块 —— 压迫感与科技感定制 */
+.card.count {
+  background: linear-gradient(135deg, #FFF9F0 0%, #FFFFFF 100%);
+  border-color: #FDE6C8;
+}
+.card.count::before { background: var(--amber); }
+.card.count .grid { display: flex; flex-wrap: wrap; gap: 32px; align-items: center; }
+
+.card.count .kv .k.lt { color: #B45309; font-weight: 700; } /* 琥珀色深字 */
+.card.count .big {
+  font-size: 32px; font-weight: 900; color: var(--danger);
+  font-family: 'SF Pro Display', -apple-system, sans-serif;
+  letter-spacing: 1px; line-height: 1.2;
+  text-shadow: 0 2px 15px rgba(220, 38, 38, 0.15);
+  display: inline-block; margin-top: 4px;
+  animation: pulse-danger 2s infinite;
+}
+@keyframes pulse-danger {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); text-shadow: 0 2px 20px rgba(220, 38, 38, 0.25); }
+  100% { transform: scale(1); }
+}
+
+/* 5. 数据表格 */
+.chips { margin-bottom: 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+.chips span {
+  font-size: 12px; font-weight: 700; color: var(--navy2);
+  background: var(--bg); padding: 4px 12px; border-radius: 999px; border: 1px solid var(--line);
+}
+table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 14px; }
+th {
+  background: var(--bg); color: var(--navy); font-weight: 700;
+  text-align: left; padding: 12px 16px; border-bottom: 2px solid var(--line);
+}
+th:first-child { border-top-left-radius: var(--radius-sm); }
+th:last-child { border-top-right-radius: var(--radius-sm); }
+td { padding: 14px 16px; border-bottom: 1px solid var(--line); color: var(--ink); vertical-align: middle; transition: background 0.2s; }
+tr:hover td { background: rgba(14, 159, 150, 0.03); }
+tr:last-child td { border-bottom: none; }
+
+/* 状态小徽章 (基于你的 JS 输出 class) */
+.st { font-weight: 700; display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 12px; }
+.st-done { background: #F0FDF4; color: var(--teal); border: 1px solid #BBF7D0; } /* 已齐 */
+.st-reviewing { background: #FFFBEB; color: #D97706; border: 1px solid #FDE68A; } /* 核对中 */
+.st-pending { background: #FEF2F2; color: var(--danger); border: 1px solid #FECACA; } /* 待提交 */
+.st-fix { background: #FDF4FF; color: #C026D3; border: 1px solid #F5D0FE; } /* 请补交 */
+.st-other { background: var(--bg); color: var(--muted); }
+
+/* 6. 初次诊断/其他模块微调 */
+.dcard { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden; }
+.dcard .hd { background: var(--bg); padding: 12px 16px; font-weight: 700; color: var(--navy); border-bottom: 1px solid var(--line); }
+.dcard .bd { padding: 16px; }
+.pill { padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 700; }
+.pill-y { background: #F0FDF4; color: var(--teal); }
+.pill-n { background: #FEF2F2; color: var(--danger); }
+
+.node { background: #F8FAFC; border-left: 4px solid var(--teal); padding: 12px 16px; border-radius: 4px; margin: 12px 0; font-size: 14px; }
+.node .d { color: var(--teal); font-weight: 800; }
+
+/* 操作栏 */
+.actions {
+  display: flex; justify-content: flex-end; align-items: center; gap: 16px;
+  margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--line);
+}
+button.ghost {
+  background: transparent; border: 1px solid var(--muted); color: var(--muted);
+  padding: 10px 20px; border-radius: var(--radius-sm); font-weight: 700; cursor: pointer; transition: all 0.2s;
+}
+button.ghost:hover { border-color: var(--navy); color: var(--navy); background: var(--bg); }
+
+/* ---------- 页脚 ---------- */
+footer{
+  flex-shrink:0; background: var(--navy); color: rgba(148,163,184,.9);
+  border-top: 1px solid rgba(255,255,255,.08); padding: 24px; text-align:center; font-size: 12px;
+}
+footer .slogan{ color: var(--teal); font-weight: 800; letter-spacing: .14em; font-size: 13px; margin-bottom: 8px; }
+footer .copyright{ color: rgba(148,163,184,.7); }
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 640px){
+  .brand-row{ padding: 12px 16px; flex-wrap: wrap; }
+  .logo{ height: 30px; }
+  #main{ padding: 24px 16px 48px; }
+  .card, .login{ padding: 20px; border-radius: 16px; }
+  .hello h1 { font-size: 26px; }
+  .nav { width: 100%; overflow-x: auto; white-space: nowrap; justify-content: flex-start; }
+  .card.count .big { font-size: 26px; }
+  table { display: block; overflow-x: auto; white-space: nowrap; }
+}

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Process - FUNSTOCK</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: { navy: '#0B2545', navy2: '#13315C', teal: '#0E9F96', amber: '#F5A524', ink: '#1E293B', muted: '#64748B', bg: '#F6F8FB' },
+        fontFamily: { sans: ['Inter', 'sans-serif'] }
+      }
+    }
+  }
+</script>
+<style>
+  body { font-family: 'Inter', sans-serif; color: #1E293B; background: #F6F8FB; overflow-x: hidden; }
+  
+  /* 滚动入场动效 */
+  .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1); }
+  .reveal.active { opacity: 1; transform: translateY(0); }
+
+  /* 导航骨架（防闪烁） */
+  .custom-nav { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #E2E8F0; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+  .nav-container { max-width: 1280px; margin: 0 auto; padding: 15px 24px; display: flex; justify-content: space-between; align-items: center; }
+  .nav-links { display: flex; align-items: center; gap: 24px; font-size: 14px; font-weight: 700; }
+  .nav-links a { color: #1E293B; text-decoration: none; transition: all 0.3s; }
+  .nav-links a:hover { color: #0E9F96; }
+  .nav-links a.active { color: #0E9F96; border-bottom: 2px solid #0E9F96; padding-bottom: 4px; }
+  .lang-switch { display: flex; align-items: center; gap: 8px; border-left: 1px solid #ccc; padding-left: 16px; margin-left: 8px; font-size: 12px; }
+  .lang-switch a { color: #64748B; }
+  .lang-switch a.active { color: #0E9F96; font-weight: bold; }
+  .menu-toggle { display: none; cursor: pointer; font-size: 28px; color: #0B2545; background: none; border: none; }
+  @media (max-width: 900px) {
+    .menu-toggle { display: block; }
+    .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(255,255,255,0.98); flex-direction: column; padding: 20px; gap: 16px; box-shadow: 0 10px 15px rgba(0,0,0,0.1); border-bottom: 1px solid #ddd; }
+    .nav-links.show { display: flex; }
+    .lang-switch { border-left: none; padding-left: 0; margin-left: 0; border-top: 1px solid #eee; padding-top: 16px; justify-content: flex-start; width: 100%; }
+  }
+</style>
+</head>
+<body class="antialiased flex flex-col min-h-screen">
+
+  <!-- 自动化占位符：全局导航 -->
+  <div id="global-header"></div>
+
+  <main class="flex-grow">
+    <!-- 顶部标题 -->
+    <section class="pt-20 pb-12 text-center">
+      <div class="max-w-3xl mx-auto px-6 reveal active">
+        <div class="text-teal font-bold text-sm tracking-widest uppercase mb-3">Our Process</div>
+        <h1 class="text-4xl font-extrabold text-navy mb-6">End-to-End Standardized Process</h1>
+        <p class="text-muted text-lg leading-relaxed">Whether it's traditional cross-border trade or emerging DTC e-commerce expansion, we have prepared a transparent and efficient delivery path for you.</p>
+      </div>
+    </section>
+
+    <!-- 双轨流程区 -->
+    <section class="pb-24">
+      <div class="max-w-6xl mx-auto px-6">
+        
+        <!-- 双轨标题栏 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 mb-12">
+          <div class="bg-navy text-white rounded-xl p-6 text-center shadow-lg relative overflow-hidden reveal">
+            <div class="absolute inset-0 bg-white/5 opacity-50"></div>
+            <h2 class="text-2xl font-bold relative z-10">🚢 International Trade (B2B)</h2>
+            <p class="text-xs text-slate-300 mt-2 relative z-10">From Source Factory to Overseas Buyers</p>
+          </div>
+          <div class="bg-teal text-white rounded-xl p-6 text-center shadow-lg relative overflow-hidden reveal" style="transition-delay: 0.1s;">
+            <div class="absolute inset-0 bg-white/10 opacity-50"></div>
+            <h2 class="text-2xl font-bold relative z-10">🛒 Cross-Border E-Commerce (DTC)</h2>
+            <p class="text-xs text-teal-100 mt-2 relative z-10">From Store Setup to Global Brand Expansion</p>
+          </div>
+        </div>
+
+        <!-- 时间轴容器 -->
+        <div class="relative">
+          <!-- 中间发光的分割线 (仅桌面端显示) -->
+          <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-navy/10 via-gray-300 to-teal/10 -translate-x-1/2 z-0"></div>
+
+          <div class="space-y-8">
+            
+            <!-- 阶段 1 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 relative">
+              <!-- 左侧：贸易 -->
+              <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition reveal">
+                <div class="inline-block px-3 py-1 bg-navy text-white text-xs font-bold rounded-full mb-3">Step 1</div>
+                <h3 class="text-xl font-bold text-navy mb-2">Sourcing & Product Selection</h3>
+                <p class="text-sm text-muted leading-relaxed">Based on overseas market demand, we precisely select high-quality domestic source factories for product sampling and preliminary quotation evaluation.</p>
+              </div>
+              <!-- 右侧：电商 -->
+              <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition reveal md:mt-16" style="transition-delay: 0.1s;">
+                <div class="inline-block px-3 py-1 bg-teal text-white text-xs font-bold rounded-full mb-3">Step 1</div>
+                <h3 class="text-xl font-bold text-teal mb-2">Store Setup & Compliance</h3>
+                <p class="text-sm text-muted leading-relaxed">Assisting with account registration and brand registry on platforms like Amazon and Shopee, as well as the basic setup of DTC websites (Shopify).</p>
+              </div>
+            </div>
+
+            <!-- 阶段 2 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 relative">
+              <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition reveal md:mt-16">
+                <div class="inline-block px-3 py-1 bg-navy text-white text-xs font-bold rounded-full mb-3">Step 2</div>
+                <h3 class="text-xl font-bold text-navy mb-2">Mass Production & QC</h3>
+                <p class="text-sm text-muted leading-relaxed">After order confirmation, production is scheduled. Our professional team conducts mid-term and final quality control (QC) to ensure products meet international standards.</p>
+              </div>
+              <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition reveal" style="transition-delay: 0.1s;">
+                <div class="inline-block px-3 py-1 bg-teal text-white text-xs font-bold rounded-full mb-3">Step 2</div>
+                <h3 class="text-xl font-bold text-teal mb-2">Localized Selection & Listing Optimization</h3>
+                <p class="text-sm text-muted leading-relaxed">Using big data to analyze market trends and determine hero products. We design high-conversion detail pages, layout keywords, and optimize A+ content.</p>
+              </div>
+            </div>
+
+            <!-- 阶段 3 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 relative">
+              <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition reveal">
+                <div class="inline-block px-3 py-1 bg-navy text-white text-xs font-bold rounded-full mb-3">Step 3</div>
+                <h3 class="text-xl font-bold text-navy mb-2">Customs Clearance & Logistics</h3>
+                <p class="text-sm text-muted leading-relaxed">Preparing full sets of export documents, arranging sea/air freight and compliant customs clearance. We provide real-time tracking to ensure safe delivery.</p>
+              </div>
+              <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition reveal md:mt-16" style="transition-delay: 0.1s;">
+                <div class="inline-block px-3 py-1 bg-teal text-white text-xs font-bold rounded-full mb-3">Step 3</div>
+                <h3 class="text-xl font-bold text-teal mb-2">Ad Placement & Traffic Generation</h3>
+                <p class="text-sm text-muted leading-relaxed">Formulating PPC advertising strategies, combined with off-site Deal sites, KOL reviews, and social media matrices to fully ignite store traffic.</p>
+              </div>
+            </div>
+
+            <!-- 阶段 4 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 relative">
+              <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition reveal md:mt-16">
+                <div class="inline-block px-3 py-1 bg-navy text-white text-xs font-bold rounded-full mb-3">Step 4</div>
+                <h3 class="text-xl font-bold text-navy mb-2">Overseas Warehousing & B2B Delivery</h3>
+                <p class="text-sm text-slate-500 leading-relaxed">Assisting in allocating goods to overseas warehouses (FBA or third-party) or directly delivering them to overseas buyers, completing the trade loop.</p>
+              </div>
+              <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition reveal" style="transition-delay: 0.1s;">
+                <div class="inline-block px-3 py-1 bg-teal text-white text-xs font-bold rounded-full mb-3">Step 4</div>
+                <h3 class="text-xl font-bold text-teal mb-2">TikTok Live & Social Media Conversion</h3>
+                <p class="text-sm text-muted leading-relaxed">Setting up overseas live streaming rooms and connecting with local KOLs for sales. Fine-tuning private domain traffic operations to achieve high repurchase rates.</p>
+              </div>
+            </div>
+
+            <!-- 阶段 5 (仅电商线有) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 relative">
+              <div class="hidden md:block"></div> <!-- 左侧留白 -->
+              <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition reveal md:mt-16" style="transition-delay: 0.1s;">
+                <div class="inline-block px-3 py-1 bg-teal text-white text-xs font-bold rounded-full mb-3">Step 5</div>
+                <h3 class="text-xl font-bold text-teal mb-2">Data Review & Brand Upgrade</h3>
+                <p class="text-sm text-muted leading-relaxed">Monthly operational data review and marketing strategy adjustment. Transitioning from white-label OEM to DTC brand building to establish brand premium.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- 自动化占位符：全局底部 -->
+  <div id="global-footer"></div>
+
+  <!-- 引入全局脚本 -->
+  <script src="../assets/js/global.js"></script>
+  
+  <!-- 滚动动画脚本 -->
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('active'); }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach((el) => { observer.observe(el); });
+  </script>
+</body>
+</html>
