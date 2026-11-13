@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>跨境电商代运营 - 趣仓有限公司</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: { navy: '#0B2545', navy2: '#13315C', teal: '#0E9F96', amber: '#F5A524', ink: '#1E293B', muted: '#64748B', bg: '#F6F8FB' },
+        fontFamily: { sans: ['Inter', 'Noto Sans SC', 'sans-serif'] }
+      }
+    }
+  }
+</script>
+<style>
+  body { font-family: 'Inter', 'Noto Sans SC', sans-serif; color: #1E293B; background: #F6F8FB; overflow-x: hidden; }
+  .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1); }
+  .reveal.active { opacity: 1; transform: translateY(0); }
+
+  /* 推荐套餐的发光特效 */
+  @keyframes breathing-glow {
+    0% { box-shadow: 0 0 15px rgba(245, 165, 36, 0.2); border-color: rgba(245, 165, 36, 0.4); }
+    50% { box-shadow: 0 0 35px rgba(245, 165, 36, 0.6); border-color: rgba(245, 165, 36, 1); }
+    100% { box-shadow: 0 0 15px rgba(245, 165, 36, 0.2); border-color: rgba(245, 165, 36, 0.4); }
+  }
+  .card-glow { animation: breathing-glow 3s infinite; border-width: 2px; }
+
+  /* 导航骨架（防闪烁） */
+  .custom-nav { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #E2E8F0; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+  .nav-container { max-width: 1280px; margin: 0 auto; padding: 15px 24px; display: flex; justify-content: space-between; align-items: center; }
+  .nav-links { display: flex; align-items: center; gap: 24px; font-size: 14px; font-weight: 700; }
+  .nav-links a { color: #1E293B; text-decoration: none; transition: all 0.3s; }
+  .nav-links a:hover { color: #0E9F96; }
+  .nav-links a.active { color: #0E9F96; border-bottom: 2px solid #0E9F96; padding-bottom: 4px; }
+  .lang-switch { display: flex; align-items: center; gap: 8px; border-left: 1px solid #ccc; padding-left: 16px; margin-left: 8px; font-size: 12px; }
+  .lang-switch a { color: #64748B; }
+  .lang-switch a.active { color: #0E9F96; font-weight: bold; }
+  .menu-toggle { display: none; cursor: pointer; font-size: 28px; color: #0B2545; background: none; border: none; }
+  @media (max-width: 900px) {
+    .menu-toggle { display: block; }
+    .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(255,255,255,0.98); flex-direction: column; padding: 20px; gap: 16px; box-shadow: 0 10px 15px rgba(0,0,0,0.1); border-bottom: 1px solid #ddd; }
+    .nav-links.show { display: flex; }
+    .lang-switch { border-left: none; padding-left: 0; margin-left: 0; border-top: 1px solid #eee; padding-top: 16px; justify-content: flex-start; width: 100%; }
+  }
+</style>
+</head>
+<body class="antialiased flex flex-col min-h-screen">
+
+  <!-- 自动化占位符：全局导航 -->
+  <div id="global-header"></div>
+
+  <main class="flex-grow">
+    <!-- 首屏 -->
+    <section class="bg-navy py-24 text-center text-white relative overflow-hidden">
+      <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center"></div>
+      <div class="relative z-10 max-w-4xl mx-auto px-6 reveal active">
+        <div class="text-teal-300 font-bold text-sm tracking-widest uppercase mb-4">Cross-Border E-Commerce</div>
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-6">全渠道跨境电商代运营</h1>
+        <p class="text-slate-300 text-lg leading-relaxed max-w-2xl mx-auto">
+          从店铺搭建、本土化选品到数字营销，我们助力中国品牌无缝布局 Amazon、Shopee、TikTok 等全球主流平台。
+        </p>
+      </div>
+    </section>
+
+    <!-- 平台矩阵 -->
+    <section class="py-20 bg-bg">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="text-center mb-16 reveal">
+          <h2 class="text-3xl font-bold text-navy mb-4">主流平台 · 全面覆盖</h2>
+          <p class="text-muted">精通各大跨境平台的底层逻辑与流量玩法，为您定制专属出海方案。</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Amazon -->
+          <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 reveal">
+            <div class="w-16 h-16 rounded-xl bg-orange-100 text-orange-500 flex items-center justify-center text-3xl mb-6 shadow-sm">📦</div>
+            <h3 class="text-2xl font-bold text-navy mb-3">Amazon 亚马逊</h3>
+            <p class="text-sm text-muted mb-6 leading-relaxed">深耕北美、欧洲及日本站点。提供账号入驻、深度选品、Listing 极致优化、FBA 物流仓储及站内 PPC 广告投放，打造爆款矩阵。</p>
+            <ul class="space-y-2 text-sm text-slate-700 font-medium">
+              <li class="flex items-center gap-2"><span class="text-teal">✓</span> 账号注册与品牌备案</li>
+              <li class="flex items-center gap-2"><span class="text-teal">✓</span> A9 算法优化与关键词布局</li>
+            </ul>
+          </div>
+
+          <!-- Shopee -->
+          <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 reveal" style="transition-delay: 0.1s;">
+            <div class="w-16 h-16 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-3xl mb-6 shadow-sm">🛍️</div>
+            <h3 class="text-2xl font-bold text-navy mb-3">Shopee 虾皮</h3>
+            <p class="text-sm text-muted mb-6 leading-relaxed">针对东南亚及台湾市场，提供本土化店铺装修、精准选品策略、大促活动报名及海外仓（SLS）物流对接，抢占新兴市场红利。</p>
+            <ul class="space-y-2 text-sm text-slate-700 font-medium">
+              <li class="flex items-center gap-2"><span class="text-teal">✓</span> 东南亚本土化运营</li>
+              <li class="flex items-center gap-2"><span class="text-teal">✓</span> 店铺装修与转化率提升</li>
+            </ul>
+          </div>
+
+          <!-- TikTok Shop -->
+          <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 reveal" style="transition-delay: 0.2s;">
+            <div class="w-16 h-16 rounded-xl bg-gray-900 text-white flex items-center justify-center text-3xl mb-6 shadow-sm">🎵</div>
+            <h3 class="text-2xl font-bold text-navy mb-3">TikTok Shop</h3>
+            <p class="text-sm text-muted mb-6 leading-relaxed">掌握短视频内容密码与直播带货逻辑。提供海外网红（KOL）建联、短视频创意策划、直播间搭建与全流程跟播运营，引爆社媒流量。</p>
+            <ul class="space-y-2 text-sm text-slate-700 font-medium">
+              <li class="flex items-center gap-2"><span class="text-teal">✓</span> 爆款短视频内容策划</li>
+              <li class="flex items-center gap-2"><span class="text-teal">✓</span> 海外网红营销与直播带货</li>
+            </ul>
+          </div>
+
+          <!-- 独立站 -->
+          <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 reveal" style="transition-delay: 0.3s;">
+            <div class="w-16 h-16 rounded-xl bg-teal/10 text-teal flex items-center justify-center text-3xl mb-6 shadow-sm">🌐</div>
+            <h3 class="text-2xl font-bold text-navy mb-3">品牌独立站 (DTC)</h3>
+            <p class="text-sm text-muted mb-6 leading-relaxed">基于 Shopify 等主流建站系统，打造高转化率品牌独立站。结合 Google/Facebook 广告投放与 SEO 优化，建立私域流量池。</p>
+            <ul class="space-y-2 text-sm text-slate-700 font-medium">
+              <li class="flex items-center gap-2"><span class="text-teal">✓</span> Shopify 高转化店铺搭建</li>
+              <li class="flex items-center gap-2"><span class="text-teal">✓</span> Google/FB 精准广告投放</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 服务套餐定价表 -->
+    <section class="py-24 bg-white border-t border-gray-100">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="text-center mb-16 reveal">
+          <div class="text-teal font-bold text-sm tracking-widest uppercase mb-2">Service Packages</div>
+          <h2 class="text-3xl font-extrabold text-navy mb-4">灵活的服务套餐</h2>
+          <p class="text-muted max-w-2xl mx-auto">无论您是刚起步的初创品牌，还是寻求全面转型的传统工厂，我们都有匹配的运营方案。</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+          
+          <!-- 套餐 1 -->
+          <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300 reveal">
+            <h3 class="text-xl font-bold text-navy mb-2">基础建站版</h3>
+            <p class="text-xs text-muted mb-6 h-10">适合有产品，想迈出跨境第一步的初创团队。</p>
+            <div class="flex items-end gap-1 mb-8">
+              <span class="text-3xl font-extrabold text-navy">定制报价</span>
+            </div>
+            <ul class="space-y-4 text-sm text-slate-700 mb-8 border-t border-gray-100 pt-6">
+              <li class="flex items-center gap-3"><span class="text-teal text-lg">✓</span> Shopify / 独立站搭建</li>
+              <li class="flex items-center gap-3"><span class="text-teal text-lg">✓</span> 基础 UI 设计与装修</li>
+              <li class="flex items-center gap-3"><span class="text-teal text-lg">✓</span> 20 款产品上架与详情页</li>
+              <li class="flex items-center gap-3 text-gray-400"><span class="text-gray-300 text-lg">✕</span> 广告投放与引流</li>
+              <li class="flex items-center gap-3 text-gray-400"><span class="text-gray-300 text-lg">✕</span> 网红建联与直播</li>
+            </ul>
+            <a href="contact.html" class="block w-full py-3 text-center border-2 border-navy text-navy font-bold rounded-lg hover:bg-navy hover:text-white transition">咨询此方案</a>
+          </div>
+
+          <!-- 套餐 2 -->
+          <div class="bg-navy rounded-2xl p-10 card-glow relative transform md:-translate-y-4 z-10 reveal" style="transition-delay: 0.1s;">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-amber text-navy text-xs font-bold px-4 py-1 rounded-full shadow-md whitespace-nowrap">最受欢迎</div>
+            <h3 class="text-2xl font-bold text-white mb-2">全案代运营版</h3>
+            <p class="text-xs text-slate-300 mb-6 h-10">适合希望将店铺全权交给专业团队，快速起量的卖家。</p>
+            <div class="flex items-end gap-1 mb-8">
+              <span class="text-4xl font-extrabold text-amber">月度服务费</span>
+            </div>
+            <ul class="space-y-4 text-sm text-slate-200 mb-8 border-t border-white/20 pt-6">
+              <li class="flex items-center gap-3"><span class="text-amber text-lg">✓</span> 包含「基础建站版」所有服务</li>
+              <li class="flex items-center gap-3"><span class="text-amber text-lg">✓</span> 深度选品与竞品分析</li>
+              <li class="flex items-center gap-3"><span class="text-amber text-lg">✓</span> 站内 PPC 广告全托管</li>
+              <li class="flex items-center gap-3"><span class="text-amber text-lg">✓</span> 月度数据复盘与优化</li>
+              <li class="flex items-center gap-3"><span class="text-amber text-lg">✓</span> 专属运营经理 1v1 对接</li>
+            </ul>
+            <a href="contact.html" class="block w-full py-3 text-center bg-amber text-navy font-bold rounded-lg hover:bg-amber-400 transition shadow-lg">预约免费诊断</a>
+          </div>
+
+          <!-- 套餐 3 -->
+          <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300 reveal" style="transition-delay: 0.2s;">
+            <h3 class="text-xl font-bold text-navy mb-2">品牌出海定制版</h3>
+            <p class="text-xs text-muted mb-6 h-10">适合具备供应链优势，准备打造全球化 DTC 品牌的企业。</p>
+            <div class="flex items-end gap-1 mb-8">
+              <span class="text-3xl font-extrabold text-navy">定制方案</span>
+            </div>
+            <ul class="space-y-4 text-sm text-slate-700 mb-8 border-t border-gray-100 pt-6">
+              <li class="flex items-center gap-3"><span class="text-teal text-lg">✓</span> 包含「全案代运营版」所有服务</li>
+              <li class="flex items-center gap-3"><span class="text-teal text-lg">✓</span> 海外网红 (KOL) 矩阵建联</li>
+              <li class="flex items-center gap-3"><span class="text-teal text-lg">✓</span> TikTok/IG 社媒内容全案</li>
+              <li class="flex items-center gap-3"><span class="text-teal text-lg">✓</span> 海外直播间搭建与跟播</li>
+              <li class="flex items-center gap-3"><span class="text-teal text-lg">✓</span> 品牌知识产权与合规指导</li>
+            </ul>
+            <a href="contact.html" class="block w-full py-3 text-center border-2 border-navy text-navy font-bold rounded-lg hover:bg-navy hover:text-white transition">联系获取定制方案</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 底部 CTA -->
+    <section class="py-16 bg-bg text-center border-t border-gray-200">
+      <div class="max-w-3xl mx-auto px-6 reveal">
+        <h2 class="text-2xl font-bold text-navy mb-4">不确定哪个套餐适合您？</h2>
+        <p class="text-muted mb-8 text-sm">我们的资深顾问将根据您的产品与预算，为您推荐最具性价比的出海路径。</p>
+        <a href="contact.html" class="inline-block px-8 py-3 bg-teal hover:bg-teal-600 text-white font-bold rounded-full transition shadow-lg">免费获取出海评估报告</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- 自动化占位符：全局底部 -->
+  <div id="global-footer"></div>
+
+  <!-- 引入全局脚本 -->
+  <script src="../assets/js/global.js"></script>
+  
+  <!-- 滚动入场特效脚本 -->
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('active'); }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach((el) => { observer.observe(el); });
+  </script>
+</body>
+</html>

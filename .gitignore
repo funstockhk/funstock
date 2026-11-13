@@ -1,0 +1,8 @@
+# Local secrets — never commit
+credentials.local.md
+
+# Runtime
+data/sessions.json
+server/node_modules/
+*.log
+.DS_Store

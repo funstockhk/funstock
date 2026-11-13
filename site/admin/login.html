@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>登录 · 趣仓运营管理后台（内部预览）</title>
+<link rel="icon" href="/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/admin/css/admin.css">
+</head>
+<body>
+<div class="login-wrap">
+  <div class="preview-banner">
+    <span>内部预览 · 未切换正式流量 · 未改 DNS</span>
+    <span>FUNSTOCK 运营管理后台</span>
+  </div>
+  <form class="login-card" id="login-form" autocomplete="username">
+    <img src="/assets/logo-horizontal.svg" alt="FUNSTOCK" style="height:28px">
+    <h1>运营管理后台</h1>
+    <p class="lead">授权人与顾问共用同一入口。鉴权失败即拒绝；授权表缺失时不会放行。本页为内部预览，不是正式上线系统。</p>
+    <div class="err" id="err"></div>
+    <div class="field">
+      <label for="jobId">工号</label>
+      <input id="jobId" name="jobId" required autofocus>
+    </div>
+    <div class="field">
+      <label for="password">口令</label>
+      <input id="password" name="password" type="password" required>
+    </div>
+    <button class="btn amber full" type="submit" id="go">登录</button>
+    <p class="hint">测试口令只写在本机 <code>credentials.local.md</code>，不会出现在本页或表格正文。公开网站入口在 <a href="/" style="color:#0E9F96">首页</a>。资料整理页仍在 <a href="/c/">/c/</a>，不并入本后台。</p>
+  </form>
+</div>
+<script src="/admin/js/api.js"></script>
+<script>
+(function () {
+  const params = new URLSearchParams(location.search);
+  const errBox = document.getElementById('err');
+  if (params.get('err') === 'auth_store') {
+    errBox.textContent = '授权用户表缺失或不可用，已拒绝访问。';
+    errBox.classList.add('show');
+  }
+  document.getElementById('login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errBox.classList.remove('show');
+    const jobId = document.getElementById('jobId').value.trim();
+    const password = document.getElementById('password').value;
+    try {
+      await FS.api('login', { jobId, password });
+      location.replace('/admin/');
+    } catch (err) {
+      errBox.textContent = err.message || '登录失败，已拒绝。';
+      errBox.classList.add('show');
+    }
+  });
+})();
+</script>
+</body>
+</html>

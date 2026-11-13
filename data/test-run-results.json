@@ -1,0 +1,217 @@
+[
+  {
+    "name": "未登录访问 /admin/ 被拒绝",
+    "passed": true,
+    "evidence": "HTTP 302, Location=/admin/login.html"
+  },
+  {
+    "name": "未登录访问 /admin/finance 被拒绝",
+    "passed": true,
+    "evidence": "HTTP 302, Location=/admin/login.html"
+  },
+  {
+    "name": "登录页可打开且不含明文测试口令",
+    "passed": true,
+    "evidence": "HTTP 200"
+  },
+  {
+    "name": "错误口令被拒绝",
+    "passed": true,
+    "evidence": "HTTP 401, error=工号或口令不正确，已拒绝。"
+  },
+  {
+    "name": "授权表缺失时拒绝（不默认放行）",
+    "passed": true,
+    "evidence": "HTTP 403, code=AUTH_STORE_MISSING"
+  },
+  {
+    "name": "正确口令可登录",
+    "passed": true,
+    "evidence": "HTTP 200"
+  },
+  {
+    "name": "登录后写入会话 cookie",
+    "passed": true,
+    "evidence": "fs_session"
+  },
+  {
+    "name": "登录后可打开 /admin/",
+    "passed": true,
+    "evidence": "HTTP 200"
+  },
+  {
+    "name": "页面源码与 store 正文无明文口令",
+    "passed": true,
+    "evidence": "scanned"
+  },
+  {
+    "name": "模块接口 me",
+    "passed": true,
+    "evidence": "HTTP 200"
+  },
+  {
+    "name": "模块接口 getDashboard",
+    "passed": true,
+    "evidence": "HTTP 200"
+  },
+  {
+    "name": "模块接口 getPlans",
+    "passed": true,
+    "evidence": "HTTP 200"
+  },
+  {
+    "name": "模块接口 getProposals",
+    "passed": true,
+    "evidence": "HTTP 200"
+  },
+  {
+    "name": "模块接口 getDocuments",
+    "passed": true,
+    "evidence": "HTTP 200"
+  },
+  {
+    "name": "模块接口 getContracts",
+    "passed": true,
+    "evidence": "HTTP 200"
+  },
+  {
+    "name": "单笔超过 2000 港元的现金收支不得进入第一本明细账",
+    "passed": true,
+    "evidence": "HTTP 400, 单笔现金或第三方收支为 3000 港元，超过 2,000 港元上限，不得按本条直接进入第一本明细账，须另行说明并补齐原件后再处理。"
+  },
+  {
+    "name": "合规现金收支可登记",
+    "passed": true,
+    "evidence": "HTTP 200"
+  },
+  {
+    "name": "月结单不平则拒绝生成明细账（不把未配平说成已配平）",
+    "passed": true,
+    "evidence": "HTTP 400"
+  },
+  {
+    "name": "登记 2026-10 月结单（银行侧应轧平）",
+    "passed": true,
+    "evidence": "HTTP 200"
+  },
+  {
+    "name": "提交后生成第一本明细账且银行侧核对一致",
+    "passed": true,
+    "evidence": "lines=7"
+  },
+  {
+    "name": "未过完成页不得计入正式四套账",
+    "passed": true,
+    "evidence": "HTTP 400"
+  },
+  {
+    "name": "咨询费明细认领已上传的首期银行凭证（不重传）",
+    "passed": true,
+    "evidence": "HTTP 200"
+  },
+  {
+    "name": "免原件：银行存款利息",
+    "passed": true,
+    "evidence": "HTTP 200"
+  },
+  {
+    "name": "免原件：办公室租金（正常金额）",
+    "passed": true,
+    "evidence": "HTTP 200"
+  },
+  {
+    "name": "免原件：十月工资（正常发放）",
+    "passed": true,
+    "evidence": "HTTP 200"
+  },
+  {
+    "name": "免原件：十月 MPF",
+    "passed": true,
+    "evidence": "HTTP 200"
+  },
+  {
+    "name": "办公用品不得免原件",
+    "passed": true,
+    "evidence": "HTTP 400"
+  },
+  {
+    "name": "限期后缺原件的办公用品标为暂记往来",
+    "passed": true,
+    "evidence": "HTTP 200"
+  },
+  {
+    "name": "完成页列出已附原件 / 免原件 / 暂记往来，且无未处理",
+    "passed": true,
+    "evidence": "已附=2, 免=4, 暂记=1, 未处理=0"
+  },
+  {
+    "name": "确认完成页",
+    "passed": true,
+    "evidence": "HTTP 200"
+  },
+  {
+    "name": "完成页确认后可定稿四套账且资产负债表配平",
+    "passed": true,
+    "evidence": "收入 50825，支出 24500，盈余 26325，资产 126325，负债和权益 126325，差额 0；含暂记往来"
+  },
+  {
+    "name": "对客正式合同生成入口关闭",
+    "passed": true,
+    "evidence": "HTTP 403"
+  },
+  {
+    "name": "无首期凭证时不能进入执行（保持待收（付）首期）",
+    "passed": true,
+    "evidence": "HTTP 400"
+  },
+  {
+    "name": "认领同一份首期凭证后进入执行并生成履约计划",
+    "passed": true,
+    "evidence": "HTTP 200, status=逾期, plan=2"
+  },
+  {
+    "name": "无双方协议文件时不能标为状态二",
+    "passed": true,
+    "evidence": "HTTP 400"
+  },
+  {
+    "name": "无双方协议文件时不能标为状态三",
+    "passed": true,
+    "evidence": "HTTP 400"
+  },
+  {
+    "name": "执行中逾期节点使合同状态为逾期",
+    "passed": true,
+    "evidence": "status=逾期"
+  },
+  {
+    "name": "同一测试文件被月账与合同认领，账上咨询费只记一次",
+    "passed": true,
+    "evidence": "modules=['合同', '月账'], hits=1"
+  },
+  {
+    "name": "跨月未完成两次以上预警出现在看板",
+    "passed": true,
+    "evidence": "warnings present"
+  },
+  {
+    "name": "隐私声明存证可写入",
+    "passed": true,
+    "evidence": "HTTP 200"
+  },
+  {
+    "name": "公开首页可在预览服务打开",
+    "passed": true,
+    "evidence": "HTTP 200"
+  },
+  {
+    "name": "资料整理页 /c/ 仍在原路径",
+    "passed": true,
+    "evidence": "HTTP 200"
+  },
+  {
+    "name": "后台文案不含「续签」",
+    "passed": true,
+    "evidence": "scanned site/admin"
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "name": "funstock-preview-server",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Local preview adapter for the FUNSTOCK website and operations admin. Not a production service.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}

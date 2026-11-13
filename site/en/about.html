@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us - FUNSTOCK</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: { navy: '#0B2545', navy2: '#13315C', teal: '#0E9F96', amber: '#F5A524', ink: '#1E293B', muted: '#64748B', bg: '#F6F8FB' },
+        fontFamily: { sans: ['Inter', 'sans-serif'] }
+      }
+    }
+  }
+</script>
+<style>
+  body { font-family: 'Inter', sans-serif; color: #1E293B; background: #F6F8FB; overflow-x: hidden; }
+  
+  /* 动效 */
+  .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1); }
+  .reveal.active { opacity: 1; transform: translateY(0); }
+
+  /* 导航骨架（防闪烁） */
+  .custom-nav { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #E2E8F0; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+  .nav-container { max-width: 1280px; margin: 0 auto; padding: 15px 24px; display: flex; justify-content: space-between; align-items: center; }
+  .nav-links { display: flex; align-items: center; gap: 24px; font-size: 14px; font-weight: 700; }
+  .nav-links a { color: #1E293B; text-decoration: none; transition: all 0.3s; }
+  .nav-links a:hover { color: #0E9F96; }
+  .nav-links a.active { color: #0E9F96; border-bottom: 2px solid #0E9F96; padding-bottom: 4px; }
+  .lang-switch { display: flex; align-items: center; gap: 8px; border-left: 1px solid #ccc; padding-left: 16px; margin-left: 8px; font-size: 12px; }
+  .lang-switch a { color: #64748B; }
+  .lang-switch a.active { color: #0E9F96; font-weight: bold; }
+  .menu-toggle { display: none; cursor: pointer; font-size: 28px; color: #0B2545; background: none; border: none; }
+  @media (max-width: 900px) {
+    .menu-toggle { display: block; }
+    .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(255,255,255,0.98); flex-direction: column; padding: 20px; gap: 16px; box-shadow: 0 10px 15px rgba(0,0,0,0.1); border-bottom: 1px solid #ddd; }
+    .nav-links.show { display: flex; }
+    .lang-switch { border-left: none; padding-left: 0; margin-left: 0; border-top: 1px solid #eee; padding-top: 16px; justify-content: flex-start; width: 100%; }
+  }
+</style>
+</head>
+<body class="antialiased flex flex-col min-h-screen">
+
+  <!-- 自动化占位符：全局导航 -->
+  <div id="global-header"></div>
+
+  <main class="flex-grow">
+    <!-- 首屏横幅 -->
+    <section class="bg-navy py-20 relative overflow-hidden text-center text-white">
+      <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center"></div>
+      <div class="relative z-10 max-w-4xl mx-auto px-6 reveal active">
+        <div class="text-teal-300 font-bold text-sm tracking-widest uppercase mb-3">About Funstock</div>
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-6 tracking-wide">Rooted in Hong Kong, Empowering Globally</h1>
+        <p class="text-slate-300 text-lg leading-relaxed max-w-2xl mx-auto">
+          Reshaping the global supply chain of Chinese smart manufacturing with digital technology and an international perspective.
+        </p>
+      </div>
+    </section>
+
+    <!-- 公司简介 -->
+    <section class="py-20">
+      <div class="max-w-5xl mx-auto px-6">
+        
+        <!-- 卡片 1：公司介绍 -->
+        <div class="bg-white rounded-3xl p-10 md:p-16 shadow-[0_10px_40px_rgba(0,0,0,0.03)] border border-gray-100 mb-8 reveal">
+          <h2 class="text-2xl font-extrabold text-navy mb-6 border-l-4 border-teal pl-4">FUNSTOCK LIMITED</h2>
+          <p class="text-muted leading-loose mb-6 text-base">
+            FUNSTOCK LIMITED is a dynamic and innovative international trading and technical service company. Headquartered in Tuen Mun Industrial Centre, New Territories, Hong Kong, we leverage Hong Kong's advantages as an international logistics and financial hub to efficiently integrate the manufacturing supply chain of the Greater China region.
+          </p>
+          <p class="text-muted leading-loose mb-8 text-base">
+            Our business spans technical consulting, international import and export trade, cross-border e-commerce, and marketing planning. We are committed to helping global clients discover high-quality Chinese smart manufacturing products, providing end-to-end services from product selection and technical support to digital marketing.
+          </p>
+          <div class="flex flex-wrap gap-3">
+            <span class="px-4 py-1.5 bg-bg text-teal font-bold text-xs rounded-full border border-teal/20">Integrity</span>
+            <span class="px-4 py-1.5 bg-bg text-teal font-bold text-xs rounded-full border border-teal/20">Professionalism</span>
+            <span class="px-4 py-1.5 bg-bg text-teal font-bold text-xs rounded-full border border-teal/20">Win-Win</span>
+          </div>
+        </div>
+
+        <!-- 办公环境展示区 (纯排版版) -->
+        <div class="mb-8 reveal">
+          <div class="relative rounded-3xl overflow-hidden shadow-2xl bg-navy py-16 px-8 md:px-16 text-center border border-white/10">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-teal/20 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-0 w-64 h-64 bg-amber/10 rounded-full blur-3xl"></div>
+
+            <div class="relative z-10">
+              <h3 class="text-white text-3xl font-bold mb-4 tracking-widest">HK Headquarters · Tuen Mun</h3>
+              <p class="text-teal-300 font-bold text-sm tracking-widest uppercase mb-12">Global Trade Operations Center</p>
+              
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="bg-white/5 rounded-xl p-4 border border-white/10">
+                  <div class="text-2xl font-bold text-white mb-1">10+</div>
+                  <div class="text-xs text-slate-400">Years Supply Chain Exp.</div>
+                </div>
+                <div class="bg-white/5 rounded-xl p-4 border border-white/10">
+                  <div class="text-2xl font-bold text-white mb-1">5+</div>
+                  <div class="text-xs text-slate-400">Mainstream Platforms</div>
+                </div>
+                <div class="bg-white/5 rounded-xl p-4 border border-white/10">
+                  <div class="text-2xl font-bold text-white mb-1">100+</div>
+                  <div class="text-xs text-slate-400">Brands Served</div>
+                </div>
+                <div class="bg-white/5 rounded-xl p-4 border border-white/10">
+                  <div class="text-2xl font-bold text-white mb-1">24H</div>
+                  <div class="text-xs text-slate-400">Rapid Response</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 卡片 2：地址与联系方式 -->
+        <div class="bg-navy rounded-3xl p-10 md:p-16 shadow-2xl relative overflow-hidden reveal" style="transition-delay: 0.1s;">
+          <div class="absolute top-0 right-0 w-64 h-64 bg-teal/20 rounded-full blur-3xl"></div>
+          <div class="absolute bottom-0 left-0 w-64 h-64 bg-amber/10 rounded-full blur-3xl"></div>
+
+          <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-10">
+            <!-- 地址 -->
+            <div>
+              <div class="flex items-center gap-3 mb-3">
+                <span class="text-teal-300 text-2xl">📍</span>
+                <h3 class="text-white font-bold text-lg">HK Office Address</h3>
+              </div>
+              <div class="text-xs text-teal-300 font-bold uppercase tracking-wider mb-1">Registered Address</div>
+              <p class="text-sm text-slate-300 leading-relaxed mb-4">Flat 4(20), 4/F, Block D, Tuen Mun Industrial Centre, No.2 San Ping Circuit, Tuen Mun, New Territories.</p>
+              <div class="text-xs text-teal-300 font-bold uppercase tracking-wider mb-1">Chinese Address</div>
+              <p class="text-sm text-slate-300 leading-relaxed">香港新界屯門新平街2號屯門工業中心D座4樓4(20)室</p>
+            </div>
+            
+            <!-- 联系 -->
+            <div class="flex flex-col justify-center">
+              <div class="flex items-center gap-3 mb-3">
+                <span class="text-teal-300 text-2xl">✉️</span>
+                <h3 class="text-white font-bold text-lg">Contact Us</h3>
+              </div>
+              <p class="text-sm text-slate-300 mb-2">Email:<br><a href="mailto:Funstockhk@gmail.com" class="text-teal-300 hover:text-white transition text-base font-semibold">Funstockhk@gmail.com</a></p>
+              <p class="text-sm text-slate-300 mt-2">Business Hours:<br><span class="text-white">Mon - Fri 09:00 - 18:00 (GMT+8)</span></p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- 自动化占位符：全局底部 -->
+  <div id="global-footer"></div>
+
+  <!-- 引入全局脚本 -->
+  <script src="../assets/js/global.js"></script>
+  
+  <!-- 滚动动画脚本 -->
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('active'); }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach((el) => { observer.observe(el); });
+  </script>
+</body>
+</html>

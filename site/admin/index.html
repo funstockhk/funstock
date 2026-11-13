@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>趣仓运营管理后台（内部预览）</title>
+<link rel="icon" href="/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/admin/css/admin.css">
+</head>
+<body>
+<div class="preview-banner">
+  <span>内部预览 · 未切换正式流量 · 未改 DNS · 数据走本机预览接口</span>
+  <span>公开站与 <a href="/c/" style="color:#F5A524">资料整理页 /c/</a> 不并入本后台</span>
+</div>
+<div class="app">
+  <aside class="side">
+    <div class="brand">
+      <img src="/assets/logo-horizontal-white.svg" alt="FUNSTOCK">
+    </div>
+    <nav class="nav" id="nav">
+      <a href="/admin/" data-view="dashboard">总览看板</a>
+      <a href="/admin/plans" data-view="plans">每月经营计划</a>
+      <a href="/admin/proposals" data-view="proposals">运营策划书</a>
+      <a href="/admin/documents" data-view="documents">资料与凭证</a>
+      <a href="/admin/finance" data-view="finance">月账与四套账</a>
+      <a href="/admin/contracts" data-view="contracts">合同与发票</a>
+    </nav>
+    <div class="foot">一户一套：一本新表、一个专属文件夹、一套接口。现网与域名解析未被改动。</div>
+  </aside>
+  <div class="main">
+    <header class="top">
+      <h2 id="title">总览看板</h2>
+      <div class="who">
+        <span id="who"></span>
+        <button class="btn ghost small" id="logout" type="button">退出</button>
+      </div>
+    </header>
+    <div class="content" id="view">正在读取…</div>
+  </div>
+</div>
+<script src="/admin/js/api.js"></script>
+<script src="/admin/js/app.js"></script>
+</body>
+</html>

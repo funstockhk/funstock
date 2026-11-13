@@ -1,0 +1,5 @@
+{
+  "adv": "hmac-sha256$c99bdbb24fb81fa13d9e3866e4656357$92ee8dca80c177467acad435fb0a4e102c4989e3cf4aa9f7f470edb085d3a0d0",
+  "cli": "hmac-sha256$2ebe6ac1ee27afd6cdd90c5658285d42$48820e19ae8545a66cc9371a21ec6cf5adb3786dd15eb3863ac24c07238f3f6d",
+  "algo": "hmac-sha256"
+}

@@ -1,0 +1,1115 @@
+{
+  "meta": {
+    "spreadsheetId": "18KIviTyEjxjxav2v0a3liRwlUI8L8O9anjceRi8En9M",
+    "spreadsheetTitle": "FUNSTOCK_运营管理后台_数据库_v0.1",
+    "driveRootId": "1mz1Dmn0rrKjhNSIFBvr3_hPjgda87pUo",
+    "driveFolders": {
+      "01_表格": "1ukRmbUPnmfXazfUckf2ThIYl13cidWyd",
+      "02_凭证": "1xenv2SWSYNZQpYfqJfJIxMkYhvgUA4if",
+      "03_合同": "1F36uwrb8-WrVSePa17XmrBu07m71o4uS",
+      "04_发票": "1IviZG_Ofc7ssS0Tzy2__X6SrfsaqctMl",
+      "05_收件": "1--80dDVd8hMOFHt6HI9PjyC_vnauXlMY",
+      "06_计划与策划书": "1JdHCI-j3B-5RPQzXRwQkRaHlD5PPU0xa",
+      "07_财务报告": "1a16Z4Mm3L5iaZPKpUhmijhHTD5wThO_8",
+      "08_操作附件": "1PvBIUzy8aK9NIFaWfyn1S7pFiZ8WRxVl"
+    },
+    "note": "本地预览适配器使用本 JSON。初始测试行会另行写入新 Google 表。本预览服务不直接实时同步 Google。",
+    "asOfHint": "2026-11-13 Asia/Shanghai"
+  },
+  "users": [
+    {
+      "jobId": "FS-ADV-001",
+      "displayName": "顾问测试甲",
+      "role": "顾问",
+      "status": "启用",
+      "passwordHash": "hmac-sha256$c99bdbb24fb81fa13d9e3866e4656357$92ee8dca80c177467acad435fb0a4e102c4989e3cf4aa9f7f470edb085d3a0d0",
+      "notes": "内部预览测试账号（虚构）"
+    },
+    {
+      "jobId": "FS-CLI-001",
+      "displayName": "授权人测试乙",
+      "role": "客户授权人",
+      "status": "启用",
+      "passwordHash": "hmac-sha256$2ebe6ac1ee27afd6cdd90c5658285d42$48820e19ae8545a66cc9371a21ec6cf5adb3786dd15eb3863ac24c07238f3f6d",
+      "notes": "内部预览测试账号（虚构）"
+    }
+  ],
+  "config": {
+    "companyName": "趣倉有限公司 FUNSTOCK LIMITED",
+    "companyNo": "TEST-CR-PREVIEW",
+    "fx": [
+      {
+        "currency": "HKD",
+        "rate": 1
+      },
+      {
+        "currency": "USD",
+        "rate": 7.8
+      }
+    ],
+    "accounts": [
+      {
+        "code": "1001",
+        "name": "银行存款",
+        "openingDate": "2026-10-01",
+        "openingAmount": 100000,
+        "notes": "测试银行-港币往来（虚构）期初"
+      },
+      {
+        "code": "1002",
+        "name": "现金",
+        "openingDate": "2026-10-01",
+        "openingAmount": 0,
+        "notes": ""
+      },
+      {
+        "code": "1201",
+        "name": "其他应收款（暂记往来）",
+        "openingDate": "2026-10-01",
+        "openingAmount": 0,
+        "notes": ""
+      },
+      {
+        "code": "3001",
+        "name": "期初权益",
+        "openingDate": "2026-10-01",
+        "openingAmount": 100000,
+        "notes": ""
+      },
+      {
+        "code": "4001",
+        "name": "主营业务收入",
+        "openingDate": "",
+        "openingAmount": 0,
+        "notes": ""
+      },
+      {
+        "code": "4002",
+        "name": "利息收入",
+        "openingDate": "",
+        "openingAmount": 0,
+        "notes": ""
+      },
+      {
+        "code": "5001",
+        "name": "工资",
+        "openingDate": "",
+        "openingAmount": 0,
+        "notes": "免原件标准金额 15000"
+      },
+      {
+        "code": "5002",
+        "name": "MPF",
+        "openingDate": "",
+        "openingAmount": 0,
+        "notes": ""
+      },
+      {
+        "code": "5003",
+        "name": "租金",
+        "openingDate": "",
+        "openingAmount": 0,
+        "notes": "免原件标准金额 8000"
+      }
+    ],
+    "waiverStandards": {
+      "salary": 15000,
+      "rent": 8000
+    }
+  },
+  "plans": [
+    {
+      "id": "PL-202608-FLEX1",
+      "yearMonth": "2026-08",
+      "type": "灵活",
+      "title": "测试市场推广跟进（虚构）",
+      "planDate": "2026-08-20",
+      "owner": "顾问测试甲",
+      "status": "未完成",
+      "doneDate": "",
+      "waiverRelated": "",
+      "notes": "用于演示跨月未完成预警",
+      "feedback": ""
+    },
+    {
+      "id": "PL-202609-FLEX1",
+      "yearMonth": "2026-09",
+      "type": "灵活",
+      "title": "测试市场推广跟进（虚构）",
+      "planDate": "2026-09-20",
+      "owner": "顾问测试甲",
+      "status": "未完成",
+      "doneDate": "",
+      "waiverRelated": "",
+      "notes": "连续未完成",
+      "feedback": ""
+    },
+    {
+      "id": "PL-202610-FLEX1",
+      "yearMonth": "2026-10",
+      "type": "灵活",
+      "title": "测试市场推广跟进（虚构）",
+      "planDate": "2026-10-20",
+      "owner": "顾问测试甲",
+      "status": "未完成",
+      "doneDate": "",
+      "waiverRelated": "",
+      "notes": "已跨三个月未完成",
+      "feedback": ""
+    },
+    {
+      "id": "PL-202610-FIX1",
+      "yearMonth": "2026-10",
+      "type": "固定",
+      "title": "发放十月工资",
+      "planDate": "2026-10-28",
+      "owner": "授权人测试乙",
+      "status": "已完成",
+      "doneDate": "2026-10-28",
+      "waiverRelated": "工资",
+      "notes": "",
+      "feedback": ""
+    },
+    {
+      "id": "PL-202610-FIX2",
+      "yearMonth": "2026-10",
+      "type": "固定",
+      "title": "缴纳十月 MPF",
+      "planDate": "2026-10-28",
+      "owner": "授权人测试乙",
+      "status": "已完成",
+      "doneDate": "2026-10-28",
+      "waiverRelated": "MPF",
+      "notes": "",
+      "feedback": ""
+    },
+    {
+      "id": "PL-202610-FIX3",
+      "yearMonth": "2026-10",
+      "type": "固定",
+      "title": "上传九月银行月结单并对账",
+      "planDate": "2026-10-05",
+      "owner": "授权人测试乙",
+      "status": "已完成",
+      "doneDate": "2026-10-04",
+      "waiverRelated": "",
+      "notes": "本预览主测月份是 2026-10，此项表示上月对账已完成（虚构）",
+      "feedback": ""
+    },
+    {
+      "id": "PL-202611-FIX1",
+      "yearMonth": "2026-11",
+      "type": "固定",
+      "title": "5 号前上传十月月结单并登记现金收支",
+      "planDate": "2026-11-05",
+      "owner": "授权人测试乙",
+      "status": "未完成",
+      "doneDate": "",
+      "waiverRelated": "",
+      "notes": "测试时点 2026-11-13 已过限期，用于演示暂记往来",
+      "feedback": ""
+    }
+  ],
+  "proposals": [
+    {
+      "id": "PR-TEST-202610",
+      "title": "2026年10月运营策划书（测试）",
+      "yearMonth": "2026-10",
+      "status": "已归档",
+      "fileId": "FL-SEED-05",
+      "date": "2026-10-03",
+      "notes": "虚构测试策划书"
+    }
+  ],
+  "files": [
+    {
+      "id": "FL-SEED-01",
+      "date": "2026-11-13",
+      "category": "银行月结单",
+      "relatedId": "2026-10",
+      "name": "FLSEED01_TEST_银行月结单_2026-10_测试银行港币往来.pdf",
+      "localPath": "data/uploads/FLSEED01_TEST_银行月结单_2026-10_测试银行港币往来.pdf",
+      "driveLink": "https://drive.google.com/file/d/120u6FLpQJ_IpUKHipeTROIJwq1p27HEY/view?usp=drivesdk",
+      "source": "收件",
+      "status": "已归档（本地预览）",
+      "notes": "测试月结单（虚构）",
+      "mime": "application/pdf",
+      "size": 14049,
+      "claimedBy": [
+        {
+          "module": "月账",
+          "role": "月结单",
+          "at": "2026-11-13 18:31:37 +08:00",
+          "actor": "FS-ADV-001"
+        }
+      ],
+      "uploadedBy": "FS-ADV-001"
+    },
+    {
+      "id": "FL-SEED-02",
+      "date": "2026-11-13",
+      "category": "银行凭证",
+      "relatedId": "FS-TEST-C-001",
+      "name": "FLSEED02_TEST_银行凭证_咨询费首期_测试客户甲.pdf",
+      "localPath": "data/uploads/FLSEED02_TEST_银行凭证_咨询费首期_测试客户甲.pdf",
+      "driveLink": "https://drive.google.com/file/d/1LtPAjU51ypJzervJ3cedNO7ygDX7au3v/view?usp=drivesdk",
+      "source": "收件",
+      "status": "已归档（本地预览）",
+      "notes": "测试首期凭证（虚构）；合同与月账共同认领",
+      "mime": "application/pdf",
+      "size": 11528,
+      "claimedBy": [
+        {
+          "module": "月账",
+          "lineId": "JL-MWEU78UIMNXL1C",
+          "at": "2026-11-13 18:31:37 +08:00",
+          "actor": "FS-ADV-001"
+        },
+        {
+          "module": "合同",
+          "contractNo": "FS-TEST-C-001",
+          "role": "首期凭证",
+          "at": "2026-11-13 18:31:37 +08:00",
+          "actor": "FS-ADV-001"
+        }
+      ],
+      "uploadedBy": "FS-ADV-001"
+    },
+    {
+      "id": "FL-SEED-03",
+      "date": "2026-11-13",
+      "category": "合同签署正本",
+      "relatedId": "FS-TEST-C-001",
+      "name": "FLSEED03_TEST_签署合同扫描_FS-TEST-C-001.pdf",
+      "localPath": "data/uploads/FLSEED03_TEST_签署合同扫描_FS-TEST-C-001.pdf",
+      "driveLink": "https://drive.google.com/file/d/1BLF1eO74RGZet_bY24tmnV0hUJrRN47R/view?usp=drivesdk",
+      "source": "收件",
+      "status": "已归档（本地预览）",
+      "notes": "测试签署正本占位（虚构）",
+      "mime": "application/pdf",
+      "size": 11169,
+      "claimedBy": [
+        {
+          "module": "合同",
+          "contractNo": "FS-TEST-C-001",
+          "role": "签署正本",
+          "at": "2026-10-08 10:05:00 +08:00",
+          "actor": "FS-ADV-001"
+        }
+      ],
+      "uploadedBy": "FS-ADV-001"
+    },
+    {
+      "id": "FL-SEED-04",
+      "date": "2026-11-13",
+      "category": "现金或第三方凭证",
+      "relatedId": "",
+      "name": "FLSEED04_TEST_现金收据_摊位.pdf",
+      "localPath": "data/uploads/FLSEED04_TEST_现金收据_摊位.pdf",
+      "driveLink": "https://drive.google.com/file/d/1qfZ7J9wHi0lYHDUhrzY2DRYTp_flzpoM/view?usp=drivesdk",
+      "source": "收件",
+      "status": "已归档（本地预览）",
+      "notes": "测试现金收据（虚构）",
+      "mime": "application/pdf",
+      "size": 10149,
+      "claimedBy": [
+        {
+          "module": "月账",
+          "lineId": "JL-MWEU78UITM5BQK",
+          "at": "2026-11-13 18:31:37 +08:00",
+          "actor": "FS-ADV-001"
+        }
+      ],
+      "uploadedBy": "FS-ADV-001"
+    },
+    {
+      "id": "FL-SEED-05",
+      "date": "2026-11-13",
+      "category": "计划与策划书",
+      "relatedId": "PR-TEST-202610",
+      "name": "FLSEED05_TEST_运营策划书_2026-10.pdf",
+      "localPath": "data/uploads/FLSEED05_TEST_运营策划书_2026-10.pdf",
+      "driveLink": "https://drive.google.com/file/d/10M01CSNyIV2PCYsum_u6ZrOKG60DBx53/view?usp=drivesdk",
+      "source": "收件",
+      "status": "已归档（本地预览）",
+      "notes": "测试策划书（虚构）",
+      "mime": "application/pdf",
+      "size": 11672,
+      "claimedBy": [
+        {
+          "module": "运营策划书",
+          "role": "归档",
+          "at": "2026-10-03 11:00:00 +08:00",
+          "actor": "FS-ADV-001"
+        }
+      ],
+      "uploadedBy": "FS-ADV-001"
+    }
+  ],
+  "pics": [
+    {
+      "id": "PC-MWEU78V81XFJ0L",
+      "date": "2026-11-13",
+      "role": "顾问",
+      "actor": "FS-ADV-001",
+      "version": "PICS-PREVIEW-v0.1",
+      "acknowledged": true,
+      "digest": "已勾选预览版隐私声明（测试存证，非正式对外文本）。",
+      "notes": ""
+    }
+  ],
+  "months": {
+    "2026-10": {
+      "yearMonth": "2026-10",
+      "deadline": "2026-11-05",
+      "statements": [
+        {
+          "id": "ST-MWEU78UH1HRP6P",
+          "accountId": "TEST-BANK-HKD",
+          "accountName": "测试银行-港币往来（虚构）",
+          "fileId": "FL-SEED-01",
+          "opening": 100000,
+          "closing": 122325,
+          "currency": "HKD",
+          "lines": [
+            {
+              "id": "SL-MWEU78UHB7VPNJ",
+              "date": "2026-10-12",
+              "desc": "测试咨询费-测试客户甲（虚构）",
+              "direction": "收入",
+              "amount": 50000,
+              "currency": "HKD",
+              "counterparty": "测试客户甲（虚构）",
+              "waiverCategory": ""
+            },
+            {
+              "id": "SL-MWEU78UHUO2UL6",
+              "date": "2026-10-15",
+              "desc": "银行存款利息",
+              "direction": "收入",
+              "amount": 25,
+              "currency": "HKD",
+              "counterparty": "测试银行（虚构）",
+              "waiverCategory": "银行利息"
+            },
+            {
+              "id": "SL-MWEU78UHQHGM4T",
+              "date": "2026-10-25",
+              "desc": "办公室租金（正常金额）",
+              "direction": "支出",
+              "amount": 8000,
+              "currency": "HKD",
+              "counterparty": "测试房东（虚构）",
+              "waiverCategory": "租金"
+            },
+            {
+              "id": "SL-MWEU78UH6897GI",
+              "date": "2026-10-27",
+              "desc": "办公用品-测试供应商乙（虚构）",
+              "direction": "支出",
+              "amount": 3200,
+              "currency": "HKD",
+              "counterparty": "测试供应商乙（虚构）",
+              "waiverCategory": ""
+            },
+            {
+              "id": "SL-MWEU78UH9ZKTRV",
+              "date": "2026-10-28",
+              "desc": "十月工资（正常发放）",
+              "direction": "支出",
+              "amount": 15000,
+              "currency": "HKD",
+              "counterparty": "员工（测试）",
+              "waiverCategory": "工资"
+            },
+            {
+              "id": "SL-MWEU78UH7HD8EZ",
+              "date": "2026-10-28",
+              "desc": "十月 MPF",
+              "direction": "支出",
+              "amount": 1500,
+              "currency": "HKD",
+              "counterparty": "测试强积金计划（虚构）",
+              "waiverCategory": "MPF"
+            }
+          ],
+          "internalDiff": 0
+        }
+      ],
+      "cashItems": [
+        {
+          "id": "CA-MWEU78UD268YKR",
+          "date": "2026-10-18",
+          "desc": "测试活动摊位收入（虚构）",
+          "direction": "收入",
+          "amount": 800,
+          "currency": "HKD",
+          "amountHkd": 800,
+          "counterparty": "测试摊位主办方（虚构）",
+          "fileId": "FL-SEED-04"
+        }
+      ],
+      "rejectedCash": [],
+      "ledgerGenerated": true,
+      "bankBalanced": true,
+      "bankBalanceDiff": [],
+      "completionConfirmed": true,
+      "completionConfirmedAt": "2026-11-13 18:31:37 +08:00",
+      "posted": true,
+      "postedAt": "2026-11-13 18:31:37 +08:00",
+      "confirmedBy": "FS-ADV-001",
+      "postedBy": "FS-ADV-001"
+    },
+    "2026-09": {
+      "yearMonth": "2026-09",
+      "deadline": "2026-10-05",
+      "statements": [
+        {
+          "id": "ST-MWEU78UFT0R3K9",
+          "accountId": "TEST-BANK-HKD-UNBAL",
+          "accountName": "测试银行-故意不平（虚构）",
+          "fileId": "",
+          "opening": 1000,
+          "closing": 9999,
+          "currency": "HKD",
+          "lines": [
+            {
+              "id": "SL-MWEU78UF7U6VH9",
+              "date": "2026-09-10",
+              "desc": "测试",
+              "direction": "收入",
+              "amount": 100,
+              "currency": "HKD",
+              "counterparty": "测试",
+              "waiverCategory": ""
+            }
+          ],
+          "internalDiff": -8899
+        }
+      ],
+      "cashItems": [],
+      "rejectedCash": [],
+      "ledgerGenerated": false,
+      "bankBalanced": false,
+      "bankBalanceDiff": null,
+      "completionConfirmed": false,
+      "completionConfirmedAt": null,
+      "posted": false,
+      "postedAt": null
+    }
+  },
+  "ledger": [
+    {
+      "id": "JL-MWEU78UIMNXL1C",
+      "yearMonth": "2026-10",
+      "date": "2026-10-12",
+      "desc": "测试咨询费-测试客户甲（虚构）",
+      "direction": "收入",
+      "amount": 50000,
+      "currency": "HKD",
+      "amountHkd": 50000,
+      "account": "测试银行-港币往来（虚构）",
+      "source": "月结单",
+      "sourceKey": "stmt:ST-MWEU78UH1HRP6P:SL-MWEU78UHB7VPNJ",
+      "statementId": "ST-MWEU78UH1HRP6P",
+      "contractNo": "",
+      "fileId": "FL-SEED-02",
+      "voucherStatus": "已附原件",
+      "waiverCategory": "",
+      "counterparty": "测试客户甲（虚构）",
+      "posted": true,
+      "notes": "",
+      "subject": "主营业务收入",
+      "auditTrail": []
+    },
+    {
+      "id": "JL-MWEU78UI7WC8D1",
+      "yearMonth": "2026-10",
+      "date": "2026-10-15",
+      "desc": "银行存款利息",
+      "direction": "收入",
+      "amount": 25,
+      "currency": "HKD",
+      "amountHkd": 25,
+      "account": "测试银行-港币往来（虚构）",
+      "source": "月结单",
+      "sourceKey": "stmt:ST-MWEU78UH1HRP6P:SL-MWEU78UHUO2UL6",
+      "statementId": "ST-MWEU78UH1HRP6P",
+      "contractNo": "",
+      "fileId": "",
+      "voucherStatus": "免原件",
+      "waiverCategory": "银行利息",
+      "counterparty": "测试银行（虚构）",
+      "posted": true,
+      "notes": "",
+      "subject": "利息收入",
+      "auditTrail": [
+        {
+          "at": "2026-11-13 18:31:37 +08:00",
+          "actor": "FS-ADV-001",
+          "action": "标明免原件"
+        }
+      ]
+    },
+    {
+      "id": "JL-MWEU78UIDGRWKC",
+      "yearMonth": "2026-10",
+      "date": "2026-10-25",
+      "desc": "办公室租金（正常金额）",
+      "direction": "支出",
+      "amount": 8000,
+      "currency": "HKD",
+      "amountHkd": 8000,
+      "account": "测试银行-港币往来（虚构）",
+      "source": "月结单",
+      "sourceKey": "stmt:ST-MWEU78UH1HRP6P:SL-MWEU78UHQHGM4T",
+      "statementId": "ST-MWEU78UH1HRP6P",
+      "contractNo": "",
+      "fileId": "",
+      "voucherStatus": "免原件",
+      "waiverCategory": "租金",
+      "counterparty": "测试房东（虚构）",
+      "posted": true,
+      "notes": "",
+      "subject": "租金",
+      "auditTrail": [
+        {
+          "at": "2026-11-13 18:31:37 +08:00",
+          "actor": "FS-ADV-001",
+          "action": "标明免原件"
+        }
+      ]
+    },
+    {
+      "id": "JL-MWEU78UI245A6R",
+      "yearMonth": "2026-10",
+      "date": "2026-10-27",
+      "desc": "办公用品-测试供应商乙（虚构）",
+      "direction": "支出",
+      "amount": 3200,
+      "currency": "HKD",
+      "amountHkd": 3200,
+      "account": "测试银行-港币往来（虚构）",
+      "source": "月结单",
+      "sourceKey": "stmt:ST-MWEU78UH1HRP6P:SL-MWEU78UH6897GI",
+      "statementId": "ST-MWEU78UH1HRP6P",
+      "contractNo": "",
+      "fileId": "",
+      "voucherStatus": "暂记往来",
+      "waiverCategory": "",
+      "counterparty": "测试供应商乙（虚构）",
+      "posted": true,
+      "notes": "限期后缺原件，暂记与划款人或收款人的往来，不得先记成收入或费用。",
+      "subject": "其他应收款（暂记往来）",
+      "auditTrail": [
+        {
+          "at": "2026-11-13 18:31:37 +08:00",
+          "actor": "FS-ADV-001",
+          "action": "标明暂记往来",
+          "note": "原痕迹保留，后续调整须另记操作记录。"
+        }
+      ]
+    },
+    {
+      "id": "JL-MWEU78UIYNWGTN",
+      "yearMonth": "2026-10",
+      "date": "2026-10-28",
+      "desc": "十月工资（正常发放）",
+      "direction": "支出",
+      "amount": 15000,
+      "currency": "HKD",
+      "amountHkd": 15000,
+      "account": "测试银行-港币往来（虚构）",
+      "source": "月结单",
+      "sourceKey": "stmt:ST-MWEU78UH1HRP6P:SL-MWEU78UH9ZKTRV",
+      "statementId": "ST-MWEU78UH1HRP6P",
+      "contractNo": "",
+      "fileId": "",
+      "voucherStatus": "免原件",
+      "waiverCategory": "工资",
+      "counterparty": "员工（测试）",
+      "posted": true,
+      "notes": "",
+      "subject": "工资",
+      "auditTrail": [
+        {
+          "at": "2026-11-13 18:31:37 +08:00",
+          "actor": "FS-ADV-001",
+          "action": "标明免原件"
+        }
+      ]
+    },
+    {
+      "id": "JL-MWEU78UIQJBB2B",
+      "yearMonth": "2026-10",
+      "date": "2026-10-28",
+      "desc": "十月 MPF",
+      "direction": "支出",
+      "amount": 1500,
+      "currency": "HKD",
+      "amountHkd": 1500,
+      "account": "测试银行-港币往来（虚构）",
+      "source": "月结单",
+      "sourceKey": "stmt:ST-MWEU78UH1HRP6P:SL-MWEU78UH7HD8EZ",
+      "statementId": "ST-MWEU78UH1HRP6P",
+      "contractNo": "",
+      "fileId": "",
+      "voucherStatus": "免原件",
+      "waiverCategory": "MPF",
+      "counterparty": "测试强积金计划（虚构）",
+      "posted": true,
+      "notes": "",
+      "subject": "MPF",
+      "auditTrail": [
+        {
+          "at": "2026-11-13 18:31:37 +08:00",
+          "actor": "FS-ADV-001",
+          "action": "标明免原件"
+        }
+      ]
+    },
+    {
+      "id": "JL-MWEU78UITM5BQK",
+      "yearMonth": "2026-10",
+      "date": "2026-10-18",
+      "desc": "测试活动摊位收入（虚构）",
+      "direction": "收入",
+      "amount": 800,
+      "currency": "HKD",
+      "amountHkd": 800,
+      "account": "现金或第三方（不经公司银行）",
+      "source": "现金或第三方",
+      "sourceKey": "cash:CA-MWEU78UD268YKR",
+      "statementId": "",
+      "contractNo": "",
+      "fileId": "FL-SEED-04",
+      "voucherStatus": "已附原件",
+      "waiverCategory": "",
+      "counterparty": "测试摊位主办方（虚构）",
+      "posted": true,
+      "notes": "",
+      "subject": "主营业务收入",
+      "auditTrail": []
+    }
+  ],
+  "fourStatements": [
+    {
+      "type": "利润表",
+      "period": "2026-10",
+      "item": "收入（不含暂记往来）",
+      "amountHkd": 50825,
+      "posted": true,
+      "hasSuspense": false,
+      "notes": ""
+    },
+    {
+      "type": "利润表",
+      "period": "2026-10",
+      "item": "支出（不含暂记往来）",
+      "amountHkd": 24500,
+      "posted": true,
+      "hasSuspense": false,
+      "notes": ""
+    },
+    {
+      "type": "利润表",
+      "period": "2026-10",
+      "item": "本期盈余",
+      "amountHkd": 26325,
+      "posted": true,
+      "hasSuspense": false,
+      "notes": "收付实现制；暂记往来不计入本期损益。"
+    },
+    {
+      "type": "资产负债表",
+      "period": "2026-10",
+      "item": "银行存款",
+      "amountHkd": 122325,
+      "posted": true,
+      "hasSuspense": false,
+      "notes": ""
+    },
+    {
+      "type": "资产负债表",
+      "period": "2026-10",
+      "item": "现金",
+      "amountHkd": 800,
+      "posted": true,
+      "hasSuspense": false,
+      "notes": ""
+    },
+    {
+      "type": "资产负债表",
+      "period": "2026-10",
+      "item": "其他应收款（暂记往来）",
+      "amountHkd": 3200,
+      "posted": true,
+      "hasSuspense": true,
+      "notes": "未获真凭证前不作为已齐备审计附件。"
+    },
+    {
+      "type": "资产负债表",
+      "period": "2026-10",
+      "item": "资产合计",
+      "amountHkd": 126325,
+      "posted": true,
+      "hasSuspense": true,
+      "notes": ""
+    },
+    {
+      "type": "资产负债表",
+      "period": "2026-10",
+      "item": "其他应付款（暂记往来）",
+      "amountHkd": 0,
+      "posted": true,
+      "hasSuspense": false,
+      "notes": ""
+    },
+    {
+      "type": "资产负债表",
+      "period": "2026-10",
+      "item": "期初权益",
+      "amountHkd": 100000,
+      "posted": true,
+      "hasSuspense": false,
+      "notes": ""
+    },
+    {
+      "type": "资产负债表",
+      "period": "2026-10",
+      "item": "本期盈余",
+      "amountHkd": 26325,
+      "posted": true,
+      "hasSuspense": false,
+      "notes": ""
+    },
+    {
+      "type": "资产负债表",
+      "period": "2026-10",
+      "item": "权益合计",
+      "amountHkd": 126325,
+      "posted": true,
+      "hasSuspense": false,
+      "notes": ""
+    },
+    {
+      "type": "资产负债表",
+      "period": "2026-10",
+      "item": "负债和权益合计",
+      "amountHkd": 126325,
+      "posted": true,
+      "hasSuspense": false,
+      "notes": "已配平"
+    },
+    {
+      "type": "现金流量表",
+      "period": "2026-10",
+      "item": "期初货币资金",
+      "amountHkd": 100000,
+      "posted": true,
+      "hasSuspense": false,
+      "notes": ""
+    },
+    {
+      "type": "现金流量表",
+      "period": "2026-10",
+      "item": "银行收支净额",
+      "amountHkd": 22325,
+      "posted": true,
+      "hasSuspense": false,
+      "notes": ""
+    },
+    {
+      "type": "现金流量表",
+      "period": "2026-10",
+      "item": "现金或第三方收支净额",
+      "amountHkd": 800,
+      "posted": true,
+      "hasSuspense": false,
+      "notes": ""
+    },
+    {
+      "type": "现金流量表",
+      "period": "2026-10",
+      "item": "期末货币资金",
+      "amountHkd": 123125,
+      "posted": true,
+      "hasSuspense": false,
+      "notes": ""
+    },
+    {
+      "type": "流水明细",
+      "period": "2026-10",
+      "item": "2026-10-12 测试咨询费-测试客户甲（虚构）（收入，月结单，已附原件）",
+      "amountHkd": 50000,
+      "posted": true,
+      "hasSuspense": false,
+      "notes": ""
+    },
+    {
+      "type": "流水明细",
+      "period": "2026-10",
+      "item": "2026-10-15 银行存款利息（收入，月结单，免原件）",
+      "amountHkd": 25,
+      "posted": true,
+      "hasSuspense": false,
+      "notes": ""
+    },
+    {
+      "type": "流水明细",
+      "period": "2026-10",
+      "item": "2026-10-25 办公室租金（正常金额）（支出，月结单，免原件）",
+      "amountHkd": -8000,
+      "posted": true,
+      "hasSuspense": false,
+      "notes": ""
+    },
+    {
+      "type": "流水明细",
+      "period": "2026-10",
+      "item": "2026-10-27 办公用品-测试供应商乙（虚构）（支出，月结单，暂记往来）",
+      "amountHkd": -3200,
+      "posted": true,
+      "hasSuspense": true,
+      "notes": "暂记往来，不作为已确认收入或费用，亦非已齐备的审计附件。"
+    },
+    {
+      "type": "流水明细",
+      "period": "2026-10",
+      "item": "2026-10-28 十月工资（正常发放）（支出，月结单，免原件）",
+      "amountHkd": -15000,
+      "posted": true,
+      "hasSuspense": false,
+      "notes": ""
+    },
+    {
+      "type": "流水明细",
+      "period": "2026-10",
+      "item": "2026-10-28 十月 MPF（支出，月结单，免原件）",
+      "amountHkd": -1500,
+      "posted": true,
+      "hasSuspense": false,
+      "notes": ""
+    },
+    {
+      "type": "流水明细",
+      "period": "2026-10",
+      "item": "2026-10-18 测试活动摊位收入（虚构）（收入，现金或第三方，已附原件）",
+      "amountHkd": 800,
+      "posted": true,
+      "hasSuspense": false,
+      "notes": ""
+    }
+  ],
+  "contracts": [
+    {
+      "contractNo": "FS-TEST-C-001",
+      "counterparty": "测试客户甲（虚构）",
+      "type": "咨询技术",
+      "stage": "执行",
+      "status": "逾期",
+      "signedDate": "2026-10-08",
+      "signedFileId": "FL-SEED-03",
+      "firstVoucherFileId": "FL-SEED-02",
+      "amount": 50000,
+      "currency": "HKD",
+      "firstAmount": 50000,
+      "firstDueDate": "2026-10-12",
+      "agreementFileId": "",
+      "closeType": "",
+      "deliveryType": "咨询技术",
+      "plan": [
+        {
+          "id": "PN-MWEU78V2UROYVZ",
+          "kind": "技术文档交付",
+          "title": "上传技术文档及双方签字确认",
+          "dueDate": "2026-10-20",
+          "done": false,
+          "fileIds": [],
+          "confirmFileId": ""
+        },
+        {
+          "id": "PN-MWEU78V2GOEWC9",
+          "kind": "收付款",
+          "title": "首期收（付）款 50000 HKD 与约定时间匹配",
+          "dueDate": "2026-10-12",
+          "done": true,
+          "fileIds": [
+            "FL-SEED-02"
+          ],
+          "confirmFileId": ""
+        }
+      ],
+      "payments": [],
+      "notes": "测试合同台账，非正式对客合同文本。签署正本已归档，首期凭证待认领。",
+      "createdAt": "2026-10-08 10:00:00 +08:00",
+      "createdBy": "FS-ADV-001"
+    }
+  ],
+  "invoices": [],
+  "exports": [
+    {
+      "period": "2026-10",
+      "type": "四套账定稿",
+      "date": "2026-11-13",
+      "summary": "收入 50825，支出 24500，盈余 26325，资产 126325，负债和权益 126325，差额 0；含暂记往来",
+      "fileId": "",
+      "hasSuspense": true,
+      "notes": "本月含暂记往来项目，已在导出中标明。未获真凭证调整前，这些项目不作为已齐备的审计附件。"
+    }
+  ],
+  "logs": [
+    {
+      "time": "2026-11-13 18:00:00 +08:00",
+      "actor": "system",
+      "action": "初始化预览库",
+      "target": "store.json",
+      "result": "成功",
+      "notes": "仅虚构测试数据"
+    },
+    {
+      "time": "2026-11-13 18:31:37 +08:00",
+      "actor": "FS-ADV-001",
+      "action": "登录",
+      "target": "",
+      "result": "拒绝",
+      "notes": "工号或口令不正确。"
+    },
+    {
+      "time": "2026-11-13 18:31:37 +08:00",
+      "actor": "FS-ADV-001",
+      "action": "登录",
+      "target": "",
+      "result": "成功",
+      "notes": ""
+    },
+    {
+      "time": "2026-11-13 18:31:37 +08:00",
+      "actor": "FS-ADV-001",
+      "action": "登记现金或第三方收支",
+      "target": "2026-10",
+      "result": "成功",
+      "notes": "CA-MWEU78UD268YKR"
+    },
+    {
+      "time": "2026-11-13 18:31:37 +08:00",
+      "actor": "FS-ADV-001",
+      "action": "登记月结单",
+      "target": "2026-09",
+      "result": "成功",
+      "notes": "测试银行-故意不平（虚构）"
+    },
+    {
+      "time": "2026-11-13 18:31:37 +08:00",
+      "actor": "FS-ADV-001",
+      "action": "登记月结单",
+      "target": "2026-10",
+      "result": "成功",
+      "notes": "测试银行-港币往来（虚构）"
+    },
+    {
+      "time": "2026-11-13 18:31:37 +08:00",
+      "actor": "FS-ADV-001",
+      "action": "生成第一本明细账",
+      "target": "2026-10",
+      "result": "成功",
+      "notes": "共 7 条"
+    },
+    {
+      "time": "2026-11-13 18:31:37 +08:00",
+      "actor": "FS-ADV-001",
+      "action": "认领原件",
+      "target": "JL-MWEU78UIMNXL1C",
+      "result": "成功",
+      "notes": "FL-SEED-02"
+    },
+    {
+      "time": "2026-11-13 18:31:37 +08:00",
+      "actor": "FS-ADV-001",
+      "action": "认领原件",
+      "target": "JL-MWEU78UITM5BQK",
+      "result": "成功",
+      "notes": "FL-SEED-04"
+    },
+    {
+      "time": "2026-11-13 18:31:37 +08:00",
+      "actor": "FS-ADV-001",
+      "action": "标明免原件",
+      "target": "JL-MWEU78UI7WC8D1",
+      "result": "成功",
+      "notes": "银行利息"
+    },
+    {
+      "time": "2026-11-13 18:31:37 +08:00",
+      "actor": "FS-ADV-001",
+      "action": "标明免原件",
+      "target": "JL-MWEU78UIDGRWKC",
+      "result": "成功",
+      "notes": "租金"
+    },
+    {
+      "time": "2026-11-13 18:31:37 +08:00",
+      "actor": "FS-ADV-001",
+      "action": "标明免原件",
+      "target": "JL-MWEU78UIYNWGTN",
+      "result": "成功",
+      "notes": "工资"
+    },
+    {
+      "time": "2026-11-13 18:31:37 +08:00",
+      "actor": "FS-ADV-001",
+      "action": "标明免原件",
+      "target": "JL-MWEU78UIQJBB2B",
+      "result": "成功",
+      "notes": "MPF"
+    },
+    {
+      "time": "2026-11-13 18:31:37 +08:00",
+      "actor": "FS-ADV-001",
+      "action": "标明暂记往来",
+      "target": "JL-MWEU78UI245A6R",
+      "result": "成功",
+      "notes": ""
+    },
+    {
+      "time": "2026-11-13 18:31:37 +08:00",
+      "actor": "FS-ADV-001",
+      "action": "确认完成页",
+      "target": "2026-10",
+      "result": "成功",
+      "notes": "{\"已附原件\":2,\"免原件\":4,\"暂记往来\":1,\"未处理\":0}"
+    },
+    {
+      "time": "2026-11-13 18:31:37 +08:00",
+      "actor": "FS-ADV-001",
+      "action": "定稿四套账",
+      "target": "2026-10",
+      "result": "成功",
+      "notes": "收入 50825，支出 24500，盈余 26325，资产 126325，负债和权益 126325，差额 0；含暂记往来"
+    },
+    {
+      "time": "2026-11-13 18:31:37 +08:00",
+      "actor": "FS-ADV-001",
+      "action": "登记首期凭证",
+      "target": "FS-TEST-C-001",
+      "result": "成功",
+      "notes": "FL-SEED-02"
+    },
+    {
+      "time": "2026-11-13 18:31:37 +08:00",
+      "actor": "FS-ADV-001",
+      "action": "隐私声明存证",
+      "target": "PC-MWEU78V81XFJ0L",
+      "result": "成功",
+      "notes": "PICS-PREVIEW-v0.1"
+    },
+    {
+      "time": "2026-11-13 18:34:13 +08:00",
+      "actor": "FS-ADV-001",
+      "action": "登录",
+      "target": "",
+      "result": "成功",
+      "notes": ""
+    }
+  ]
+}

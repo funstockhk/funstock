@@ -1,0 +1,361 @@
+{
+  "meta": {
+    "spreadsheetId": "18KIviTyEjxjxav2v0a3liRwlUI8L8O9anjceRi8En9M",
+    "spreadsheetTitle": "FUNSTOCK_运营管理后台_数据库_v0.1",
+    "driveRootId": "1mz1Dmn0rrKjhNSIFBvr3_hPjgda87pUo",
+    "driveFolders": {
+      "01_表格": "1ukRmbUPnmfXazfUckf2ThIYl13cidWyd",
+      "02_凭证": "1xenv2SWSYNZQpYfqJfJIxMkYhvgUA4if",
+      "03_合同": "1F36uwrb8-WrVSePa17XmrBu07m71o4uS",
+      "04_发票": "1IviZG_Ofc7ssS0Tzy2__X6SrfsaqctMl",
+      "05_收件": "1--80dDVd8hMOFHt6HI9PjyC_vnauXlMY",
+      "06_计划与策划书": "1JdHCI-j3B-5RPQzXRwQkRaHlD5PPU0xa",
+      "07_财务报告": "1a16Z4Mm3L5iaZPKpUhmijhHTD5wThO_8",
+      "08_操作附件": "1PvBIUzy8aK9NIFaWfyn1S7pFiZ8WRxVl"
+    },
+    "note": "本地预览适配器使用本 JSON。初始测试行会另行写入新 Google 表。本预览服务不直接实时同步 Google。",
+    "asOfHint": "2026-11-13 Asia/Shanghai"
+  },
+  "users": [
+    {
+      "jobId": "FS-ADV-001",
+      "displayName": "顾问测试甲",
+      "role": "顾问",
+      "status": "启用",
+      "passwordHash": "hmac-sha256$c99bdbb24fb81fa13d9e3866e4656357$92ee8dca80c177467acad435fb0a4e102c4989e3cf4aa9f7f470edb085d3a0d0",
+      "notes": "内部预览测试账号（虚构）"
+    },
+    {
+      "jobId": "FS-CLI-001",
+      "displayName": "授权人测试乙",
+      "role": "客户授权人",
+      "status": "启用",
+      "passwordHash": "hmac-sha256$2ebe6ac1ee27afd6cdd90c5658285d42$48820e19ae8545a66cc9371a21ec6cf5adb3786dd15eb3863ac24c07238f3f6d",
+      "notes": "内部预览测试账号（虚构）"
+    }
+  ],
+  "config": {
+    "companyName": "趣倉有限公司 FUNSTOCK LIMITED",
+    "companyNo": "TEST-CR-PREVIEW",
+    "fx": [
+      {
+        "currency": "HKD",
+        "rate": 1
+      },
+      {
+        "currency": "USD",
+        "rate": 7.8
+      }
+    ],
+    "accounts": [
+      {
+        "code": "1001",
+        "name": "银行存款",
+        "openingDate": "2026-10-01",
+        "openingAmount": 100000,
+        "notes": "测试银行-港币往来（虚构）期初"
+      },
+      {
+        "code": "1002",
+        "name": "现金",
+        "openingDate": "2026-10-01",
+        "openingAmount": 0,
+        "notes": ""
+      },
+      {
+        "code": "1201",
+        "name": "其他应收款（暂记往来）",
+        "openingDate": "2026-10-01",
+        "openingAmount": 0,
+        "notes": ""
+      },
+      {
+        "code": "3001",
+        "name": "期初权益",
+        "openingDate": "2026-10-01",
+        "openingAmount": 100000,
+        "notes": ""
+      },
+      {
+        "code": "4001",
+        "name": "主营业务收入",
+        "openingDate": "",
+        "openingAmount": 0,
+        "notes": ""
+      },
+      {
+        "code": "4002",
+        "name": "利息收入",
+        "openingDate": "",
+        "openingAmount": 0,
+        "notes": ""
+      },
+      {
+        "code": "5001",
+        "name": "工资",
+        "openingDate": "",
+        "openingAmount": 0,
+        "notes": "免原件标准金额 15000"
+      },
+      {
+        "code": "5002",
+        "name": "MPF",
+        "openingDate": "",
+        "openingAmount": 0,
+        "notes": ""
+      },
+      {
+        "code": "5003",
+        "name": "租金",
+        "openingDate": "",
+        "openingAmount": 0,
+        "notes": "免原件标准金额 8000"
+      }
+    ],
+    "waiverStandards": {
+      "salary": 15000,
+      "rent": 8000
+    }
+  },
+  "plans": [
+    {
+      "id": "PL-202608-FLEX1",
+      "yearMonth": "2026-08",
+      "type": "灵活",
+      "title": "测试市场推广跟进（虚构）",
+      "planDate": "2026-08-20",
+      "owner": "顾问测试甲",
+      "status": "未完成",
+      "doneDate": "",
+      "waiverRelated": "",
+      "notes": "用于演示跨月未完成预警",
+      "feedback": ""
+    },
+    {
+      "id": "PL-202609-FLEX1",
+      "yearMonth": "2026-09",
+      "type": "灵活",
+      "title": "测试市场推广跟进（虚构）",
+      "planDate": "2026-09-20",
+      "owner": "顾问测试甲",
+      "status": "未完成",
+      "doneDate": "",
+      "waiverRelated": "",
+      "notes": "连续未完成",
+      "feedback": ""
+    },
+    {
+      "id": "PL-202610-FLEX1",
+      "yearMonth": "2026-10",
+      "type": "灵活",
+      "title": "测试市场推广跟进（虚构）",
+      "planDate": "2026-10-20",
+      "owner": "顾问测试甲",
+      "status": "未完成",
+      "doneDate": "",
+      "waiverRelated": "",
+      "notes": "已跨三个月未完成",
+      "feedback": ""
+    },
+    {
+      "id": "PL-202610-FIX1",
+      "yearMonth": "2026-10",
+      "type": "固定",
+      "title": "发放十月工资",
+      "planDate": "2026-10-28",
+      "owner": "授权人测试乙",
+      "status": "已完成",
+      "doneDate": "2026-10-28",
+      "waiverRelated": "工资",
+      "notes": "",
+      "feedback": ""
+    },
+    {
+      "id": "PL-202610-FIX2",
+      "yearMonth": "2026-10",
+      "type": "固定",
+      "title": "缴纳十月 MPF",
+      "planDate": "2026-10-28",
+      "owner": "授权人测试乙",
+      "status": "已完成",
+      "doneDate": "2026-10-28",
+      "waiverRelated": "MPF",
+      "notes": "",
+      "feedback": ""
+    },
+    {
+      "id": "PL-202610-FIX3",
+      "yearMonth": "2026-10",
+      "type": "固定",
+      "title": "上传九月银行月结单并对账",
+      "planDate": "2026-10-05",
+      "owner": "授权人测试乙",
+      "status": "已完成",
+      "doneDate": "2026-10-04",
+      "waiverRelated": "",
+      "notes": "本预览主测月份是 2026-10，此项表示上月对账已完成（虚构）",
+      "feedback": ""
+    },
+    {
+      "id": "PL-202611-FIX1",
+      "yearMonth": "2026-11",
+      "type": "固定",
+      "title": "5 号前上传十月月结单并登记现金收支",
+      "planDate": "2026-11-05",
+      "owner": "授权人测试乙",
+      "status": "未完成",
+      "doneDate": "",
+      "waiverRelated": "",
+      "notes": "测试时点 2026-11-13 已过限期，用于演示暂记往来",
+      "feedback": ""
+    }
+  ],
+  "proposals": [
+    {
+      "id": "PR-TEST-202610",
+      "title": "2026年10月运营策划书（测试）",
+      "yearMonth": "2026-10",
+      "status": "已归档",
+      "fileId": "FL-SEED-05",
+      "date": "2026-10-03",
+      "notes": "虚构测试策划书"
+    }
+  ],
+  "files": [
+    {
+      "id": "FL-SEED-01",
+      "date": "2026-11-13",
+      "category": "银行月结单",
+      "relatedId": "2026-10",
+      "name": "FLSEED01_TEST_银行月结单_2026-10_测试银行港币往来.pdf",
+      "localPath": "data/uploads/FLSEED01_TEST_银行月结单_2026-10_测试银行港币往来.pdf",
+      "driveLink": "",
+      "source": "收件",
+      "status": "已归档（本地预览）",
+      "notes": "测试月结单（虚构）",
+      "mime": "application/pdf",
+      "size": 14049,
+      "claimedBy": [],
+      "uploadedBy": "FS-ADV-001"
+    },
+    {
+      "id": "FL-SEED-02",
+      "date": "2026-11-13",
+      "category": "银行凭证",
+      "relatedId": "FS-TEST-C-001",
+      "name": "FLSEED02_TEST_银行凭证_咨询费首期_测试客户甲.pdf",
+      "localPath": "data/uploads/FLSEED02_TEST_银行凭证_咨询费首期_测试客户甲.pdf",
+      "driveLink": "",
+      "source": "收件",
+      "status": "已归档（本地预览）",
+      "notes": "测试首期凭证（虚构）；合同与月账共同认领",
+      "mime": "application/pdf",
+      "size": 11528,
+      "claimedBy": [],
+      "uploadedBy": "FS-ADV-001"
+    },
+    {
+      "id": "FL-SEED-03",
+      "date": "2026-11-13",
+      "category": "合同签署正本",
+      "relatedId": "FS-TEST-C-001",
+      "name": "FLSEED03_TEST_签署合同扫描_FS-TEST-C-001.pdf",
+      "localPath": "data/uploads/FLSEED03_TEST_签署合同扫描_FS-TEST-C-001.pdf",
+      "driveLink": "",
+      "source": "收件",
+      "status": "已归档（本地预览）",
+      "notes": "测试签署正本占位（虚构）",
+      "mime": "application/pdf",
+      "size": 11169,
+      "claimedBy": [
+        {
+          "module": "合同",
+          "contractNo": "FS-TEST-C-001",
+          "role": "签署正本",
+          "at": "2026-10-08 10:05:00 +08:00",
+          "actor": "FS-ADV-001"
+        }
+      ],
+      "uploadedBy": "FS-ADV-001"
+    },
+    {
+      "id": "FL-SEED-04",
+      "date": "2026-11-13",
+      "category": "现金或第三方凭证",
+      "relatedId": "",
+      "name": "FLSEED04_TEST_现金收据_摊位.pdf",
+      "localPath": "data/uploads/FLSEED04_TEST_现金收据_摊位.pdf",
+      "driveLink": "",
+      "source": "收件",
+      "status": "已归档（本地预览）",
+      "notes": "测试现金收据（虚构）",
+      "mime": "application/pdf",
+      "size": 10149,
+      "claimedBy": [],
+      "uploadedBy": "FS-ADV-001"
+    },
+    {
+      "id": "FL-SEED-05",
+      "date": "2026-11-13",
+      "category": "计划与策划书",
+      "relatedId": "PR-TEST-202610",
+      "name": "FLSEED05_TEST_运营策划书_2026-10.pdf",
+      "localPath": "data/uploads/FLSEED05_TEST_运营策划书_2026-10.pdf",
+      "driveLink": "",
+      "source": "收件",
+      "status": "已归档（本地预览）",
+      "notes": "测试策划书（虚构）",
+      "mime": "application/pdf",
+      "size": 11672,
+      "claimedBy": [
+        {
+          "module": "运营策划书",
+          "role": "归档",
+          "at": "2026-10-03 11:00:00 +08:00",
+          "actor": "FS-ADV-001"
+        }
+      ],
+      "uploadedBy": "FS-ADV-001"
+    }
+  ],
+  "pics": [],
+  "months": {},
+  "ledger": [],
+  "fourStatements": [],
+  "contracts": [
+    {
+      "contractNo": "FS-TEST-C-001",
+      "counterparty": "测试客户甲（虚构）",
+      "type": "咨询技术",
+      "stage": "生成",
+      "status": "待收（付）首期",
+      "signedDate": "2026-10-08",
+      "signedFileId": "FL-SEED-03",
+      "firstVoucherFileId": "",
+      "amount": 50000,
+      "currency": "HKD",
+      "firstAmount": 50000,
+      "firstDueDate": "2026-10-12",
+      "agreementFileId": "",
+      "closeType": "",
+      "deliveryType": "咨询技术",
+      "plan": [],
+      "payments": [],
+      "notes": "测试合同台账，非正式对客合同文本。签署正本已归档，首期凭证待认领。",
+      "createdAt": "2026-10-08 10:00:00 +08:00",
+      "createdBy": "FS-ADV-001"
+    }
+  ],
+  "invoices": [],
+  "exports": [],
+  "logs": [
+    {
+      "time": "2026-11-13 18:00:00 +08:00",
+      "actor": "system",
+      "action": "初始化预览库",
+      "target": "store.json",
+      "result": "成功",
+      "notes": "仅虚构测试数据"
+    }
+  ]
+}
