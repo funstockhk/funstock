@@ -182,7 +182,7 @@
     const rows = (d.proposals || []).map((p) => `<tr>
       <td>${E(p.id)}</td><td>${E(p.title)}</td><td>${E(p.yearMonth)}</td>
       <td>${badge(p.status)}</td><td>${E(p.date)}</td>
-      <td>${p.fileId ? `<a href="/api/files/${encodeURIComponent(p.fileId)}" target="_blank">查阅</a>` : '—'}</td>
+      <td>${p.fileId ? FS.fileLink(p.fileId, p, '查阅') : '—'}</td>
     </tr>`).join('');
     viewEl.innerHTML = `
       <p class="muted">顾问上传的公司运营策划书在此归档。客户可查阅，不把技能文件直接交给客户。</p>
@@ -217,7 +217,7 @@
       <td>${E(f.id)}</td><td>${E(f.date)}</td><td>${E(f.category)}</td><td>${E(f.name)}</td>
       <td>${E(f.source)}</td><td>${badge(f.status)}</td>
       <td>${(f.claimedBy || []).map((c) => E((c.module || '') + (c.role ? '/' + c.role : ''))).join('、') || '尚未被其他模块认领'}</td>
-      <td>${f.localPath ? `<a href="/api/files/${encodeURIComponent(f.id)}" target="_blank">打开</a>` : ''}</td>
+      <td>${FS.fileHref(f.id, f) ? FS.fileLink(f.id, f, '打开') : '—'}</td>
     </tr>`).join('');
     const pics = (d.pics || []).map((p) => `<tr>
       <td>${E(p.id)}</td><td>${E(p.date)}</td><td>${E(p.role)}</td><td>${E(p.version)}</td>
@@ -362,7 +362,7 @@
       <td>${E(l.id)}</td><td>${E(l.date)}</td><td>${E(l.desc)}</td><td>${E(l.direction)}</td>
       <td>${E(l.amountHkd)}</td><td>${E(l.source)}</td><td>${E(l.subject)}</td>
       <td>${l.voucherStatus ? badge(l.voucherStatus) : badge('未处理')}</td>
-      <td>${l.fileId ? `<a href="/api/files/${encodeURIComponent(l.fileId)}" target="_blank">${E(l.fileId)}</a>` : '—'}</td>
+      <td>${l.fileId ? FS.fileLink(l.fileId, d.files, l.fileId) : '—'}</td>
       <td>
         <div class="right">
           <button class="btn small ghost" data-act="upload" data-id="${E(l.id)}">上传附件</button>
