@@ -102,10 +102,30 @@ await fetch(base + '/__test/delay', { method: 'POST', headers: { 'content-type':
 const errText = await page.$eval('#err', (el) => el.textContent);
 rec('R1', 'SYN-R1-UI-BAD-LOGIN', { password: 'wrong-password' }, 'visible rejection', errText, /拒绝|不正确/.test(errText));
 
-await page.click('#password', { clickCount: 3 });
+await page.evaluate(() => {
+  const input = document.getElementById('password');
+  input.value = '';
+  input.dispatchEvent(new Event('input', { bubbles: true }));
+});
 await page.type('#password', password);
+const secondLength = await page.$eval('#password', (el) => el.value.length);
+let submittedLength = null;
+const onSecondLogin = (request) => {
+  if (request.method() !== 'POST' || !request.url().includes('/api')) return;
+  try {
+    const body = JSON.parse(request.postData() || '{}');
+    if (body.action === 'login' && body.payload && typeof body.payload.password === 'string') {
+      submittedLength = body.payload.password.length;
+    }
+  } catch (err) { /* length check below */ }
+};
+page.on('request', onSecondLogin);
+rec('R1', 'SYN-R1-PASSWORD-CLEARED', {}, password.length, secondLength, secondLength === password.length);
+if (secondLength !== password.length) throw new Error('second password length ' + secondLength + ' != ' + password.length);
 await page.click('#go');
 await page.waitForFunction(() => location.pathname.indexOf('/admin') >= 0 && !location.pathname.endsWith('login.html'));
+page.off('request', onSecondLogin);
+if (submittedLength !== password.length) throw new Error('submitted password length ' + submittedLength + ' != ' + password.length);
 await page.waitForFunction(() => document.querySelector('#who') && document.querySelector('#who').textContent.indexOf('顾问') >= 0);
 const gate = await page.$eval('#gate-note', (el) => el.textContent);
 rec('R1', 'SYN-R1-GATE-VISIBLE', {}, '期初待确认', gate, gate.indexOf('期初待确认') >= 0 && gate.indexOf('禁止正式记账') >= 0);
