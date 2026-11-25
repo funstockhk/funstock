@@ -210,7 +210,7 @@
     "evidence": "HTTP 200"
   },
   {
-    "name": "后台文案不含「续签」",
+    "name": "后台文案不含旧流程字样",
     "passed": true,
     "evidence": "scanned site/admin"
   }

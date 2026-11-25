@@ -14,7 +14,7 @@
       "08_操作附件": "__AC02_DRIVE_ITEM__"
     },
     "note": "本地预览适配器使用本 JSON。初始测试行会另行写入新 Google 表。本预览服务不直接实时同步 Google。",
-    "asOfHint": "2026-11-13 Asia/Shanghai"
+    "asOfHint": "2026-11-13 Asia/Hong_Kong"
   },
   "users": [
     {
