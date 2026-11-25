@@ -27,9 +27,11 @@ const puppeteer = loadPuppeteer();
 const chromePath = process.env.PUPPETEER_EXECUTABLE_PATH || '/opt/google/chrome/chrome';
 const outDir = process.env.AC02_ARTIFACT_DIR || '/opt/cursor/artifacts';
 fs.mkdirSync(outDir, { recursive: true });
-const fixtureSrc = process.env.AC02_REPLAY_PDF || '';
+const defaultFixture = path.join(root, 'tests/official-preview/ac02-synthetic-sample.pdf');
+const fixtureSrc = process.env.AC02_REPLAY_PDF || defaultFixture;
 const fixturePath = path.join(os.tmpdir(), 'ac02_synthetic_sample.pdf');
-if (fixtureSrc) fs.copyFileSync(fixtureSrc, fixturePath);
+if (!fs.existsSync(fixtureSrc)) throw new Error('Synthetic replay PDF is missing: ' + fixtureSrc);
+fs.copyFileSync(fixtureSrc, fixturePath);
 const wrongPath = path.join(os.tmpdir(), 'ac02-not-the-replay.txt');
 fs.writeFileSync(wrongPath, 'not the synthetic pdf');
 

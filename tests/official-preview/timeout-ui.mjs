@@ -73,11 +73,11 @@ function mePayload() {
     preview: true,
     officialContractOpen: false,
     buildId: BUILD,
-    dataMode: 'official-preview',
+    dataMode: 'ac02-preview',
     productionData: false,
     release: {
       buildId: BUILD,
-      dataMode: 'official-preview',
+      dataMode: 'ac02-preview',
       productionData: false,
       spreadsheetId: 'LOCAL-MOCK-SHEET',
       driveRootId: 'LOCAL-MOCK-DRIVE'
