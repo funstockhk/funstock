@@ -1,0 +1,270 @@
+{
+  "version": 2,
+  "status": "双周核查 + 重大新政 T+1 加更 · 仅供参考，以官方当日公布为准",
+  "date": "2026-11-25",
+  "window": "2026-10-28 至 2026-11-25",
+  "headline": "本期重点：香港高才通自雇须备齐实质营运与 HKTE 专属问卷；2026 施政报告初创科企豁免不适用于一般商贸；新加坡 EP 薪金门槛将于 2027/2028 年上调。",
+  "items": [
+    {
+      "id": "HK-01",
+      "level": "重要提醒",
+      "region": "HK",
+      "regionLabel": "香港",
+      "effectiveDate": "2024-11-01 起窗口提前；2026-04 现行指南",
+      "title": "高才通（TTPS）自雇延长逗留审核要件、HKTE 专属问卷及第三方学历认证",
+      "summary": "延长逗留期限须在逗留期限届满前 3 个月内网上提交（官方建议至少提前 6 星期递交；递交申请、缴费及领取电子签证时申请人必须身在香港）。以开办或参与业务（自雇）方式申请，须证明业务确实在港运作、健康营运并持续发展且对香港经济作出贡献，须备齐商业登记证、公司注册证明与绝对实益拥有权证明（最新股东董事申报表）、公司财政状况证明（经审计财报、营业损益表或利得税报税表）、业务活动证明（合约、发票、商业交易）、办公地点租约、本地雇员强积金供款记录，以及列明已投资金额、本地职位数目与未来三年预计投资及招聘的证明信。首次入境未提交学士学位认证文件的 B 类及 C 类申请人，办理延长逗留时须补交第三方认证机构或颁授院校的认证文件及线上验证资料；并须提交香港人才服务办公室（HKTE）发出的「高端人才通行證持有人專屬問卷調查」完成确认通知书。「3+3」仅属一般模式而非必然，无最低留港日数硬要求，但薪酬或业务经济效益及留港时间均作个案审视。",
+      "clientImpact": "直接核心适用于高才通 B 类在港自雇路径：须备齐实质经营凭证、财务/税务文件、HKTE 专属问卷确认书及学历认证（如首签未交），并提前安排在港时间节点以完成网申与领证。",
+      "sources": [
+        {
+          "label": "香港入境处高才通专页",
+          "url": "https://www.immd.gov.hk/hkt/services/visas/TTPS.html"
+        },
+        {
+          "label": "入境指南 ID(C)1026",
+          "url": "https://www.immd.gov.hk/pdforms/ID(C)1026.pdf"
+        },
+        {
+          "label": "香港人才服务办公室 FAQ",
+          "url": "https://www.hkengage.gov.hk/zh-HK/faq"
+        },
+        {
+          "label": "立法会九题答覆（2026-03-25）",
+          "url": "https://www.info.gov.hk/gia/general/202603/25/P2026032500258.htm"
+        }
+      ]
+    },
+    {
+      "id": "HK-02",
+      "level": "重要提醒",
+      "region": "HK",
+      "regionLabel": "香港",
+      "effectiveDate": "2026-09-16 公布；指定项目指标定于 2027 年上半年落实",
+      "title": "2026 年《施政报告》：高才通指定初创科企豁免边界与人才清单 AI 扩充",
+      "summary": "获指定公营机构（三大创科园区等）支持的初创科企经营者，申请延长高才通逗留期限时将可豁免提交公司收入证明等要求。此外，劳工及福利局将于 2027 年上半年完成更新「人才清单」（现涵盖 60 项紧缺专业，拟加入更多 AI 应用相关人才类别，适用于一般就业政策、专才 ASMTP 及优才 QMAS）。",
+      "clientImpact": "重要边界澄清：上述豁免仅针对获指定公营机构支持的初创科企；一般商贸、电商等自雇公司不适用免收入证明安排，仍须严格按常规财务与业务实质准备材料。",
+      "sources": [
+        {
+          "label": "2026 年《施政报告》全文（五）",
+          "url": "https://www.info.gov.hk/gia/general/202609/16/P2026091600247.htm"
+        },
+        {
+          "label": "施政报告指定项目指标附件",
+          "url": "https://www.policyaddress.gov.hk/2026/public/pdf/policy/policy-annex_tc.pdf"
+        },
+        {
+          "label": "劳福局局长致谢议案致辞（2026-10-08）",
+          "url": "https://www.info.gov.hk/gia/general/202610/08/P2026100800270.htm"
+        }
+      ]
+    },
+    {
+      "id": "HK-03",
+      "level": "重要提醒",
+      "region": "HK",
+      "regionLabel": "香港",
+      "effectiveDate": "2025-02-26 上午 11:00 起现行有效",
+      "title": "10 项指定人才及投资入境类别签证新收费架构（不可退还申请费 + 两级制签发费）",
+      "summary": "涵盖高才通、优才、一般就业政策、专才（ASMTP）、IANG、New CIES 等 10 项指定入境类别。主申请人及每名受养人均须于递交延长逗留、入境或变更条件申请时先缴 600 港元不可退还申请费；获批后再缴签发费（获准延长超过 180 日为 1,300 港元/人，180 日或以下为 600 港元/人）。",
+      "clientImpact": "主申请人及每位受养人均须按 600 + 1,300 港元/人预留官方规费，且申请费不设退还，送件前须核清资料完整度。",
+      "sources": [
+        {
+          "label": "入境处指定类别新收费架构专页",
+          "url": "https://www.immd.gov.hk/hkt/specifiedschemes.html"
+        },
+        {
+          "label": "政府新闻公报（2025-02-26）",
+          "url": "https://www.info.gov.hk/gia/general/202502/26/P2025022600216.htm"
+        }
+      ]
+    },
+    {
+      "id": "HK-04",
+      "level": "重要提醒",
+      "region": "HK",
+      "regionLabel": "香港",
+      "effectiveDate": "截至 2026-11-25 现行有效",
+      "title": "香港受养人延长逗留及与主申请人挂钩规则（ID481A / ID481B）",
+      "summary": "受养人逗留期限与保证人（主申请人）挂钩，如保证人未提交或未获准延长逗留期限，受养人亦不再符合居港资格。高才通受养人办理延长逗留须同步提交有效旅行证件、香港身份证、表格 ID481A（保证人声明书）及 ID481B（受养人声明书），并各自缴付申请费及签发费。",
+      "clientImpact": "适用于含配偶或子女等受养人同办延长逗留的家庭：须在主申请人递交窗口内同步备齐受养人 ID481A/ID481B 及有效证件页，并按人头预留官方规费。",
+      "sources": [
+        {
+          "label": "入境处受养人专页",
+          "url": "https://www.immd.gov.hk/hkt/services/visas/residence_as_dependant.html"
+        },
+        {
+          "label": "入境处高才通受养人清单",
+          "url": "https://www.immd.gov.hk/hkt/services/visas/TTPS.html"
+        }
+      ]
+    },
+    {
+      "id": "HK-05",
+      "level": "常规核对",
+      "region": "HK",
+      "regionLabel": "香港",
+      "effectiveDate": "2026-03-01 起生效（2026-03-02 公布）",
+      "title": "各项香港人才入境安排延长逗留窗口统一提前至届满前 3 个月（含优才、专才、IANG）",
+      "summary": "一般就业政策（GEP）、输入内地人才安排（ASMTP）、科技人才入境安排（TechTAS）、IANG、优才（QMAS）及 ASSG 获批人士及其受养人，均可提前于逗留期限届满前 3 个月内提交延长逗留申请（与高才通自 2024-11-01 起的做法统一）。",
+      "clientImpact": "高才通原已享有 3 个月递交窗口；如家属或团队成员后续涉及优才、专才或 IANG 轨道，同样可按 3 个月窗口提前筹备。",
+      "sources": [
+        {
+          "label": "人才办延长逗留新安排新闻稿",
+          "url": "https://www.hkengage.gov.hk/zh-HK/media/news/enhancing-arrangements-for-extension-of-stay-applications-under-various-talent-admission-schemes"
+        }
+      ]
+    },
+    {
+      "id": "HK-06",
+      "level": "政策动态",
+      "region": "HK",
+      "regionLabel": "香港",
+      "effectiveDate": "大学名单 2026-01-01 生效；永居口径 2026-03-18 重申",
+      "title": "高才通合资格大学综合名单更新（增至 200 间）与香港永居 7 年通常居住核实口径",
+      "summary": "高才通合资格大学增至 200 间，新删 4 校自 2026-01-01 起不再适用于 B/C 类首次申请。核实香港永久性居民资格须「通常居于香港连续七年或以上」，入境处对此无酌情权；审视临时离港时主要考量不在港原因与次数、是否在港有惯常住所、是否受雇于以香港为基地的公司及配偶与未成年子女所在。2022-07-01 至 2026-02-28 共有 280,909 宗核实申请获批、23,921 宗被拒。",
+      "clientImpact": "大学名单调整不追溯影响已在港持高才通办理延长逗留的人士；但「永居 7 年通常居住」对长期在港自雇安排具有指引意义，须持续留存香港公司营运、在港住所及税务/强积金等实质联系凭证。",
+      "sources": [
+        {
+          "label": "大学名单政府公报（2025-12-28）",
+          "url": "https://www.info.gov.hk/gia/general/202512/28/P2025122400227.htm"
+        },
+        {
+          "label": "合资格大学综合名单 PDF",
+          "url": "https://www.immd.gov.hk/pdf/aggregate_list.pdf"
+        },
+        {
+          "label": "立法会八题永居答覆（2026-03-18）",
+          "url": "https://www.info.gov.hk/gia/general/202603/18/P2026031800242.htm"
+        }
+      ]
+    },
+    {
+      "id": "HK-07",
+      "level": "政策动态",
+      "region": "HK",
+      "regionLabel": "香港",
+      "effectiveDate": "2024-11 至 2026-11 现行安排汇总",
+      "title": "香港其他入境类别（优才 QMAS、专才 ASMTP/GEP、IANG、New CIES）最新动态（参考对照）",
+      "summary": "优才（QMAS）：2024-11-01 起改行「综合计分制 12 项准则中须符合至少 6 项」并取消年度配额；首 36 个月延长逗留须证明已采取定居步骤（受薪或已建立业务），顶尖人才（上年度应评税入息≥200万港元）可获 5 年延签。专才（ASMTP/GEP）与 IANG：2026-03-01 起均适用届满前 3 个月窗口；2026-09-16 施政报告宣布大湾区校园毕业生纳入 IANG 试行延长 2 年；ASMTP 另设有配额限制的「技术专才类别」。新资本投资者入境安排（New CIES）：① 2026-03-01 起容许经香港全资私人公司/家控工具持有投资（须由资产净值≥2.4亿港元单一家办管理、在港雇至少 2 名全职员工及年开支≥200万港元）；② 2026-11-01 起提交的净资产审查申请，经非指定账户购入再转入指定账户的金融资产不再计入 3,000 万港元投资要求，必须直接经指定账户交易。",
+      "clientImpact": "供跨类别对照及长期转轨或家属规划参考；目前高才通自雇路径不适用上述类别条款。",
+      "sources": [
+        {
+          "label": "入境处优才 FAQ",
+          "url": "https://www.immd.gov.hk/hks/faq/QMAS.html"
+        },
+        {
+          "label": "入境处专才 ASMTP 专页",
+          "url": "https://www.immd.gov.hk/hkt/services/visas/ASMTP.html"
+        },
+        {
+          "label": "入境处 IANG 专页",
+          "url": "https://www.immd.gov.hk/hkt/services/visas/IANG.html"
+        },
+        {
+          "label": "New CIES 新措施",
+          "url": "https://www.newcies.gov.hk/zh-hk/new-measures/"
+        },
+        {
+          "label": "New CIES 官网首页",
+          "url": "https://www.newcies.gov.hk/zh-hk/"
+        }
+      ]
+    },
+    {
+      "id": "SG-01",
+      "level": "政策动态",
+      "region": "SG",
+      "regionLabel": "新加坡",
+      "effectiveDate": "2027-01-01 新申请生效；2028-01-01 延长适用",
+      "title": "新加坡 Employment Pass (EP) 最低合格薪金上调（2027 新申请 / 2028 延长）",
+      "summary": "2026-03-03（COS 2026）公布，2027-01-01 起适用于新申请，2028-01-01 起适用于当日及之后到期的 EP 延长申请。非金融服务业最低合格月薪由 S$5,600 上调至 S$6,000（随年龄递增，45 岁及以上由 S$10,700 上调至 S$11,500）；金融服务业最低合格月薪由 S$6,200 上调至 S$6,600（45 岁及以上由 S$11,800 上调至 S$12,700）。薪金门槛属阶段一硬门槛，未达标者即使 COMPASS 满分亦不可申请或延长 EP。",
+      "clientImpact": "目前仅走香港高才通路径的人士暂不受直接影响；如后续拓展新加坡 EP 或关联主体发薪，须按新表测算薪资预算。",
+      "sources": [
+        {
+          "label": "MOM EP 资格专页",
+          "url": "https://www.mom.gov.sg/passes-and-permits/employment-pass/eligibility"
+        },
+        {
+          "label": "MOM 2026 外籍人力政策 Factsheet",
+          "url": "https://www.mom.gov.sg/-/media/mom/documents/press-releases/2026/factsheet-on-foreign-workforce-policies-03032026.pdf"
+        }
+      ]
+    },
+    {
+      "id": "SG-02",
+      "level": "政策动态",
+      "region": "SG",
+      "regionLabel": "新加坡",
+      "effectiveDate": "2026-11-01 新版 SAT 上线；2027-01-01 新版 SOL 生效",
+      "title": "新加坡 EP COMPASS 与紧缺职业清单（SOL）2027 年度更新",
+      "summary": "2026 年 11 月公布新版 SOL，新版自评工具（SAT）已于 2026-11-01 上线，新版 SOL 自 2027-01-01 起适用于所有 EP 新申请及延长申请（2026 年内沿用 2025 年 11 月口径）。EP 阶段二须在 COMPASS 取得 40 分（薪资 C1、学历 C2、国籍多元化 C3、本地雇佣支持 C4，及 C5 紧缺职业/C6 创新战略加分）；SOL 每年微调、每三年全面检讨，更新不影响现有已签发 EP 的当前有效期，但直接影响 2027-01-01 起递交的延长得分。",
+      "clientImpact": "香港高才通路径本期不适用，供涉新加坡自雇 EP 或跨区配置时重跑 SAT 核分参考。",
+      "sources": [
+        {
+          "label": "MOM COMPASS C5 SOL 专页",
+          "url": "https://www.mom.gov.sg/passes-and-permits/employment-pass/eligibility/compass-c5-skills-bonus-shortage-occupation-list-sol"
+        },
+        {
+          "label": "2027 适用版 SOL 指南 PDF",
+          "url": "https://www.mom.gov.sg/-/media/mom/documents/work-passes-and-permits/compass/sol-guidebook-upcoming.pdf"
+        }
+      ]
+    },
+    {
+      "id": "SG-03",
+      "level": "政策动态",
+      "region": "SG",
+      "regionLabel": "新加坡",
+      "effectiveDate": "2027-01-28 生效（2026-03-03 公布）",
+      "title": "新加坡 ONE Pass 新增 AI & Tech 轨道（取代 Tech.Pass）及 5 年延长条件",
+      "summary": "自 2027-01-28 起新增 ONE Pass (AI and Tech) 轨道并取代 Tech.Pass：要求过去 12 个月总月薪≥S$30,000（其中固定月薪至少 S$22,500，其余可含已归属 ESOP/ESOW 非现金薪酬）、过去 10 年内累计至少 5 年科技企业创始人/C-suite 或技术岗位经验，且企业满足估值≥5亿美元、年营收≥2亿美元、AUM≥5亿美元或科技初创融资≥3,000万美元。ONE Pass 延长（每次 5 年）须过去 5 年在新加坡平均固定月薪≥S$30,000，或在新加坡创办并营运公司且雇佣至少 5 名本地员工（每人月薪不低于当时 EP 最低合格薪金）。",
+      "clientImpact": "香港高才通路径本期不适用，供高管及科技背景人士跨区规划参考。",
+      "sources": [
+        {
+          "label": "MOM ONE Pass 资格专页",
+          "url": "https://www.mom.gov.sg/passes-and-permits/overseas-networks-expertise-pass/eligibility"
+        }
+      ]
+    },
+    {
+      "id": "SG-04",
+      "level": "常规核对",
+      "region": "SG",
+      "regionLabel": "新加坡",
+      "effectiveDate": "2025-12-01 起生效（ICA 最近更新 2026-11-24）",
+      "title": "新加坡永久居民（PR）申请途径与再入境许可（REP）180 天新规",
+      "summary": "EP / S Pass 持有人可直接向 ICA 申请 PR（无须本地担保人）。自 2025-12-01 起，PR 如无有效 REP 离境或境外期间 REP 过期，须在 180 天内申请新 REP（取代旧制 1 个月宽限期）；若 180 天内未申请或申请被拒（即使人已返回新加坡），均将丧失 PR 身份。线上经 Singpass 可在到期前 3 个月内办理延长。",
+      "clientImpact": "香港高才通路径本期不适用，作新加坡身份后期维护合规提醒。",
+      "sources": [
+        {
+          "label": "ICA REP 申请与延长专页",
+          "url": "https://www.ica.gov.sg/information-and-e-services/citizenship-and-permanent-residence/permanent-residence/re-entry-permit/application-renewal"
+        },
+        {
+          "label": "180 天新规官方 FAQ",
+          "url": "https://www.ica.gov.sg/docs/ica/ica/files/faqs_revisions-to-permanent-resident-re-entry-permit-application-process-from-1-december-2025.pdf"
+        },
+        {
+          "label": "ICA PR 申请资格",
+          "url": "https://www.ica.gov.sg/information-and-e-services/citizenship-and-permanent-residence/permanent-residence/permanent-residence-application"
+        }
+      ]
+    },
+    {
+      "id": "SG-05",
+      "level": "常规核对",
+      "region": "SG",
+      "regionLabel": "新加坡",
+      "effectiveDate": "2025-08-11 现行标准（截至 2026-11-25 未再上调）",
+      "title": "新加坡全球投资者项目（GIP）现行标准（EDB）",
+      "summary": "适用成熟企业主（年营收≥S$2亿）、下一代企业主（≥S$5亿）、快增长企业创始人（估值≥S$5亿）及家办负责人（净可投资资产≥S$2亿）；投资门槛为新加坡实体投资≥S$1,000万、GIP 精选基金 S$2,500万，或设立 AUM≥S$2亿单一家办（部署≥S$5,000万本地投资）。",
+      "clientImpact": "香港高才通路径本期不适用，供高净值人士跨地区对照。",
+      "sources": [
+        {
+          "label": "EDB GIP 现行 Factsheet PDF",
+          "url": "https://www.edb.gov.sg/content/dam/edb-en/how-we-help/global-investor-programme/GIP%20Factsheet.pdf"
+        }
+      ]
+    }
+  ],
+  "disclaimer": "以上内容均摘自香港及新加坡政府官方平台，仅供参考，不构成法律意见或获批承诺；一切以有关政府部门官网当日公布为准。"
+}

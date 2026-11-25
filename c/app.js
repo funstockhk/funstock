@@ -72,6 +72,7 @@ function renewal(r,upd){
   var prog=r['进度']||{};
   return '<section class="sec" id="s-renew"><div class="sec-title"><h2>续签进度看板</h2><span>已签约客户 · 资料进度</span></div>'+
   '<section class="card"><div class="grid">'+kv('客户代号',r['客户代号'])+kv('身份类别',cat)+kv('服务档位',r['服务档位'])+kv('项目阶段',r['项目阶段'])+'</div></section>'+
+  '<div class="pol-banner" id="pol-banner"><span class="pol-banner-text">正在读取与您当前路径相关的官方政策提醒…</span><a class="pol-banner-link" href="#s-policy">查看详情 →</a></div>'+
   '<section class="card count"><div class="grid"><div class="kv"><div class="k lt">距逗留期限届满（'+esc(r['逗留期限'])+'）</div><div class="big" id="cd">—</div></div>'+
   ['续签窗口开日','最迟递交参考日'].map(function(k){var v=r[k];var n=v?daysTo(v):null;return '<div class="kv"><div class="k lt">'+k+'</div><div class="v">'+esc(v||'—')+(n!==null?'<span class="lt" style="font-weight:400;font-size:.85rem">　'+(n>0?'还有 '+n+' 天':(n===0?'今天':'已过 '+(-n)+' 天'))+'</span>':'')+'</div></div>'}).join('')+
   '</div></section>'+
@@ -122,15 +123,51 @@ function selfcheck(s){
 }
 
 function policyShell(){return '<section class="sec" id="s-policy"><div class="sec-title"><h2>最新政策</h2><span id="pol-meta">正在读取…</span></div><div id="pol"></div></section>'}
+var PINNED_IDS=['HK-01','HK-02','HK-03','HK-04','HK-06'];
+function polCard(i,pinned){
+  var lv=i.level||'';
+  var lvCls=lv.indexOf('重要')>=0||lv==='提醒'?'lv-warn':(lv.indexOf('动态')>=0?'lv-info':'lv-check');
+  var region=i.regionLabel||i.region||'';
+  var sub=[region,i.effectiveDate||''].filter(Boolean).join(' · ');
+  var srcs=(i.sources||[]).filter(function(s){return /^https:\/\//.test(s.url)}).map(function(s){
+    return '<a href="'+esc(s.url)+'" target="_blank" rel="noopener noreferrer">↗ '+esc(s.label)+'</a>';
+  }).join('');
+  return '<section class="card pol'+(pinned?' pol-pin':'')+'" id="pol-'+esc(i.id||'')+'">'+
+    '<h3><span class="lv '+lvCls+'">'+esc(lv)+'</span>'+(pinned?'<span class="pin-tag">与您相关</span>':'')+esc(i.title)+'</h3>'+
+    (sub?'<p class="muted pol-sub">'+esc(sub)+'</p>':'')+
+    '<p class="pol-sum">'+esc(i.summary)+'</p>'+
+    (i.clientImpact?'<div class="pol-impact"><b>参考说明：</b>'+esc(i.clientImpact)+'</div>':'')+
+    (srcs?'<div class="pol-src">'+srcs+'</div>':'')+
+    '</section>';
+}
 function loadPolicy(){
-  fetch('/data/policy.json',{cache:'no-store',credentials:'omit'}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(p){
+  fetch('../data/policy.json',{cache:'no-store',credentials:'omit'}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(p){
     $('pol-meta').innerHTML='<span class="badge">'+esc(p.status||'')+'</span>　'+esc(p.date||'')+(p.window?' · 覆盖 '+esc(p.window):'');
-    var h=p.headline?'<section class="card"><b>本期结论：</b>'+esc(p.headline)+'</section>':'';
-    h+=(p.items||[]).map(function(i){return '<section class="card pol"><h3><span class="lv">'+esc(i.level)+'</span>'+esc(i.title)+'</h3><p class="muted" style="margin:0">'+esc(i.region)+'</p><p>'+esc(i.summary)+'</p>'+
-      (i.sources||[]).filter(function(s){return /^https:\/\//.test(s.url)}).map(function(s){return '<div><a href="'+esc(s.url)+'" target="_blank" rel="noopener noreferrer">↗ '+esc(s.label)+'</a></div>'}).join('')+'</section>'}).join('');
-    h+=p.disclaimer?'<p class="muted">'+esc(p.disclaimer)+'</p>':'';
+    var items=p.items||[], pinned=[], others=[];
+    items.forEach(function(i){
+      if(PINNED_IDS.indexOf(i.id)>=0) pinned.push(i); else others.push(i);
+    });
+    var bn=$('pol-banner');
+    if(bn){
+      var bt=bn.querySelector('.pol-banner-text');
+      if(bt) bt.textContent='与您当前路径（高才通 · 自雇 · 含受养人）最相关的官方政策提醒：'+pinned.length+' 条（最新核查：'+(p.date||'')+'）';
+    }
+    var h=p.headline?'<section class="card pol-head"><b>本期重点：</b>'+esc(p.headline)+'</section>':'';
+    if(pinned.length){
+      h+='<div class="pol-group-title">与您当前路径最相关（'+pinned.length+' 项）</div>';
+      h+=pinned.map(function(i){return polCard(i,true)}).join('');
+    }
+    if(others.length){
+      h+='<details class="pol-more"><summary>港新全盘官方动态参考（其余 '+others.length+' 项，点击展开）</summary><div class="pol-more-list">'+
+        others.map(function(i){return polCard(i,false)}).join('')+'</div></details>';
+    }
+    h+=p.disclaimer?'<p class="muted pol-disc">'+esc(p.disclaimer)+'</p>':'';
     $('pol').innerHTML=h;
-  }).catch(function(){$('pol-meta').textContent='暂时无法读取最新政策';});
+  }).catch(function(){
+    $('pol-meta').textContent='暂时无法读取最新政策';
+    var bn=$('pol-banner');
+    if(bn){var bt=bn.querySelector('.pol-banner-text');if(bt)bt.textContent='最新政策提醒加载中，请点击右侧查看详情';}
+  });
 }
 
 function render(d){
