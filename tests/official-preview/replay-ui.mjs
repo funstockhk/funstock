@@ -136,7 +136,7 @@ function answer(action) {
         relatedId: 'ac02-preview-replay-rel-001',
         file: {
           id: replay.id,
-          name: 'ac02_synthetic_sample.pdf',
+          name: 'ac02-synthetic-sample.pdf',
           category: '其他',
           relatedId: 'ac02-preview-replay-rel-001',
           clientRequestId: 'ac02-preview-replay-req-001'
@@ -265,7 +265,7 @@ try {
     if (sent.clientRequestId !== 'ac02-preview-replay-req-001' || sent.category !== '其他' || sent.relatedId !== 'ac02-preview-replay-rel-001') {
       throw new Error('payload drifted: ' + JSON.stringify(sent));
     }
-    if (sent.file && sent.file.name !== 'ac02_synthetic_sample.pdf') throw new Error(sent.file && sent.file.name);
+    if (sent.file && sent.file.name !== 'ac02-synthetic-sample.pdf') throw new Error(sent.file && sent.file.name);
     await new Promise((resolve) => setTimeout(resolve, 400));
     if (uploads.length !== 1) throw new Error('automatic retry after success: ' + uploads.length);
 

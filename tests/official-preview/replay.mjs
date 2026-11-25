@@ -65,7 +65,7 @@ assert.equal(REC.clientRequestId, 'ac02-preview-replay-req-001');
 assert.ok(read('apps-script/Code.gs').includes("var PREVIEW_REPLAY_CLIENT_REQUEST_ID_ = '" + REC.clientRequestId + "'"));
 assert.ok(read('site/admin/js/rules.js').includes("clientRequestId: '" + REC.clientRequestId + "'"));
 assert.equal(REC.fileId, 'ac02-preview-replay-file-001');
-assert.equal(REC.fileName, 'ac02_synthetic_sample.pdf');
+assert.equal(REC.fileName, 'ac02-synthetic-sample.pdf');
 assert.equal(REC.size, 593);
 assert.equal(REC.sha256, 'c9fef96432df0b61aeda3349a3aab83e97ef2bf4b67dca6ca4ff9554f22d7acf');
 assert.equal(allowed.request.clientRequestId, REC.clientRequestId);

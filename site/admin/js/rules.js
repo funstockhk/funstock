@@ -277,7 +277,7 @@
   var PREVIEW_REPLAY = {
     clientRequestId: 'ac02-preview-replay-req-001',
     fileId: 'ac02-preview-replay-file-001',
-    fileName: 'ac02_synthetic_sample.pdf',
+    fileName: 'ac02-synthetic-sample.pdf',
     // AC02-待定：预览夹具大小 1528 字节未提供 AC02 新虚构文件，保持原值以免与拒绝文案不一致。
     size: 593,
     sha256: 'c9fef96432df0b61aeda3349a3aab83e97ef2bf4b67dca6ca4ff9554f22d7acf',
@@ -321,7 +321,7 @@
       'file-missing': '没有选择文件。',
       'file-name': '文件名不是这条虚构资料。',
       // AC02-待定：拒绝文案中的「1528 字节」随 PREVIEW_REPLAY.size 保持原值未改。
-      'file-size': '文件大小不是 1528 字节。',
+      'file-size': '文件大小不是 593 字节。',
       'file-hash': '文件内容不是这条虚构资料。',
       role: '当前角色不能重放。',
       'release-missing': '接口没有返回 release 对象。',
