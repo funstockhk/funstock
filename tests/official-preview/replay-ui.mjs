@@ -3,6 +3,7 @@
  * Same-origin /api is intercepted. exec.invalid is mapped to 127.0.0.1.
  * The happy path reads AC02_REPLAY_PDF and does not commit those bytes.
  */
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import http from 'node:http';
 import os from 'node:os';
@@ -27,9 +28,54 @@ const puppeteer = loadPuppeteer();
 const chromePath = process.env.PUPPETEER_EXECUTABLE_PATH || '/opt/google/chrome/chrome';
 const outDir = process.env.AC02_ARTIFACT_DIR || '/opt/cursor/artifacts';
 fs.mkdirSync(outDir, { recursive: true });
-const fixtureSrc = process.env.AC02_REPLAY_PDF || '';
-const fixturePath = path.join(os.tmpdir(), 'ac02_synthetic_sample.pdf');
-if (fixtureSrc) fs.copyFileSync(fixtureSrc, fixturePath);
+const rules = require(path.join(root, 'site/admin/js/rules.js'));
+const REC = rules.PREVIEW_REPLAY;
+
+function fileSha256(file) {
+  return crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+}
+
+function isOriginalFixture(file) {
+  try {
+    const stat = fs.statSync(file);
+    return stat.isFile() && stat.size === REC.size && fileSha256(file) === REC.sha256;
+  } catch (err) {
+    return false;
+  }
+}
+
+function findOriginalFixture() {
+  const seen = new Set();
+  const candidates = [];
+  if (process.env.AC02_REPLAY_PDF) candidates.push(process.env.AC02_REPLAY_PDF);
+  const testsDir = path.join(root, 'tests');
+  const walk = (dir) => {
+    for (const name of fs.readdirSync(dir)) {
+      const abs = path.join(dir, name);
+      const stat = fs.statSync(abs);
+      if (stat.isDirectory()) walk(abs);
+      else if (stat.size === REC.size) candidates.push(abs);
+    }
+  };
+  walk(testsDir);
+  for (const file of candidates) {
+    const abs = path.resolve(file);
+    if (seen.has(abs)) continue;
+    seen.add(abs);
+    if (isOriginalFixture(abs)) return abs;
+  }
+  return '';
+}
+
+let fixtureSrc = findOriginalFixture();
+let fixturePath = '';
+if (fixtureSrc) {
+  const stat = fs.statSync(fixtureSrc);
+  const hash = fileSha256(fixtureSrc);
+  if (stat.size !== REC.size || hash !== REC.sha256) throw new Error('fixture bytes do not match the replay gate');
+  fixturePath = path.join(os.tmpdir(), REC.fileName);
+  fs.copyFileSync(fixtureSrc, fixturePath);
+}
 const wrongPath = path.join(os.tmpdir(), 'ac02-not-the-replay.txt');
 fs.writeFileSync(wrongPath, 'not the synthetic pdf');
 
@@ -53,6 +99,29 @@ function mePayload() {
   };
 }
 
+function parseMultipart(raw, ctype) {
+  const m = /boundary=(?:"([^"]+)"|([^;]+))/i.exec(ctype);
+  const boundary = m && (m[1] || m[2]);
+  const parts = String(raw).split('--' + boundary).slice(1, -1);
+  const body = { payload: {}, token: '' };
+  parts.forEach((part) => {
+    const splitAt = part.indexOf('\r\n\r\n');
+    if (splitAt < 0) return;
+    const head = part.slice(0, splitAt);
+    let value = part.slice(splitAt + 4);
+    if (value.endsWith('\r\n')) value = value.slice(0, -2);
+    const name = /name="([^"]+)"/.exec(head);
+    if (!name) return;
+    if (name[1] === 'payload') body.payload = JSON.parse(value || '{}');
+    else if (name[1] === 'token') body.token = value;
+    else if (name[1] === 'action') body.action = value;
+    else if (name[1] === 'file') {
+      body.file = { name: 'upload.bin', mime: 'application/octet-stream', data: Buffer.from(value).toString('base64') };
+    }
+  });
+  return body;
+}
+
 function answer(action) {
   if (action === 'me') return { ok: true, data: mePayload() };
   if (action === 'getDashboard') {
@@ -67,7 +136,7 @@ function answer(action) {
         relatedId: 'ac02-preview-replay-rel-001',
         file: {
           id: replay.id,
-          name: 'ac02_synthetic_sample.pdf',
+          name: 'ac02-synthetic-sample.pdf',
           category: '其他',
           relatedId: 'ac02-preview-replay-rel-001',
           clientRequestId: 'ac02-preview-replay-req-001'
@@ -127,7 +196,7 @@ async function openDocs(page) {
 try {
   const page = await browser.newPage();
   await page.setRequestInterception(true);
-  page.on('request', (request) => {
+  page.on('request', async (request) => {
     let host = '';
     try { host = new URL(request.url()).host; } catch (e) { host = ''; }
     if ((() => { try { const u = new URL(request.url()); return u.pathname !== '/api' && u.host !== 'exec.invalid'; } catch (e) { return true; } })()) {
@@ -141,9 +210,22 @@ try {
     let action = '';
     let payload = {};
     try {
-      const body = JSON.parse(request.postData() || '{}');
-      action = body.action || '';
-      payload = body.payload || {};
+      const headers = request.headers();
+      const ctype = headers['content-type'] || headers['Content-Type'] || '';
+      let raw = request.postData();
+      if (raw == null && typeof request.fetchPostData === 'function') {
+        const buf = await request.fetchPostData();
+        raw = buf ? Buffer.from(buf).toString('utf8') : '';
+      }
+      if (/multipart\/form-data/i.test(ctype)) {
+        const parsed = parseMultipart(raw || '', ctype);
+        action = parsed.action || '';
+        payload = parsed.payload || {};
+      } else {
+        const body = JSON.parse(raw || '{}');
+        action = body.action || '';
+        payload = body.payload || {};
+      }
     } catch (e) { action = ''; }
     calls.push(action);
     if (action === 'uploadDocument') uploads.push(payload);
@@ -170,54 +252,62 @@ try {
   await page.waitForFunction(() => (document.querySelector('#replay-result').textContent || '').includes('未向接口提交'), { timeout: 8000 });
   if (uploads.length !== before) throw new Error('rejected file still called uploadDocument');
 
-  if (!fixtureSrc) throw new Error('Set AC02_REPLAY_PDF to the original synthetic PDF for the replay click.');
-  replay = { idempotentReplay: true, id: 'ac02-preview-replay-file-001' };
-  await page.$('#replay-form input[type="file"]').then((el) => el.uploadFile(fixturePath));
-  await page.click('#replay-form button[type="submit"]');
-  await page.waitForFunction(() => (document.querySelector('#replay-result').textContent || '').includes('幂等重放成立'), { timeout: 8000 });
-  const shown = await page.$eval('#replay-result', (el) => el.textContent);
-  if (!shown.includes('fileId ac02-preview-replay-file-001') || !shown.includes('idempotentReplay true')) throw new Error(shown);
-  if (uploads.length !== 1) throw new Error('expected one upload, saw ' + uploads.length);
-  const sent = uploads[0];
-  if (sent.clientRequestId !== 'ac02-preview-replay-req-001' || sent.category !== '其他' || sent.relatedId !== 'ac02-preview-replay-rel-001') {
-    throw new Error('payload drifted: ' + JSON.stringify(sent));
+  if (!fixturePath) throw new Error('replay fixture is missing or does not match the gate');
+  {
+    replay = { idempotentReplay: true, id: 'ac02-preview-replay-file-001' };
+    await page.$('#replay-form input[type="file"]').then((el) => el.uploadFile(fixturePath));
+    await page.click('#replay-form button[type="submit"]');
+    await page.waitForFunction(() => (document.querySelector('#replay-result').textContent || '').includes('幂等重放成立'), { timeout: 8000 });
+    const shown = await page.$eval('#replay-result', (el) => el.textContent);
+    if (!shown.includes('fileId ac02-preview-replay-file-001') || !shown.includes('idempotentReplay true')) throw new Error(shown);
+    if (uploads.length !== 1) throw new Error('expected one upload, saw ' + uploads.length);
+    const sent = uploads[0];
+    if (sent.clientRequestId !== 'ac02-preview-replay-req-001' || sent.category !== '其他' || sent.relatedId !== 'ac02-preview-replay-rel-001') {
+      throw new Error('payload drifted: ' + JSON.stringify(sent));
+    }
+    if (sent.file && sent.file.name !== 'ac02-synthetic-sample.pdf') throw new Error(sent.file && sent.file.name);
+    await new Promise((resolve) => setTimeout(resolve, 400));
+    if (uploads.length !== 1) throw new Error('automatic retry after success: ' + uploads.length);
+
+    replay = { idempotentReplay: false, id: 'FL-SHOULD-NOT-ACCEPT' };
+    await page.waitForFunction(() => document.querySelector('#replay-form button').disabled === false);
+    await page.click('#replay-form button[type="submit"]');
+    await page.waitForFunction(() => (document.querySelector('#replay-result').textContent || '').includes('幂等重放未成立'), { timeout: 8000 });
+    const failed = await page.$eval('#replay-result', (el) => el.textContent);
+    if (!failed.includes('fileId FL-SHOULD-NOT-ACCEPT') || !failed.includes('idempotentReplay false') || !failed.includes('没有再次提交')) {
+      throw new Error(failed);
+    }
+    await new Promise((resolve) => setTimeout(resolve, 400));
+    if (uploads.length !== 2) throw new Error('failure path retried by itself: ' + uploads.length);
+    const shot = path.join(outDir, 'ac02-preview-replay-result.png');
+    await page.screenshot({ path: shot, fullPage: true });
+
+    const sentUploads = uploads.map((item) => ({
+      clientRequestId: item.clientRequestId,
+      category: item.category,
+      relatedId: item.relatedId
+    }));
+    role = '客户';
+    await openDocs(page);
+    await page.waitForSelector('#doc-form', { timeout: 8000 });
+    const hidden = await page.$('#replay-card');
+    if (hidden) throw new Error('customer can see the replay control');
+    if (uploads.length !== 0) throw new Error('customer page issued an upload');
+
+    console.log(JSON.stringify({
+      ok: true,
+      paths: {
+        '成功重放': 'ran',
+        '失败重放': 'ran',
+        '客户角色隐藏': 'ran'
+      },
+      fixture: { path: fixtureSrc, bytes: REC.size, sha256: REC.sha256 },
+      uploads: sentUploads,
+      shown: shown,
+      failed: failed,
+      shot: shot
+    }, null, 2));
   }
-  if (sent.file && sent.file.name !== 'ac02_synthetic_sample.pdf') throw new Error(sent.file && sent.file.name);
-  await new Promise((resolve) => setTimeout(resolve, 400));
-  if (uploads.length !== 1) throw new Error('automatic retry after success: ' + uploads.length);
-
-  replay = { idempotentReplay: false, id: 'FL-SHOULD-NOT-ACCEPT' };
-  await page.waitForFunction(() => document.querySelector('#replay-form button').disabled === false);
-  await page.click('#replay-form button[type="submit"]');
-  await page.waitForFunction(() => (document.querySelector('#replay-result').textContent || '').includes('幂等重放未成立'), { timeout: 8000 });
-  const failed = await page.$eval('#replay-result', (el) => el.textContent);
-  if (!failed.includes('fileId FL-SHOULD-NOT-ACCEPT') || !failed.includes('idempotentReplay false') || !failed.includes('没有再次提交')) {
-    throw new Error(failed);
-  }
-  await new Promise((resolve) => setTimeout(resolve, 400));
-  if (uploads.length !== 2) throw new Error('failure path retried by itself: ' + uploads.length);
-  const shot = path.join(outDir, 'ac02-preview-replay-result.png');
-  await page.screenshot({ path: shot, fullPage: true });
-
-  const sentUploads = uploads.map((item) => ({
-    clientRequestId: item.clientRequestId,
-    category: item.category,
-    relatedId: item.relatedId
-  }));
-  role = '客户';
-  await openDocs(page);
-  await page.waitForSelector('#doc-form', { timeout: 8000 });
-  const hidden = await page.$('#replay-card');
-  if (hidden) throw new Error('customer can see the replay control');
-  if (uploads.length !== 0) throw new Error('customer page issued an upload');
-
-  console.log(JSON.stringify({
-    ok: true,
-    uploads: sentUploads,
-    shown: shown,
-    failed: failed,
-    shot: shot
-  }, null, 2));
 } finally {
   await browser.close();
   server.close();

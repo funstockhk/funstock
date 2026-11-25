@@ -1,5 +1,7 @@
+import crypto from 'crypto';
 import fs from 'fs';
 import path from 'path';
+import vm from 'vm';
 import { createRequire } from 'module';
 import { fileURLToPath } from 'url';
 
@@ -51,8 +53,22 @@ for (const p of assetPaths) {
 }
 rec('R1', 'SYN-R1-ASSETS', assetPaths, '200', assetStatus, Object.values(assetStatus).every((s) => s === 200));
 
-const configOnDisk = fs.readFileSync(path.join(root, 'site/admin/js/config.js'), 'utf8');
-rec('R1', 'SYN-R1-CONFIG-PLACEHOLDER', { file: 'site/admin/js/config.js' }, 'TODO placeholder, no live exec URL', configOnDisk.indexOf('__AC02_EXEC_URL__') >= 0 && configOnDisk.indexOf('TODO') >= 0 && configOnDisk.indexOf('script.google.com') < 0, configOnDisk.indexOf('__AC02_EXEC_URL__') >= 0 && configOnDisk.indexOf('TODO') >= 0 && configOnDisk.indexOf('script.google.com') < 0);
+const configOnDisk = fs.readFileSync(path.join(root, 'site/admin/js/config.js'));
+const buildOnDisk = fs.readFileSync(path.join(root, 'site/admin/js/build.js'));
+const approvedBuild = (() => {
+  const sandbox = { window: {} };
+  vm.createContext(sandbox);
+  vm.runInContext(buildOnDisk.toString('utf8'), sandbox, { filename: 'site/admin/js/build.js' });
+  const identities = sandbox.window.AC02_IDENTITIES;
+  return crypto.createHash('sha256').update(buildOnDisk).digest('hex') === '7a00612f09070faae8c493164c0c6c5f944c12df7eea274b386986bce76c94e1'
+    && crypto.createHash('sha256').update(configOnDisk).digest('hex') === '351dfaa1f76eb459cddb27296a55f9259f8bbc374a33a25660ffbc6953f1b7cf'
+    && configOnDisk.toString('utf8').includes('http') === false
+    && configOnDisk.toString('utf8').includes('script.google') === false
+    && configOnDisk.toString('utf8').includes('/exec') === false
+    && sandbox.window.AC02_BUILD && sandbox.window.AC02_BUILD.productionData === false
+    && Array.isArray(identities) && identities.length === 2 && identities.every((item) => item.productionData === false);
+})();
+rec('R1', 'SYN-R1-CONFIG-PLACEHOLDER', { file: 'site/admin/js/build.js + site/admin/js/config.js' }, 'approved build and config', approvedBuild, approvedBuild === true);
 
 await page.goto(base + '/admin/login.html', { waitUntil: 'networkidle0' });
 const loginLeak = await page.evaluate(() => document.body.innerText.indexOf('__AC02_SPREADSHEET_ID__') >= 0 || document.body.innerText.indexOf('__AC02_DRIVE_ROOT__') >= 0);
@@ -102,10 +118,30 @@ await fetch(base + '/__test/delay', { method: 'POST', headers: { 'content-type':
 const errText = await page.$eval('#err', (el) => el.textContent);
 rec('R1', 'SYN-R1-UI-BAD-LOGIN', { password: 'wrong-password' }, 'visible rejection', errText, /拒绝|不正确/.test(errText));
 
-await page.click('#password', { clickCount: 3 });
+await page.evaluate(() => {
+  const input = document.getElementById('password');
+  input.value = '';
+  input.dispatchEvent(new Event('input', { bubbles: true }));
+});
 await page.type('#password', password);
+const secondLength = await page.$eval('#password', (el) => el.value.length);
+let submittedLength = null;
+const onSecondLogin = (request) => {
+  if (request.method() !== 'POST' || !request.url().includes('/api')) return;
+  try {
+    const body = JSON.parse(request.postData() || '{}');
+    if (body.action === 'login' && body.payload && typeof body.payload.password === 'string') {
+      submittedLength = body.payload.password.length;
+    }
+  } catch (err) { /* length check below */ }
+};
+page.on('request', onSecondLogin);
+rec('R1', 'SYN-R1-PASSWORD-CLEARED', {}, password.length, secondLength, secondLength === password.length);
+if (secondLength !== password.length) throw new Error('second password length ' + secondLength + ' != ' + password.length);
 await page.click('#go');
 await page.waitForFunction(() => location.pathname.indexOf('/admin') >= 0 && !location.pathname.endsWith('login.html'));
+page.off('request', onSecondLogin);
+if (submittedLength !== password.length) throw new Error('submitted password length ' + submittedLength + ' != ' + password.length);
 await page.waitForFunction(() => document.querySelector('#who') && document.querySelector('#who').textContent.indexOf('顾问') >= 0);
 const gate = await page.$eval('#gate-note', (el) => el.textContent);
 rec('R1', 'SYN-R1-GATE-VISIBLE', {}, '期初待确认', gate, gate.indexOf('期初待确认') >= 0 && gate.indexOf('禁止正式记账') >= 0);

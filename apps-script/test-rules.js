@@ -100,8 +100,25 @@ function main() {
   })(), 'GENERATION_CLOSED');
 
   const apiJs = fs.readFileSync(path.join(pkg, 'site', 'admin', 'js', 'api.js'), 'utf8');
-  const cfg = fs.readFileSync(path.join(pkg, 'site', 'admin', 'js', 'config.js'), 'utf8');
-  rec('config.js 不含真实脚本 URL，只留 FS_API_BASE 与 __AC02_EXEC_URL__ 占位', /window\.FS_API_BASE = window\.FS_API_BASE \|\| '';/.test(cfg) && /__AC02_EXEC_URL__/.test(cfg) && !/script\.google\.com/.test(cfg) && !/macros\/s\/[A-Za-z0-9_-]{20,}\/exec/.test(cfg), 'placeholder only');
+  rec('config.js 与 build.js 为批准版', (() => {
+    const buildPath = path.join(pkg, 'site', 'admin', 'js', 'build.js');
+    const configPath = path.join(pkg, 'site', 'admin', 'js', 'config.js');
+    const buildBytes = fs.readFileSync(buildPath);
+    const configBytes = fs.readFileSync(configPath);
+    const buildHash = crypto.createHash('sha256').update(buildBytes).digest('hex');
+    const configHash = crypto.createHash('sha256').update(configBytes).digest('hex');
+    if (buildHash !== '7a00612f09070faae8c493164c0c6c5f944c12df7eea274b386986bce76c94e1') return false;
+    if (configHash !== '351dfaa1f76eb459cddb27296a55f9259f8bbc374a33a25660ffbc6953f1b7cf') return false;
+    const configText = configBytes.toString('utf8');
+    if (configText.includes('http') || configText.includes('script.google') || configText.includes('/exec')) return false;
+    const sandbox = { window: {} };
+    vm.createContext(sandbox);
+    vm.runInContext(buildBytes.toString('utf8'), sandbox, { filename: 'build.js' });
+    const identities = sandbox.window.AC02_IDENTITIES;
+    return !!(sandbox.window.AC02_BUILD && sandbox.window.AC02_BUILD.productionData === false
+      && Array.isArray(identities) && identities.length === 2
+      && identities.every((item) => item && item.productionData === false));
+  })(), 'approved build and config');
   rec('远端路径使用 text/plain JSON POST，并把 token 放在 JSON 正文', /text\/plain;charset=utf-8/.test(apiJs) && /token: getToken\(\)/.test(apiJs) && /sessionStorage/.test(apiJs), 'cors-safe hook');
   rec('未设置 FS_API_BASE 时仍走本地 /api', /fetchWithTimeout\('\/api'/.test(apiJs) && /function apiBase\(/.test(apiJs), 'local fallback');
   rec('远端上传改为 JSON 内的 base64 文件，本地仍用 FormData', /payload\.file/.test(apiJs) && /FormData/.test(apiJs) && /fileToBase64/.test(apiJs), 'dual upload path');

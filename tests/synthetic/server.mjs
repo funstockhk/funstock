@@ -16,7 +16,7 @@ const TEST_PAGE_BUILD = [
   '  { buildId: "ac02-official", dataMode: "ac02-official", productionData: false }',
   '];',
   ''
-].join('\\n');
+].join('\n');
 const store = boot(engine);
 const delays = {};
 
