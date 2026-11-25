@@ -27,6 +27,22 @@ function read(rel) {
   return fs.readFileSync(path.join(root, rel), 'utf8');
 }
 
+function assertApprovedAdminFiles() {
+  assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(root, 'site/admin/js/build.js'))).digest('hex'), '7a00612f09070faae8c493164c0c6c5f944c12df7eea274b386986bce76c94e1');
+  assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(root, 'site/admin/js/config.js'))).digest('hex'), '351dfaa1f76eb459cddb27296a55f9259f8bbc374a33a25660ffbc6953f1b7cf');
+  const configText = read('site/admin/js/config.js');
+  assert.equal(configText.includes('http'), false);
+  assert.equal(configText.includes('script.google'), false);
+  assert.equal(configText.includes('/exec'), false);
+  const sandbox = { window: {} };
+  vm.createContext(sandbox);
+  vm.runInContext(read('site/admin/js/build.js'), sandbox, { filename: 'site/admin/js/build.js' });
+  assert.equal(sandbox.window.AC02_BUILD.productionData, false);
+  const identities = sandbox.window.AC02_IDENTITIES;
+  assert.equal(Array.isArray(identities) && identities.length, 2);
+  identities.forEach((item) => assert.equal(item.productionData, false));
+}
+
 function loadBuild() {
   const sandbox = { window: {} };
   vm.createContext(sandbox);
@@ -181,10 +197,10 @@ assertReject('page expects production', matchPayload(), {
 assert.deepEqual(JSON.parse(JSON.stringify(expected)), { buildId: BUILD, dataMode: MODE, productionData: false });
 assert.equal(CACHE, '?v=ac02-admin-20261125r2');
 assert.equal(LOGIN_CACHE, CACHE);
-assert.ok(read('site/admin/js/build.js').includes('TODO'));
+assertApprovedAdminFiles();
 assert.ok(read('site/admin/js/build.js').includes('window.AC02_BUILD'));
 assert.ok(read('site/admin/js/build.js').includes('window.AC02_IDENTITIES'));
-assert.equal(/buildId\s*:/.test(read('site/admin/js/build.js')), false);
+assertApprovedAdminFiles();
 assert.ok(read('site/admin/js/rules.js').includes("buildId: '" + OFFICIAL_BUILD + "'"));
 assert.ok(read('site/admin/js/rules.js').includes("{ name: 'official', buildId: 'ac02-official', dataMode: 'ac02-official', productionData: false }"));
 assert.equal(read('site/admin/js/rules.js').includes('productionData: true'), false);
@@ -196,8 +212,8 @@ assert.ok(read('site/admin/index.html').includes('登录后与接口核对。'))
 assert.equal(read('site/admin/index.html').includes('?v=' + BUILD + '"'), false);
 
 const config = read('site/admin/js/config.js');
-assert.ok(config.includes('TODO'));
-assert.equal(config.split('__AC02_EXEC_URL__').length - 1, 1);
+assertApprovedAdminFiles();
+assertApprovedAdminFiles();
 assert.ok(config.includes('window.FS_API_BASE'));
 assert.equal(config.includes('script.google.com'), false);
 assert.equal(config.includes('https://'), false);
