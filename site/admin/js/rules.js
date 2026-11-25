@@ -1,5 +1,5 @@
 /* Shared AC02 checks. Mirrors gas/release limits. No network. Timezone: Asia/Hong_Kong. */
-/* QA：Q1 定稿注释改为保持关闭（previewFormalPostClosed 恒为 allowed:false）。Q2 原修改清单行号作废，以本文件为准。Q3 文件以换行结束。Q4 代码里的待定注释为 8 处，其中与 1528 字节相关的为 3 处。H1 与 apps-script 发布身份开关对齐：preview = ac02-preview / ac02-preview / false，official = ac02-official / ac02-official / true。H2 重放夹具保留初稿既有结构，待后端确定后整组替换，本次不另造新夹具。 */
+/* QA：Q1 定稿注释改为保持关闭（previewFormalPostClosed 恒为 allowed:false）。Q2 原修改清单行号作废，以本文件为准。Q3 文件以换行结束。Q4 代码里的待定注释为 8 处，其中与 1528 字节相关的为 3 处。H1 与 apps-script 发布身份开关对齐：preview = ac02-preview / ac02-preview / false，official = ac02-official / ac02-official / false。H2 重放夹具保留初稿既有结构，待后端确定后整组替换，本次不另造新夹具。 */
 (function (root, factory) {
   var api = factory();
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
@@ -116,7 +116,7 @@
 
   var IDENTITY_GROUPS = [
     { name: 'preview', buildId: 'ac02-preview', dataMode: 'ac02-preview', productionData: false },
-    { name: 'official', buildId: 'ac02-official', dataMode: 'ac02-official', productionData: true }
+    { name: 'official', buildId: 'ac02-official', dataMode: 'ac02-official', productionData: false }
   ];
 
   function hasOwn_(obj, key) {

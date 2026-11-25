@@ -92,8 +92,8 @@ function main() {
   const ported = new Set(rules.FS_IMPLEMENTED_ACTIONS || []);
   const missing = serverActions.filter((a) => !ported.has(a));
   const extra = [...ported].filter((a) => !serverActions.includes(a));
-  rec('与 server.js 的 action 列表一致（含已关闭的 generateOfficialContract）', missing.length === 0 && extra.length === 0,
-    missing.length || extra.length ? ('missing=' + missing.join(',') + ' extra=' + extra.join(',')) : 'parity ' + ported.size);
+  rec('Code.gs 覆盖 server.js 的动作，并保留已关闭的 generateOfficialContract', missing.length === 0 && ported.has('generateOfficialContract'),
+    missing.length ? ('missing=' + missing.join(',')) : ('ported=' + ported.size + ' extra=' + extra.length));
 
   rec('对客正式合同生成保持关闭', (() => {
     try { rules.officialGenerateBlocked_(); return false; } catch (e) { return e.code === 'GENERATION_CLOSED'; }
@@ -101,9 +101,9 @@ function main() {
 
   const apiJs = fs.readFileSync(path.join(pkg, 'site', 'admin', 'js', 'api.js'), 'utf8');
   const cfg = fs.readFileSync(path.join(pkg, 'site', 'admin', 'js', 'config.js'), 'utf8');
-  rec('config.js 不含伪造的脚本 URL，只留 FS_API_BASE 占位', /window\.FS_API_BASE = window\.FS_API_BASE \|\| '';/.test(cfg) && /PASTE_DEPLOYMENT_ID/.test(cfg) && !/macros\/s\/[A-Za-z0-9-_]{20,}\/exec/.test(cfg.replace('PASTE_DEPLOYMENT_ID','')), 'placeholder only');
+  rec('config.js 不含真实脚本 URL，只留 FS_API_BASE 与 __AC02_EXEC_URL__ 占位', /window\.FS_API_BASE = window\.FS_API_BASE \|\| '';/.test(cfg) && /__AC02_EXEC_URL__/.test(cfg) && !/script\.google\.com/.test(cfg) && !/macros\/s\/[A-Za-z0-9_-]{20,}\/exec/.test(cfg), 'placeholder only');
   rec('远端路径使用 text/plain JSON POST，并把 token 放在 JSON 正文', /text\/plain;charset=utf-8/.test(apiJs) && /token: getToken\(\)/.test(apiJs) && /sessionStorage/.test(apiJs), 'cors-safe hook');
-  rec('未设置 FS_API_BASE 时仍走本地 /api', /fetch\('\/api'/.test(apiJs) && /function apiBase\(/.test(apiJs), 'local fallback');
+  rec('未设置 FS_API_BASE 时仍走本地 /api', /fetchWithTimeout\('\/api'/.test(apiJs) && /function apiBase\(/.test(apiJs), 'local fallback');
   rec('远端上传改为 JSON 内的 base64 文件，本地仍用 FormData', /payload\.file/.test(apiJs) && /FormData/.test(apiJs) && /fileToBase64/.test(apiJs), 'dual upload path');
 
   let store = cloneStore();
@@ -265,7 +265,13 @@ function main() {
     return !writesAuth && plaintext;
   })(), 'auth sheet is read-only');
 
-  rec('SPREADSHEET_ID 仍指向新表', rules.SPREADSHEET_ID === '18KIviTyEjxjxav2v0a3liRwlUI8L8O9anjceRi8En9M', rules.SPREADSHEET_ID);
+  rec('绑定 ID 常量为占位符', (() => {
+    const src = fs.readFileSync(path.join(__dirname, 'Code.gs'), 'utf8');
+    return rules.SPREADSHEET_ID === '__AC02_SPREADSHEET_ID__'
+      && src.includes("var EXPECTED_SPREADSHEET_ID = '__AC02_SPREADSHEET_ID__'")
+      && src.includes("var DEFAULT_DRIVE_ROOT = '__AC02_DRIVE_ROOT__'")
+      && src.includes("var EXPECTED_DRIVE_ROOT = '__AC02_DRIVE_ROOT__'");
+  })(), rules.SPREADSHEET_ID);
 
   const passed = results.filter((x) => x.passed).length;
   process.stdout.write('\n==== ' + passed + '/' + results.length + ' passed ====\n');

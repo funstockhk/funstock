@@ -13,7 +13,7 @@ const TEST_PAGE_BUILD = [
   'window.AC02_BUILD = { buildId: "ac02-preview", dataMode: "ac02-preview", productionData: false };',
   'window.AC02_IDENTITIES = [',
   '  { buildId: "ac02-preview", dataMode: "ac02-preview", productionData: false },',
-  '  { buildId: "ac02-official", dataMode: "ac02-official", productionData: true }',
+  '  { buildId: "ac02-official", dataMode: "ac02-official", productionData: false }',
   '];',
   ''
 ].join('\\n');

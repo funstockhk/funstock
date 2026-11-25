@@ -12,7 +12,7 @@
  * 规则：找不到授权表必须拒绝，不得默认放行。不输出、不写入明文密码。
  * 对客正式合同生成入口保持关闭。发布身份（buildId/dataMode/productionData）只由下方「发布身份开关」常量块决定，
  * 默认 preview = ac02-preview / ac02-preview / false；official = ac02-official / ac02-official / false。
- * 年月键统一为 YYYY-MM；期初未确认时拒绝正式定稿；现金金额须为正数并执行 2000/20000 上限。
+ * 年月键统一为 YYYY-MM；财务定稿入口保持关闭，不因期初、配平或完成页写入正式四套账；现金金额须为正数并执行 2000/20000 上限。
  * 脚本属性若把目标改到其他 ID，在任何数据读写前拒绝，且不改写、不清除属性。
  * 资料收件已作为「资料与凭证」模块，不另建独立 /c/ 入口。
  */
@@ -3450,13 +3450,22 @@ function isWriteAction_(action) {
   return !Object.prototype.hasOwnProperty.call(READ_ONLY_ACTIONS_, action);
 }
 
-/* One script lock for every write. Reads stay lock-free. Node tests without LockService skip the call. */
+/* 一把脚本锁守全部写入。读操作不加锁。表和 Drive 的绑定校验在拿锁之前完成，绑定 ID 常量仍是源码里的占位符。
+ * waitLock 超时抛 LOCK_TIMEOUT / 503：锁是暂时忙，调用方应稍后重试。不用 409，因为客户端改不了请求正文来消解这次争用。
+ * 超时表示没有拿到锁，所以不 releaseLock。Node 测试若没有 LockService 则跳过。 */
 function acquireScriptLock_() {
   if (typeof LockService === 'undefined' || !LockService || typeof LockService.getScriptLock !== 'function') return null;
   var lock = LockService.getScriptLock();
   var tLock = stageNow_();
   try {
-    if (lock && typeof lock.waitLock === 'function') lock.waitLock(30000);
+    if (lock && typeof lock.waitLock === 'function') {
+      try {
+        lock.waitLock(30000);
+      } catch (lockErr) {
+        if (lockErr && lockErr.code === 'LOCK_TIMEOUT') throw lockErr;
+        fail_('另一写入正在进行，未能在时限内取得脚本锁。请稍后重试，不要立刻再次提交。', 'LOCK_TIMEOUT', 503);
+      }
+    }
   } finally {
     stageMark_('lock-wait', tLock);
   }

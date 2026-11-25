@@ -21,12 +21,16 @@ const READS = [
 ];
 
 const events = [];
+let lockMode = 'ok';
 global.LockService = {
   getScriptLock: function () {
     const rec = { waited: false, released: false };
     events.push(rec);
     return {
-      waitLock: function () { rec.waited = true; },
+      waitLock: function () {
+        rec.waited = true;
+        if (lockMode === 'timeout') throw new Error('Could not obtain lock');
+      },
       releaseLock: function () { rec.released = true; }
     };
   }
@@ -71,9 +75,25 @@ for (const action of READS) {
   unlocked.push(action);
 }
 
+lockMode = 'timeout';
+const beforeTimeout = JSON.stringify(store);
+events.length = 0;
+const timed = call(engine, advisor.token, 'savePlan', { yearMonth: '2026-11', type: '固定', title: 'LOCK' });
+assert.equal(timed.ok, false);
+assert.equal(timed.code, 'LOCK_TIMEOUT');
+assert.equal(timed.status, 503);
+assert.equal(events.length, 1);
+assert.equal(events[0].waited, true);
+assert.equal(events[0].released, false, 'a timed-out wait must not release a lock that was not acquired');
+assert.equal(JSON.stringify(store), beforeTimeout);
+const readDuringTimeout = run('getPlans');
+assert.equal(readDuringTimeout.length, 0);
+
 console.log(JSON.stringify({
   ok: true,
   writes: locked.length,
   reads: unlocked.length,
-  lock: 'LockService.getScriptLock'
+  lock: 'LockService.getScriptLock',
+  timeout: timed.code,
+  timeoutStatus: timed.status
 }, null, 2));

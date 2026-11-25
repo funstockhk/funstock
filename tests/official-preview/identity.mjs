@@ -74,11 +74,11 @@ function officialPayload(extra) {
   return matchPayload(Object.assign({
     buildId: OFFICIAL_BUILD,
     dataMode: OFFICIAL_MODE,
-    productionData: true,
+    productionData: false,
     release: {
       buildId: OFFICIAL_BUILD,
       dataMode: OFFICIAL_MODE,
-      productionData: true,
+      productionData: false,
       spreadsheetId: 'LOCAL-MOCK-SHEET',
       driveRootId: 'LOCAL-MOCK-DRIVE'
     }
@@ -90,14 +90,14 @@ assert.equal(official.profile, 'official');
 assert.equal(decision(officialPayload(), {
   buildId: OFFICIAL_BUILD,
   dataMode: OFFICIAL_MODE,
-  productionData: true
+  productionData: false
 }).ok, true);
 
 const mixes = [
   ['preview build, official mode, preview flag', BUILD, OFFICIAL_MODE, false, 'dataMode'],
   ['preview build, preview mode, official flag', BUILD, MODE, true, 'productionData'],
   ['official build, preview mode, official flag', OFFICIAL_BUILD, MODE, true, 'dataMode'],
-  ['official build, official mode, preview flag', OFFICIAL_BUILD, OFFICIAL_MODE, false, 'productionData']
+  ['official build, official mode, production flag', OFFICIAL_BUILD, OFFICIAL_MODE, true, 'productionData']
 ];
 for (const mix of mixes) {
   const body = matchPayload({
@@ -109,7 +109,7 @@ for (const mix of mixes) {
   assertReject(mix[0], body, null, mix[4]);
 }
 assertReject('top preview release official', matchPayload({
-  release: { buildId: OFFICIAL_BUILD, dataMode: OFFICIAL_MODE, productionData: true }
+  release: { buildId: OFFICIAL_BUILD, dataMode: OFFICIAL_MODE, productionData: false }
 }), null, 'release.buildId');
 assertReject('top official release preview', officialPayload({
   release: { buildId: BUILD, dataMode: MODE, productionData: false }
@@ -172,7 +172,8 @@ assert.ok(read('site/admin/js/build.js').includes('window.AC02_BUILD'));
 assert.ok(read('site/admin/js/build.js').includes('window.AC02_IDENTITIES'));
 assert.equal(/buildId\s*:/.test(read('site/admin/js/build.js')), false);
 assert.ok(read('site/admin/js/rules.js').includes("buildId: '" + OFFICIAL_BUILD + "'"));
-assert.ok(read('site/admin/js/rules.js').includes('productionData: true'));
+assert.ok(read('site/admin/js/rules.js').includes("{ name: 'official', buildId: 'ac02-official', dataMode: 'ac02-official', productionData: false }"));
+assert.equal(read('site/admin/js/rules.js').includes('productionData: true'), false);
 assert.ok(read('site/admin/js/rules.js').includes('productionData: false'));
 assert.ok(read('site/admin/js/app.js').includes("decision.profile === 'official'"));
 assert.ok(read('site/admin/js/app.js').includes('正式数据'));
