@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0B2545">
+<title>导出测试账号散列 · 趣倉有限公司 · 一体化公司管理后台</title>
+<link rel="icon" href="../favicon.svg">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<div class="login-wrap">
+  <div class="preview-banner">
+    <span>趣倉有限公司 · 测试账号散列导出</span>
+    <span>只在浏览器计算散列并下载，不发送网络、不写入数据表</span>
+  </div>
+  <form class="login-card" id="setup-form" autocomplete="off">
+    <img src="../assets/logo-horizontal.svg" alt="趣倉有限公司" style="height:28px">
+    <h1>导出测试账号散列</h1>
+    <p class="lead">本页只为固定测试工号生成与接口一致的密码散列文件，供授权管理人写入授权表。不会注册账号、不会赋权、不会把口令或散列发送到任何服务器。</p>
+    <div class="err" id="err"></div>
+    <div class="field">
+      <label for="jobId">工号</label>
+      <input id="jobId" name="jobId" value="AC02-TEST" readonly>
+    </div>
+    <div class="field">
+      <label for="displayName">显示名</label>
+      <input id="displayName" name="displayName" value="顾问测试账号" readonly>
+    </div>
+    <div class="field">
+      <label for="role">角色</label>
+      <input id="role" name="role" value="顾问" readonly>
+    </div>
+    <div class="field">
+      <label for="status">状态</label>
+      <input id="status" name="status" value="启用" readonly>
+    </div>
+    <div class="field">
+      <label for="password">测试口令</label>
+      <input id="password" name="password" type="password" required autocomplete="new-password">
+    </div>
+    <button class="btn amber full" type="submit" id="go">生成并下载散列文件</button>
+    <p class="hint">下载文件名：ac02-test-user-hash.json。文件只含工号、显示名、角色、状态和 passwordHash（hmac-sha256$盐$十六进制散列），不含明文口令。</p>
+    <p class="hint" id="ok" hidden></p>
+  </form>
+</div>
+<script>
+(function () {
+  const errBox = document.getElementById('err');
+  const okBox = document.getElementById('ok');
+  const passwordInput = document.getElementById('password');
+
+  function showErr(msg) {
+    errBox.textContent = msg;
+    errBox.classList.add('show');
+    okBox.hidden = true;
+  }
+
+  function hex(buf) {
+    return Array.from(new Uint8Array(buf), function (b) {
+      return b.toString(16).padStart(2, '0');
+    }).join('');
+  }
+
+  async function hmacSha256Hex(message, key) {
+    const enc = new TextEncoder();
+    const cryptoKey = await crypto.subtle.importKey(
+      'raw',
+      enc.encode(key),
+      { name: 'HMAC', hash: 'SHA-256' },
+      false,
+      ['sign']
+    );
+    const sig = await crypto.subtle.sign('HMAC', cryptoKey, enc.encode(message));
+    return hex(sig);
+  }
+
+  function randomSaltHex() {
+    const bytes = new Uint8Array(16);
+    crypto.getRandomValues(bytes);
+    return hex(bytes);
+  }
+
+  function downloadJson(filename, obj) {
+    const blob = new Blob([JSON.stringify(obj, null, 2) + '\n'], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 0);
+  }
+
+  document.getElementById('setup-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    errBox.classList.remove('show');
+    okBox.hidden = true;
+    const jobId = document.getElementById('jobId').value.trim();
+    const displayName = document.getElementById('displayName').value.trim();
+    const role = document.getElementById('role').value.trim();
+    const status = document.getElementById('status').value.trim();
+    const password = passwordInput.value;
+    if (jobId !== 'AC02-TEST' || role !== '顾问' || status !== '启用' || displayName !== '顾问测试账号') {
+      showErr('本页只导出固定测试账号 AC02-TEST。');
+      passwordInput.value = '';
+      return;
+    }
+    if (!password) {
+      showErr('请填入口令。');
+      return;
+    }
+    try {
+      const salt = randomSaltHex();
+      const digest = await hmacSha256Hex(password, salt);
+      passwordInput.value = '';
+      const record = {
+        jobId: jobId,
+        displayName: displayName,
+        role: role,
+        status: status,
+        passwordHash: 'hmac-sha256$' + salt + '$' + digest
+      };
+      downloadJson('ac02-test-user-hash.json', record);
+      okBox.hidden = false;
+      okBox.textContent = '已在浏览器本地下载 ac02-test-user-hash.json。口令已清空，未发送网络请求。请把该文件交给授权管理人写入授权表。';
+    } catch (err) {
+      passwordInput.value = '';
+      showErr(err.message || '生成失败。');
+    }
+  });
+})();
+</script>
+</body>
+</html>

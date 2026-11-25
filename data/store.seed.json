@@ -1,20 +1,20 @@
 {
   "meta": {
-    "spreadsheetId": "18KIviTyEjxjxav2v0a3liRwlUI8L8O9anjceRi8En9M",
+    "spreadsheetId": "__AC02_SPREADSHEET_ID__",
     "spreadsheetTitle": "FUNSTOCK_运营管理后台_数据库_v0.1",
-    "driveRootId": "1mz1Dmn0rrKjhNSIFBvr3_hPjgda87pUo",
+    "driveRootId": "__AC02_DRIVE_ROOT__",
     "driveFolders": {
-      "01_表格": "1ukRmbUPnmfXazfUckf2ThIYl13cidWyd",
-      "02_凭证": "1xenv2SWSYNZQpYfqJfJIxMkYhvgUA4if",
-      "03_合同": "1F36uwrb8-WrVSePa17XmrBu07m71o4uS",
-      "04_发票": "1IviZG_Ofc7ssS0Tzy2__X6SrfsaqctMl",
-      "05_收件": "1--80dDVd8hMOFHt6HI9PjyC_vnauXlMY",
-      "06_计划与策划书": "1JdHCI-j3B-5RPQzXRwQkRaHlD5PPU0xa",
-      "07_财务报告": "1a16Z4Mm3L5iaZPKpUhmijhHTD5wThO_8",
-      "08_操作附件": "1PvBIUzy8aK9NIFaWfyn1S7pFiZ8WRxVl"
+      "01_表格": "__AC02_DRIVE_ITEM__",
+      "02_凭证": "__AC02_DRIVE_ITEM__",
+      "03_合同": "__AC02_DRIVE_ITEM__",
+      "04_发票": "__AC02_DRIVE_ITEM__",
+      "05_收件": "__AC02_DRIVE_ITEM__",
+      "06_计划与策划书": "__AC02_DRIVE_ITEM__",
+      "07_财务报告": "__AC02_DRIVE_ITEM__",
+      "08_操作附件": "__AC02_DRIVE_ITEM__"
     },
     "note": "本地预览适配器使用本 JSON。初始测试行会另行写入新 Google 表。本预览服务不直接实时同步 Google。",
-    "asOfHint": "2026-11-13 Asia/Shanghai"
+    "asOfHint": "2026-11-13 Asia/Hong_Kong"
   },
   "users": [
     {

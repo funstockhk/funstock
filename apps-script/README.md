@@ -2,11 +2,11 @@
 
 本目录是唯一读写接口的 Apps Script 源码，预定绑定到新数据库：
 
-https://docs.google.com/spreadsheets/d/18KIviTyEjxjxav2v0a3liRwlUI8L8O9anjceRi8En9M/edit
+https://docs.google.com/spreadsheets/d/__AC02_SPREADSHEET_ID__/edit
 
 专属文件夹：
 
-https://drive.google.com/drive/folders/1mz1Dmn0rrKjhNSIFBvr3_hPjgda87pUo
+https://drive.google.com/drive/folders/__AC02_DRIVE_ROOT__
 
 ## 当前状态
 
@@ -19,7 +19,7 @@ https://drive.google.com/drive/folders/1mz1Dmn0rrKjhNSIFBvr3_hPjgda87pUo
 1. 用有权编辑该新表的账号打开上述表格。
 2. 扩展程序 → Apps Script，把 `Code.gs` 与 `appsscript.json` 粘贴进去。
 3. 在脚本属性中设置（不要把密钥写进代码仓库）：
-   - `DRIVE_ROOT_ID` = `1mz1Dmn0rrKjhNSIFBvr3_hPjgda87pUo`
+   - `DRIVE_ROOT_ID` = `__AC02_DRIVE_ROOT__`
 4. 保存后，部署 → 新建部署 → 类型选「网络应用程序」；执行身份为部署者；访问对象按你的组织策略选择（不要对公众开放超出需要的权限）。
 5. 记下 Web App URL。打开 `site/admin/js/config.js`，把 `window.FS_API_BASE` 设为该 URL（例如 `https://script.google.com/macros/s/…/exec`）。未填写时，后台仍走本机 `POST /api`（本地 8787 预览）。只改这一处接口地址，不要再做第二套接口，也不要手工粘贴 `data.js`。
 6. 不要给正式站绑定自定义域名，不要改 funstock.org 的 DNS，除非另行批准。

@@ -1,20 +1,20 @@
 {
   "meta": {
-    "spreadsheetId": "18KIviTyEjxjxav2v0a3liRwlUI8L8O9anjceRi8En9M",
+    "spreadsheetId": "__AC02_SPREADSHEET_ID__",
     "spreadsheetTitle": "FUNSTOCK_运营管理后台_数据库_v0.1",
-    "driveRootId": "1mz1Dmn0rrKjhNSIFBvr3_hPjgda87pUo",
+    "driveRootId": "__AC02_DRIVE_ROOT__",
     "driveFolders": {
-      "01_表格": "1ukRmbUPnmfXazfUckf2ThIYl13cidWyd",
-      "02_凭证": "1xenv2SWSYNZQpYfqJfJIxMkYhvgUA4if",
-      "03_合同": "1F36uwrb8-WrVSePa17XmrBu07m71o4uS",
-      "04_发票": "1IviZG_Ofc7ssS0Tzy2__X6SrfsaqctMl",
-      "05_收件": "1--80dDVd8hMOFHt6HI9PjyC_vnauXlMY",
-      "06_计划与策划书": "1JdHCI-j3B-5RPQzXRwQkRaHlD5PPU0xa",
-      "07_财务报告": "1a16Z4Mm3L5iaZPKpUhmijhHTD5wThO_8",
-      "08_操作附件": "1PvBIUzy8aK9NIFaWfyn1S7pFiZ8WRxVl"
+      "01_表格": "__AC02_DRIVE_ITEM__",
+      "02_凭证": "__AC02_DRIVE_ITEM__",
+      "03_合同": "__AC02_DRIVE_ITEM__",
+      "04_发票": "__AC02_DRIVE_ITEM__",
+      "05_收件": "__AC02_DRIVE_ITEM__",
+      "06_计划与策划书": "__AC02_DRIVE_ITEM__",
+      "07_财务报告": "__AC02_DRIVE_ITEM__",
+      "08_操作附件": "__AC02_DRIVE_ITEM__"
     },
     "note": "本地预览适配器使用本 JSON。初始测试行会另行写入新 Google 表。本预览服务不直接实时同步 Google。",
-    "asOfHint": "2026-11-13 Asia/Shanghai"
+    "asOfHint": "2026-11-13 Asia/Hong_Kong"
   },
   "users": [
     {
@@ -229,7 +229,7 @@
       "relatedId": "2026-10",
       "name": "FLSEED01_TEST_银行月结单_2026-10_测试银行港币往来.pdf",
       "localPath": "data/uploads/FLSEED01_TEST_银行月结单_2026-10_测试银行港币往来.pdf",
-      "driveLink": "https://drive.google.com/file/d/120u6FLpQJ_IpUKHipeTROIJwq1p27HEY/view?usp=drivesdk",
+      "driveLink": "https://drive.google.com/file/d/__AC02_DRIVE_ITEM__/view?usp=drivesdk",
       "source": "收件",
       "status": "已归档（本地预览）",
       "notes": "测试月结单（虚构）",
@@ -252,7 +252,7 @@
       "relatedId": "FS-TEST-C-001",
       "name": "FLSEED02_TEST_银行凭证_咨询费首期_测试客户甲.pdf",
       "localPath": "data/uploads/FLSEED02_TEST_银行凭证_咨询费首期_测试客户甲.pdf",
-      "driveLink": "https://drive.google.com/file/d/1LtPAjU51ypJzervJ3cedNO7ygDX7au3v/view?usp=drivesdk",
+      "driveLink": "https://drive.google.com/file/d/__AC02_DRIVE_ITEM__/view?usp=drivesdk",
       "source": "收件",
       "status": "已归档（本地预览）",
       "notes": "测试首期凭证（虚构）；合同与月账共同认领",
@@ -282,7 +282,7 @@
       "relatedId": "FS-TEST-C-001",
       "name": "FLSEED03_TEST_签署合同扫描_FS-TEST-C-001.pdf",
       "localPath": "data/uploads/FLSEED03_TEST_签署合同扫描_FS-TEST-C-001.pdf",
-      "driveLink": "https://drive.google.com/file/d/1BLF1eO74RGZet_bY24tmnV0hUJrRN47R/view?usp=drivesdk",
+      "driveLink": "https://drive.google.com/file/d/__AC02_DRIVE_ITEM__/view?usp=drivesdk",
       "source": "收件",
       "status": "已归档（本地预览）",
       "notes": "测试签署正本占位（虚构）",
@@ -306,7 +306,7 @@
       "relatedId": "",
       "name": "FLSEED04_TEST_现金收据_摊位.pdf",
       "localPath": "data/uploads/FLSEED04_TEST_现金收据_摊位.pdf",
-      "driveLink": "https://drive.google.com/file/d/1qfZ7J9wHi0lYHDUhrzY2DRYTp_flzpoM/view?usp=drivesdk",
+      "driveLink": "https://drive.google.com/file/d/__AC02_DRIVE_ITEM__/view?usp=drivesdk",
       "source": "收件",
       "status": "已归档（本地预览）",
       "notes": "测试现金收据（虚构）",
@@ -329,7 +329,7 @@
       "relatedId": "PR-TEST-202610",
       "name": "FLSEED05_TEST_运营策划书_2026-10.pdf",
       "localPath": "data/uploads/FLSEED05_TEST_运营策划书_2026-10.pdf",
-      "driveLink": "https://drive.google.com/file/d/10M01CSNyIV2PCYsum_u6ZrOKG60DBx53/view?usp=drivesdk",
+      "driveLink": "https://drive.google.com/file/d/__AC02_DRIVE_ITEM__/view?usp=drivesdk",
       "source": "收件",
       "status": "已归档（本地预览）",
       "notes": "测试策划书（虚构）",

@@ -1,0 +1,99 @@
+/**
+ * Every write action takes the one script lock. Read actions do not.
+ * No network.
+ */
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { loadEngine, boot, call, login } from './engine.mjs';
+
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
+const gasPath = path.join(root, 'apps-script/Code.gs');
+const gas = fs.readFileSync(gasPath, 'utf8');
+assert.equal((gas.match(/LockService\.getScriptLock\(\)/g) || []).length, 1);
+assert.equal(gas.includes('getDocumentLock'), false);
+assert.equal(gas.includes('getUserLock'), false);
+
+const READS = [
+  'me', 'getDashboard', 'getPlans', 'getProposals', 'getDocuments', 'getMonth',
+  'getContracts', 'getReconciliation', 'getLogs', 'getEffectiveTargets'
+];
+
+const events = [];
+let lockMode = 'ok';
+global.LockService = {
+  getScriptLock: function () {
+    const rec = { waited: false, released: false };
+    events.push(rec);
+    return {
+      waitLock: function () {
+        rec.waited = true;
+        if (lockMode === 'timeout') throw new Error('Could not obtain lock');
+      },
+      releaseLock: function () { rec.released = true; }
+    };
+  }
+};
+
+const engine = loadEngine(gasPath);
+const store = boot(engine);
+const advisor = login(engine, 'AC02-SYN-ADVISOR');
+assert.equal(advisor.ok, true, advisor.error || advisor.code);
+const writes = engine.FS_IMPLEMENTED_ACTIONS.filter((action) => READS.indexOf(action) < 0);
+assert.ok(writes.indexOf('postFourStatements') >= 0);
+assert.ok(writes.indexOf('uploadDocument') >= 0);
+assert.ok(writes.indexOf('login') >= 0);
+assert.equal(writes.indexOf('getPlans'), -1);
+
+function run(action) {
+  events.length = 0;
+  const token = action === 'login' ? '' : advisor.token;
+  const payload = action === 'login'
+    ? { jobId: 'AC02-SYN-ADVISOR', password: 'synthetic-only-not-a-real-secret' }
+    : {};
+  const uploaded = action === 'uploadDocument' || action === 'uploadProposal'
+    ? { name: 'syn.txt', mime: 'text/plain', data: Buffer.from('synthetic').toString('base64') }
+    : null;
+  call(engine, token, action, payload, uploaded);
+  return events.slice();
+}
+
+const locked = [];
+for (const action of writes) {
+  const seen = run(action);
+  assert.equal(seen.length, 1, action + ' lock calls ' + seen.length);
+  assert.equal(seen[0].waited, true, action + ' did not wait on the script lock');
+  assert.equal(seen[0].released, true, action + ' did not release the script lock');
+  locked.push(action);
+}
+
+const unlocked = [];
+for (const action of READS) {
+  const seen = run(action);
+  assert.equal(seen.length, 0, action + ' acquired a lock');
+  unlocked.push(action);
+}
+
+lockMode = 'timeout';
+const beforeTimeout = JSON.stringify(store);
+events.length = 0;
+const timed = call(engine, advisor.token, 'savePlan', { yearMonth: '2026-11', type: '固定', title: 'LOCK' });
+assert.equal(timed.ok, false);
+assert.equal(timed.code, 'LOCK_TIMEOUT');
+assert.equal(timed.status, 503);
+assert.equal(events.length, 1);
+assert.equal(events[0].waited, true);
+assert.equal(events[0].released, false, 'a timed-out wait must not release a lock that was not acquired');
+assert.equal(JSON.stringify(store), beforeTimeout);
+const readDuringTimeout = run('getPlans');
+assert.equal(readDuringTimeout.length, 0);
+
+console.log(JSON.stringify({
+  ok: true,
+  writes: locked.length,
+  reads: unlocked.length,
+  lock: 'LockService.getScriptLock',
+  timeout: timed.code,
+  timeoutStatus: timed.status
+}, null, 2));
