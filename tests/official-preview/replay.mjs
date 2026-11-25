@@ -61,6 +61,9 @@ assert.deepEqual(allowed.request, {
   relatedId: 'ac02-preview-replay-rel-001',
   clientRequestId: 'ac02-preview-replay-req-001'
 });
+assert.equal(REC.clientRequestId, 'ac02-preview-replay-req-001');
+assert.ok(read('apps-script/Code.gs').includes("var PREVIEW_REPLAY_CLIENT_REQUEST_ID_ = '" + REC.clientRequestId + "'"));
+assert.ok(read('site/admin/js/rules.js').includes("clientRequestId: '" + REC.clientRequestId + "'"));
 assert.equal(REC.fileId, 'ac02-preview-replay-file-001');
 assert.equal(REC.fileName, 'ac02_synthetic_sample.pdf');
 assert.equal(REC.size, 1528);

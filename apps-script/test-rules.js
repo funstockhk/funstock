@@ -139,7 +139,7 @@ function main() {
   lines.forEach((l) => { byDesc[l.desc] = l; });
 
   r = apply(rules, store, 'postFourStatements', { yearMonth: '2026-10' });
-  rec('未过完成页不得计入正式四套账', r.ok === false && String(r.error || '').indexOf('完成页') >= 0, r.error || '');
+  rec('财务定稿入口保持关闭', r.ok === false && r.code === 'PREVIEW_FORMAL_POST_CLOSED', r.code || r.error);
 
   r = apply(rules, store, 'previewFourStatements', { yearMonth: '2026-10' });
   rec('未过完成页不得预览正式四套账', r.ok === false && String(r.error || '').indexOf('完成页') >= 0, r.error || '');
@@ -173,7 +173,7 @@ function main() {
   rec('完成页确认后可预览四套账且资产负债表配平', prev.ok === true && prev.data.balanced === true && prev.data.totals.balanceDiff === 0, prev.ok ? prev.data.summary : prev.error);
 
   r = apply(rules, store, 'postFourStatements', { yearMonth: '2026-10' });
-  rec('完成页确认后可定稿四套账且资产负债表配平', r.ok === true && r.data.balanced === true && r.data.totals.balanceDiff === 0, r.ok ? r.data.summary : r.error);
+  rec('完成页确认后财务定稿仍然关闭', r.ok === false && r.code === 'PREVIEW_FORMAL_POST_CLOSED', r.code || r.error);
 
   r = apply(rules, store, 'enterExecution', { contractNo: 'FS-TEST-C-001' });
   rec('无首期凭证时不能进入执行（保持待收（付）首期）', r.ok === false && String(r.error || '').indexOf('待收') >= 0, r.error || '');

@@ -11,7 +11,7 @@
  *
  * 规则：找不到授权表必须拒绝，不得默认放行。不输出、不写入明文密码。
  * 对客正式合同生成入口保持关闭。发布身份（buildId/dataMode/productionData）只由下方「发布身份开关」常量块决定，
- * 默认 preview = ac02-preview / ac02-preview / false；official = ac02-official / ac02-official / true。
+ * 默认 preview = ac02-preview / ac02-preview / false；official = ac02-official / ac02-official / false。
  * 年月键统一为 YYYY-MM；期初未确认时拒绝正式定稿；现金金额须为正数并执行 2000/20000 上限。
  * 脚本属性若把目标改到其他 ID，在任何数据读写前拒绝，且不改写、不清除属性。
  * 资料收件已作为「资料与凭证」模块，不另建独立 /c/ 入口。
@@ -31,7 +31,7 @@ var EXPECTED_DRIVE_ROOT = '__AC02_DRIVE_ROOT__';
 var AC02_RELEASE_MODE_ = 'preview'; /* 只改本行：'preview' -> 'official' */
 var AC02_RELEASE_PROFILES_ = {
   preview: { buildId: 'ac02-preview', dataMode: 'ac02-preview', productionData: false },
-  official: { buildId: 'ac02-official', dataMode: 'ac02-official', productionData: true }
+  official: { buildId: 'ac02-official', dataMode: 'ac02-official', productionData: false }
 };
 var AC02_RELEASE_ = resolveRelease_(typeof AC02_RELEASE_MODE_ === 'undefined' ? undefined : AC02_RELEASE_MODE_);
 var BUILD_ID = AC02_RELEASE_ ? AC02_RELEASE_.buildId : 'ac02-release-invalid';
@@ -42,7 +42,7 @@ var PRODUCTION_DATA = AC02_RELEASE_ ? AC02_RELEASE_.productionData === true : fa
 function resolveRelease_(mode) {
   var allowed = [
     ['preview', 'ac02-preview', 'ac02-preview', false],
-    ['official', 'ac02-official', 'ac02-official', true]
+    ['official', 'ac02-official', 'ac02-official', false]
   ];
   if (typeof mode !== 'string') return null;
   if (typeof AC02_RELEASE_PROFILES_ !== 'object' || !AC02_RELEASE_PROFILES_) return null;
@@ -487,7 +487,7 @@ function replaceWhere_(name, pred, records, headersHint, carryKey) {
 var TEST_MARK_HEADER_ = '测试标记';
 var TEST_MARK_VALUE_ = '测试';
 /* 上线第 2 步：前端「虚构资料重放」夹具请求号（rules.js PREVIEW_REPLAY.clientRequestId）。正式身份下 uploadDocument 拒绝它及测试行重放。 */
-var PREVIEW_REPLAY_CLIENT_REQUEST_ID_ = 'FL-mwnbgmp4167scl';
+var PREVIEW_REPLAY_CLIENT_REQUEST_ID_ = 'ac02-preview-replay-req-001';
 
 function setTestMark_(obj) {
   Object.defineProperty(obj, '_testMark', { value: true, writable: true, configurable: true, enumerable: false });
@@ -2252,43 +2252,7 @@ function buildFourStatements_(store, yearMonth) {
 }
 
 function postFourStatements_(store, yearMonth, actor) {
-  var key = canonYearMonth_(yearMonth);
-  var month = ensureMonth_(store, key);
-  if (!openingConfirmed_(store)) {
-    fail_('期初余额尚未经独立确认，已拒绝写入正式四套账。此禁令由接口执行。', 'OPENING_UNCONFIRMED', 403);
-  }
-  if (!month.completionConfirmed) {
-    fail_('未经过完成页确认（该附的已附、该免的已免、该暂记的已暂记），不得计入正式四套账，也不得写入给审计用的内部记账文件。', '', 400);
-  }
-  if (!month.bankBalanced) {
-    fail_('月结单与第一本明细账对不上，该月不能定稿。不把未配平说成已配平。', '', 400);
-  }
-  var statements = buildFourStatements_(store, yearMonth);
-  if (!statements.balanced) {
-    fail_('资产负债表未配平（差 ' + statements.balanceDiff + '），拒绝定稿，以免把未配平说成已配平。', '', 400);
-  }
-  store.fourStatements = (store.fourStatements || []).filter(function (r) { return canonYearMonth_(r.period) !== key; });
-  store.fourStatements.push.apply(store.fourStatements, statements.rows);
-  store.ledger.forEach(function (line) {
-    if (canonYearMonth_(line.yearMonth) === key) line.posted = true;
-  });
-  month.posted = true;
-  month.postedAt = nowIso_();
-  month.postedBy = actor;
-  var hasSuspense = liveRows_(store.ledger).some(function (l) { return canonYearMonth_(l.yearMonth) === key && l.voucherStatus === '暂记往来'; });
-  store.exports = store.exports || [];
-  store.exports.push({
-    period: key,
-    type: '四套账定稿',
-    date: todayYmd_(),
-    summary: statements.summary,
-    fileId: '',
-    hasSuspense: hasSuspense,
-    notes: hasSuspense
-      ? '本月含暂记往来项目，已在导出中标明。未获真凭证调整前，这些项目不作为已齐备的审计附件。'
-      : '本月无暂记往来。'
-  });
-  return statements;
+  formalPostClosed_();
 }
 
 function summarizeMonth_(store, yearMonth) {
@@ -2360,6 +2324,13 @@ function officialGenerateBlocked_() {
   var err = new Error('对客正式合同生成入口已关闭。本预览只做台账、流程、状态和文件归档。');
   err.status = 403;
   err.code = 'GENERATION_CLOSED';
+  throw err;
+}
+
+function formalPostClosed_() {
+  var err = new Error('本版本未开放财务定稿。期初、配平、完成页和未处理项即使全部满足，也不会写入正式四套账。');
+  err.status = 403;
+  err.code = 'PREVIEW_FORMAL_POST_CLOSED';
   throw err;
 }
 
@@ -3331,17 +3302,7 @@ function applyAction_(store, action, payload, user, uploaded) {
     }
     return preview;
   }
-  if (action === 'postFourStatements') {
-    var posted;
-    try {
-      posted = postFourStatements_(store, payload.yearMonth, actor);
-    } catch (postErr) {
-      log_(actor, '定稿四套账', 'YM:' + payload.yearMonth, '拒绝', postErr.message || '');
-      throw postErr;
-    }
-    log_(actor, '定稿四套账', 'YM:' + payload.yearMonth, posted.balanced ? '成功' : '拒绝', posted.summary);
-    return Object.assign(posted, { _dirty: { month: true, yearMonth: payload.yearMonth, ledgerMonth: true, four: true, exports: true } });
-  }
+  if (action === 'postFourStatements') formalPostClosed_();
 
   if (action === 'getContracts') {
     return {
@@ -3489,6 +3450,25 @@ function isWriteAction_(action) {
   return !Object.prototype.hasOwnProperty.call(READ_ONLY_ACTIONS_, action);
 }
 
+/* One script lock for every write. Reads stay lock-free. Node tests without LockService skip the call. */
+function acquireScriptLock_() {
+  if (typeof LockService === 'undefined' || !LockService || typeof LockService.getScriptLock !== 'function') return null;
+  var lock = LockService.getScriptLock();
+  var tLock = stageNow_();
+  try {
+    if (lock && typeof lock.waitLock === 'function') lock.waitLock(30000);
+  } finally {
+    stageMark_('lock-wait', tLock);
+  }
+  return lock;
+}
+
+function releaseScriptLock_(lock) {
+  if (lock && typeof lock.releaseLock === 'function') {
+    try { lock.releaseLock(); } catch (ignore) {}
+  }
+}
+
 function dispatchBody_(action, payload, token, uploaded) {
   var tTargets = stageNow_();
   try { assertIsolatedTargets_(); } finally { stageMark_('assert-targets', tTargets); }
@@ -3496,33 +3476,32 @@ function dispatchBody_(action, payload, token, uploaded) {
   /* 写类动作开始前也清一次，保证写路径读到的 config 与 V2 一样是现读。 */
   if (isWriteAction_(action) && !testStore_()) storeCacheClear_();
   if (!action) fail_('缺少 action。', '', 400);
-  if (action === 'login') {
-    var tLogin = stageNow_();
-    try { return login_(payload); } finally { stageMark_('authenticate', tLogin); }
-  }
-  if (!token) fail_('未登录或会话已失效，已拒绝访问。', 'UNAUTHENTICATED', 401);
 
-  var tAuth = stageNow_();
-  var user;
-  try { user = requireUser_(token); } finally { stageMark_('authenticate', tAuth); }
-  if (action === 'logout') {
-    removeSession_(token);
-    log_(user.jobId, '登出', '', '成功', '');
-    return { ok: true };
-  }
-
-  var store = loadStore_(action);
-  var result;
-  var uploadLock = null;
-  if (action === 'uploadDocument' && !testStore_()) {
-    uploadLock = LockService.getScriptLock();
-    var tLock = stageNow_();
-    try { uploadLock.waitLock(30000); } finally { stageMark_('lock-wait', tLock); }
-    var tLockedFiles = stageNow_();
-    store.files = loadFiles_();
-    stageMark_('load-store', tLockedFiles, 'files');
-  }
+  var writeLock = null;
+  if (isWriteAction_(action)) writeLock = acquireScriptLock_();
   try {
+    if (action === 'login') {
+      var tLogin = stageNow_();
+      try { return login_(payload); } finally { stageMark_('authenticate', tLogin); }
+    }
+    if (!token) fail_('未登录或会话已失效，已拒绝访问。', 'UNAUTHENTICATED', 401);
+
+    var tAuth = stageNow_();
+    var user;
+    try { user = requireUser_(token); } finally { stageMark_('authenticate', tAuth); }
+    if (action === 'logout') {
+      removeSession_(token);
+      log_(user.jobId, '登出', '', '成功', '');
+      return { ok: true };
+    }
+
+    var store = loadStore_(action);
+    var result;
+    if (action === 'uploadDocument' && !testStore_()) {
+      var tLockedFiles = stageNow_();
+      store.files = loadFiles_();
+      stageMark_('load-store', tLockedFiles, 'files');
+    }
     var tApply = stageNow_();
     try { result = applyAction_(store, action, payload || {}, user, uploaded); }
     finally { stageMark_('apply-action', tApply); }
@@ -3541,9 +3520,7 @@ function dispatchBody_(action, payload, token, uploaded) {
     }
     throw err;
   } finally {
-    if (uploadLock) {
-      try { uploadLock.releaseLock(); } catch (ignore) {}
-    }
+    releaseScriptLock_(writeLock);
   }
 }
 

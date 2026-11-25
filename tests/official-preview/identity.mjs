@@ -308,8 +308,9 @@ assert.ok(rejectAt > 0 && renderAt > rejectAt, 'a rejected identity must return 
 const gas = read('apps-script/Code.gs');
 assert.ok(gas.includes("buildId: 'ac02-preview'"));
 assert.ok(gas.includes("buildId: 'ac02-official'"));
+assert.ok(gas.includes("official: { buildId: 'ac02-official', dataMode: 'ac02-official', productionData: false }"));
 assert.ok(gas.includes('productionData: false'));
-assert.ok(gas.includes('productionData: true'));
+assert.equal(gas.includes('productionData: true'), false);
 assert.equal(gas.split('__AC02_SPREADSHEET_ID__').length - 1 >= 2, true);
 assert.equal(gas.split('__AC02_DRIVE_ROOT__').length - 1 >= 2, true);
 assert.equal(gas.includes('script.google.com/macros'), false);

@@ -156,13 +156,14 @@ rec('R3', 'SYN-R3-FOUR-CSV', { month: '2025-07' }, 'draft csv, not posted', {
 const pdf = call(engine, advisor.token, 'exportFourStatementsDraft', { yearMonth: '2025-07', format: 'pdf' });
 rec('R3', 'SYN-R3-PDF-GATED', { format: 'pdf' }, 'PDF_UNSUPPORTED', pdf.code, pdf.code === 'PDF_UNSUPPORTED');
 const postedBlocked = call(engine, advisor.token, 'postFourStatements', { yearMonth: '2025-07' });
-rec('R4', 'SYN-R4-POST-LOCKED', { openingConfirmed: false }, 'OPENING_UNCONFIRMED', postedBlocked.code, postedBlocked.ok === false && postedBlocked.code === 'OPENING_UNCONFIRMED');
+rec('R4', 'SYN-R4-POST-LOCKED', { openingConfirmed: false }, 'PREVIEW_FORMAL_POST_CLOSED', postedBlocked.code, postedBlocked.ok === false && postedBlocked.code === 'PREVIEW_FORMAL_POST_CLOSED');
 const still = call(engine, advisor.token, 'getMonth', { yearMonth: '2025-07' });
 rec('R4', 'SYN-R4-POST-NOT-WRITTEN', { month: '2025-07' }, 'posted false', still.data.month.posted, still.data.month.posted === false);
 
 store.config.openingConfirmed = true;
 const posted = call(engine, advisor.token, 'postFourStatements', { yearMonth: '2025-07' });
-rec('R4', 'SYN-R4-POST-WHEN-FLAG', { openingConfirmed: true, label: 'synthetic gate proof only' }, 'posted', posted.ok && posted.data && posted.data.balanced, posted.ok && posted.data.balanced === true);
+const postedMonth = call(engine, advisor.token, 'getMonth', { yearMonth: '2025-07' });
+rec('R4', 'SYN-R4-POST-WHEN-FLAG', { openingConfirmed: true }, 'PREVIEW_FORMAL_POST_CLOSED', posted.code, posted.ok === false && posted.code === 'PREVIEW_FORMAL_POST_CLOSED' && postedMonth.data.month.posted === false);
 store.config.openingConfirmed = false;
 
 const over = call(engine, advisor.token, 'addCashItem', {
