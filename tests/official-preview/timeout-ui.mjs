@@ -62,8 +62,33 @@ const oldFile = fileRow('FL-OLD');
 const savedFile = fileRow('FL-MWN982MJ0XXQC9');
 let includeSaved = false;
 let failList = false;
+let uploadAborted = false;
+let getDocumentsAfterAbort = 0;
 const calls = [];
 const requestIds = [];
+
+function parseMultipart(raw, ctype) {
+  const m = /boundary=(?:"([^"]+)"|([^;]+))/i.exec(ctype);
+  const boundary = m && (m[1] || m[2]);
+  const parts = String(raw).split('--' + boundary).slice(1, -1);
+  const body = { payload: {}, token: '' };
+  parts.forEach((part) => {
+    const splitAt = part.indexOf('\r\n\r\n');
+    if (splitAt < 0) return;
+    const head = part.slice(0, splitAt);
+    let value = part.slice(splitAt + 4);
+    if (value.endsWith('\r\n')) value = value.slice(0, -2);
+    const name = /name="([^"]+)"/.exec(head);
+    if (!name) return;
+    if (name[1] === 'payload') body.payload = JSON.parse(value || '{}');
+    else if (name[1] === 'token') body.token = value;
+    else if (name[1] === 'action') body.action = value;
+    else if (name[1] === 'file') {
+      body.file = { name: 'upload.bin', mime: 'application/octet-stream', data: Buffer.from(value).toString('base64') };
+    }
+  });
+  return body;
+}
 
 function mePayload() {
   return {
@@ -206,7 +231,7 @@ try {
   const pageErrors = [];
   page.on('pageerror', (err) => pageErrors.push(String(err)));
   await page.setRequestInterception(true);
-  page.on('request', (request) => {
+  page.on('request', async (request) => {
     const url = request.url();
     let host = '';
     try { host = new URL(url).host; } catch (e) { host = ''; }
@@ -228,15 +253,32 @@ try {
     let action = '';
     let payload = {};
     try {
-      const body = JSON.parse(request.postData() || '{}');
-      action = body.action || '';
-      payload = body.payload || {};
+      const headers = request.headers();
+      const ctype = headers['content-type'] || headers['Content-Type'] || '';
+      let raw = request.postData();
+      if (raw == null && typeof request.fetchPostData === 'function') {
+        const buf = await request.fetchPostData();
+        raw = buf ? Buffer.from(buf).toString('utf8') : '';
+      }
+      if (/multipart\/form-data/i.test(ctype)) {
+        const parsed = parseMultipart(raw || '', ctype);
+        action = parsed.action || '';
+        payload = parsed.payload || {};
+      } else {
+        const body = JSON.parse(raw || '{}');
+        action = body.action || '';
+        payload = body.payload || {};
+      }
     } catch (e) { action = ''; }
     calls.push(action);
+    if (uploadAborted && action === 'getDocuments') getDocumentsAfterAbort += 1;
     if (action === 'uploadDocument') {
       if (payload.clientRequestId) requestIds.push(payload.clientRequestId);
       includeSaved = true;
-      setTimeout(() => request.abort('aborted').catch(() => {}), 150);
+      setTimeout(() => {
+        uploadAborted = true;
+        request.abort('aborted').catch(() => {});
+      }, 150);
       return;
     }
     if (action === 'getDocuments' && failList) {
@@ -259,7 +301,8 @@ try {
   await page.click('#doc-form button[type="submit"]');
   await page.waitForFunction(() => {
     const text = document.querySelector('#status').textContent || '';
-    return text.includes('资料已归档') || text.includes('可能尚未保存') || text.includes('尚未确认');
+    const view = document.querySelector('#view').innerText || '';
+    return text.includes('资料已归档') && view.includes('FL-MWN982MJ0XXQC9');
   }, { timeout: 15000 });
   const saved = await page.evaluate(() => ({
     status: document.querySelector('#status').textContent,
@@ -269,6 +312,11 @@ try {
     gate: document.querySelector('#gate-note').textContent
   }));
   assertSafe(saved.status + '\n' + saved.view, 'reconciled upload');
+  const documentsAfterFirstAbort = getDocumentsAfterAbort;
+  if (!saved.status.includes('资料已归档')) throw new Error('status did not show 资料已归档: ' + saved.status);
+  if (documentsAfterFirstAbort !== 2) {
+    throw new Error('expected 2 getDocuments after abort, saw ' + documentsAfterFirstAbort);
+  }
   if (!saved.status.includes('资料已归档 FL-MWN982MJ0XXQC9')) throw new Error('saved id was not shown: ' + saved.status);
   if (!saved.status.includes('回读台账已确认，请不要再次上传')) throw new Error('read-back success was not explicit: ' + saved.status);
   if (!saved.statusClass.includes('ok')) throw new Error('reconciled upload was not a success: ' + saved.statusClass);
@@ -357,7 +405,8 @@ try {
     missingShot: missingShot,
     listShot: listShot,
     financeClosed: finance.note,
-    uploads: calls.filter((action) => action === 'uploadDocument').length
+    uploads: calls.filter((action) => action === 'uploadDocument').length,
+    documentsAfterFirstAbort: documentsAfterFirstAbort
   }, null, 2));
 } finally {
   await browser.close();
