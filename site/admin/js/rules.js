@@ -279,8 +279,8 @@
     fileId: 'ac02-preview-replay-file-001',
     fileName: 'ac02_synthetic_sample.pdf',
     // AC02-待定：预览夹具大小 1528 字节未提供 AC02 新虚构文件，保持原值以免与拒绝文案不一致。
-    size: 1528,
-    sha256: '000000000000000000000000000000000000000000000000000000000000ac02',
+    size: 593,
+    sha256: 'c9fef96432df0b61aeda3349a3aab83e97ef2bf4b67dca6ca4ff9554f22d7acf',
     category: '其他',
     relatedId: 'ac02-preview-replay-rel-001'
   };

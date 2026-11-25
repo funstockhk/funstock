@@ -30,7 +30,6 @@ const outDir = process.env.AC02_ARTIFACT_DIR || '/opt/cursor/artifacts';
 fs.mkdirSync(outDir, { recursive: true });
 const rules = require(path.join(root, 'site/admin/js/rules.js'));
 const REC = rules.PREVIEW_REPLAY;
-const MISSING = '未测：缺原始虚构样本';
 
 function fileSha256(file) {
   return crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
@@ -71,9 +70,6 @@ function findOriginalFixture() {
 let fixtureSrc = findOriginalFixture();
 let fixturePath = '';
 if (fixtureSrc) {
-  const stored = path.join(root, 'tests/official-preview', REC.fileName);
-  if (path.resolve(fixtureSrc) !== path.resolve(stored)) fs.copyFileSync(fixtureSrc, stored);
-  fixtureSrc = fs.existsSync(stored) && isOriginalFixture(stored) ? stored : fixtureSrc;
   const stat = fs.statSync(fixtureSrc);
   const hash = fileSha256(fixtureSrc);
   if (stat.size !== REC.size || hash !== REC.sha256) throw new Error('fixture bytes do not match the replay gate');
@@ -101,6 +97,29 @@ function mePayload() {
     productionData: false,
     release: { buildId: BUILD, dataMode: 'ac02-preview', productionData: false }
   };
+}
+
+function parseMultipart(raw, ctype) {
+  const m = /boundary=(?:"([^"]+)"|([^;]+))/i.exec(ctype);
+  const boundary = m && (m[1] || m[2]);
+  const parts = String(raw).split('--' + boundary).slice(1, -1);
+  const body = { payload: {}, token: '' };
+  parts.forEach((part) => {
+    const splitAt = part.indexOf('\r\n\r\n');
+    if (splitAt < 0) return;
+    const head = part.slice(0, splitAt);
+    let value = part.slice(splitAt + 4);
+    if (value.endsWith('\r\n')) value = value.slice(0, -2);
+    const name = /name="([^"]+)"/.exec(head);
+    if (!name) return;
+    if (name[1] === 'payload') body.payload = JSON.parse(value || '{}');
+    else if (name[1] === 'token') body.token = value;
+    else if (name[1] === 'action') body.action = value;
+    else if (name[1] === 'file') {
+      body.file = { name: 'upload.bin', mime: 'application/octet-stream', data: Buffer.from(value).toString('base64') };
+    }
+  });
+  return body;
 }
 
 function answer(action) {
@@ -177,7 +196,7 @@ async function openDocs(page) {
 try {
   const page = await browser.newPage();
   await page.setRequestInterception(true);
-  page.on('request', (request) => {
+  page.on('request', async (request) => {
     let host = '';
     try { host = new URL(request.url()).host; } catch (e) { host = ''; }
     if ((() => { try { const u = new URL(request.url()); return u.pathname !== '/api' && u.host !== 'exec.invalid'; } catch (e) { return true; } })()) {
@@ -191,9 +210,22 @@ try {
     let action = '';
     let payload = {};
     try {
-      const body = JSON.parse(request.postData() || '{}');
-      action = body.action || '';
-      payload = body.payload || {};
+      const headers = request.headers();
+      const ctype = headers['content-type'] || headers['Content-Type'] || '';
+      let raw = request.postData();
+      if (raw == null && typeof request.fetchPostData === 'function') {
+        const buf = await request.fetchPostData();
+        raw = buf ? Buffer.from(buf).toString('utf8') : '';
+      }
+      if (/multipart\/form-data/i.test(ctype)) {
+        const parsed = parseMultipart(raw || '', ctype);
+        action = parsed.action || '';
+        payload = parsed.payload || {};
+      } else {
+        const body = JSON.parse(raw || '{}');
+        action = body.action || '';
+        payload = body.payload || {};
+      }
     } catch (e) { action = ''; }
     calls.push(action);
     if (action === 'uploadDocument') uploads.push(payload);
@@ -220,17 +252,8 @@ try {
   await page.waitForFunction(() => (document.querySelector('#replay-result').textContent || '').includes('未向接口提交'), { timeout: 8000 });
   if (uploads.length !== before) throw new Error('rejected file still called uploadDocument');
 
-  if (!fixturePath) {
-    console.log(JSON.stringify({
-      ok: true,
-      checked: ['replay-card', 'gate-note', 'wrong-file-refused'],
-      skipped: [
-        { name: '成功重放', status: MISSING },
-        { name: '失败重放', status: MISSING },
-        { name: '客户角色隐藏', status: MISSING }
-      ]
-    }, null, 2));
-  } else {
+  if (!fixturePath) throw new Error('replay fixture is missing or does not match the gate');
+  {
     replay = { idempotentReplay: true, id: 'ac02-preview-replay-file-001' };
     await page.$('#replay-form input[type="file"]').then((el) => el.uploadFile(fixturePath));
     await page.click('#replay-form button[type="submit"]');
@@ -273,6 +296,11 @@ try {
 
     console.log(JSON.stringify({
       ok: true,
+      paths: {
+        '成功重放': 'ran',
+        '失败重放': 'ran',
+        '客户角色隐藏': 'ran'
+      },
       fixture: { path: fixtureSrc, bytes: REC.size, sha256: REC.sha256 },
       uploads: sentUploads,
       shown: shown,
