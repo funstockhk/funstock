@@ -31,9 +31,9 @@ function save(file, data) {
 
 function nowIso() {
   const d = new Date();
-  // Store in Asia/Hong_Kong wall clock with explicit offset
+  // Store in Asia/Shanghai wall clock with explicit offset
   const parts = new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'Asia/Hong_Kong',
+    timeZone: 'Asia/Shanghai',
     year: 'numeric', month: '2-digit', day: '2-digit',
     hour: '2-digit', minute: '2-digit', second: '2-digit',
     hourCycle: 'h23',

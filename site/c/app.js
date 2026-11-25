@@ -70,11 +70,11 @@ function renewal(r,upd){
   var cat=[r['身份类型'],r['类别']].filter(Boolean).join(' · ');
   var diag=(r['诊断']||[]).map(function(x){return '<div class="diag card"><h2>'+esc(x['服务线'])+'（'+esc(x['诊断周期'])+'）</h2><p><b>现状：</b>'+esc(x['现状'])+'</p><p><b>缺口：</b>'+esc(x['缺口'])+'</p><p><b>建议动作：</b>'+esc(x['建议动作'])+'</p><p class="muted">负责方：'+esc(x['负责方'])+'　下次复检：'+esc(x['下次复检日']||'—')+'</p></div>'}).join('');
   var prog=r['进度']||{};
-  return '<section class="sec" id="s-renew"><div class="sec-title"><h2>逗留进度看板</h2><span>已签约客户 · 资料进度</span></div>'+
+  return '<section class="sec" id="s-renew"><div class="sec-title"><h2>续签进度看板</h2><span>已签约客户 · 资料进度</span></div>'+
   '<section class="card"><div class="grid">'+kv('客户代号',r['客户代号'])+kv('身份类别',cat)+kv('服务档位',r['服务档位'])+kv('项目阶段',r['项目阶段'])+'</div></section>'+
   '<div class="pol-banner" id="pol-banner"><span class="pol-banner-text">正在读取与您当前路径相关的官方政策提醒…</span><a class="pol-banner-link" href="#s-policy">查看详情 →</a></div>'+
   '<section class="card count"><div class="grid"><div class="kv"><div class="k lt">距逗留期限届满（'+esc(r['逗留期限'])+'）</div><div class="big" id="cd">—</div></div>'+
-  [['续' + '签窗口开日','办理窗口开日'],['最迟递交参考日','最迟递交参考日']].map(function(pair){var v=r[pair[0]];var n=v?daysTo(v):null;return '<div class="kv"><div class="k lt">'+pair[1]+'</div><div class="v">'+esc(v||'—')+(n!==null?'<span class="lt" style="font-weight:400;font-size:.85rem">　'+(n>0?'还有 '+n+' 天':(n===0?'今天':'已过 '+(-n)+' 天'))+'</span>':'')+'</div></div>'}).join('')+
+  ['续签窗口开日','最迟递交参考日'].map(function(k){var v=r[k];var n=v?daysTo(v):null;return '<div class="kv"><div class="k lt">'+k+'</div><div class="v">'+esc(v||'—')+(n!==null?'<span class="lt" style="font-weight:400;font-size:.85rem">　'+(n>0?'还有 '+n+' 天':(n===0?'今天':'已过 '+(-n)+' 天'))+'</span>':'')+'</div></div>'}).join('')+
   '</div></section>'+
   '<section class="card"><div class="grid"><div class="kv"><div class="k muted">个人资料进度</div><div class="v prog">'+esc(prog['个人']||'—')+'</div></div><div class="kv"><div class="k muted">公司资料进度</div><div class="v prog">'+esc(prog['公司']||'—')+'</div></div></div></section>'+
   '<section class="card"><h2>个人资料</h2>'+table(r['个人资料']||[],r['附件示例'])+'</section>'+
@@ -172,17 +172,16 @@ function loadPolicy(){
 
 function render(d){
   var app=$('app');
-  var stay=d['逗留']||d['续' + '签'];
-  var nav=[['s-renew','逗留进度',stay],['s-diag','初步诊断',d['初诊']],['s-self','自测结果',d['自测']],['s-policy','最新政策',true]].filter(function(x){return x[2]});
+  var nav=[['s-renew','续签进度',d['续签']],['s-diag','初步诊断',d['初诊']],['s-self','自测结果',d['自测']],['s-policy','最新政策',true]].filter(function(x){return x[2]});
   app.innerHTML=
     (d['测试']?'<div class="testbar">测试版 · 示例客户：以下全部为虚构资料，仅用于验收页面效果。</div>':'')+
     '<div class="hello"><h1>您好'+(d['称呼']?'，'+esc(d['称呼']):'')+'</h1><span class="meta">数据更新：'+esc(d['更新时间'])+'（香港时间）</span></div>'+
     '<nav class="nav" id="nav">'+nav.map(function(x,i){return '<a href="#'+x[0]+'"'+(i===0?' class="on"':'')+'>'+x[1]+'</a>'}).join('')+'</nav>'+
-    renewal(stay,d['更新时间'])+diagnosis(d['初诊'])+selfcheck(d['自测'])+policyShell()+
+    renewal(d['续签'],d['更新时间'])+diagnosis(d['初诊'])+selfcheck(d['自测'])+policyShell()+
     '<div class="actions"><span class="muted">离开前请点「锁定」，或直接关闭页面。</span><button class="ghost" type="button" id="lock">锁定看板</button></div>';
   $('gate').classList.add('hidden'); app.classList.remove('hidden');
   document.title='客户看板 · HARTHELM';
-  if(stay){var tick=function(){var e=$('cd');if(e)e.textContent=cd(stay['逗留期限'])};tick();timer=setInterval(tick,1000)}
+  if(d['续签']){var tick=function(){var e=$('cd');if(e)e.textContent=cd(d['续签']['逗留期限'])};tick();timer=setInterval(tick,1000)}
   loadPolicy();
   $('lock').addEventListener('click',function(){clearInterval(timer);app.innerHTML='';location.replace(location.pathname)});
   var links=[].slice.call(document.querySelectorAll('#nav a'));

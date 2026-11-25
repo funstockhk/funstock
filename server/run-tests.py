@@ -184,7 +184,7 @@ def main():
     for p in (pkg / "site/admin").rglob("*"):
         if p.is_file() and p.suffix in {".html", ".js", ".css"}:
             admin_all += p.read_text(encoding="utf-8", errors="replace")
-    rec("后台文案不含旧流程字样", ("续" + "签") not in admin_all, "scanned site/admin")
+    rec("后台文案不含「续签」", "续签" not in admin_all, "scanned site/admin")
 
     text = json.dumps(results, ensure_ascii=False, indent=2)
     assert PASSWORD not in text
