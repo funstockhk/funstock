@@ -252,3 +252,65 @@ footer .copyright{ color: rgba(148,163,184,.7); }
   .card.count .big { font-size: 26px; }
   table { display: block; overflow-x: auto; white-space: nowrap; }
 }
+/* 7. 政策栏与总览联动提示条样式（海军蓝青绿体系） */
+html { scroll-behavior: smooth; }
+.pol-banner {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  background: linear-gradient(135deg, rgba(14, 159, 150, 0.08) 0%, rgba(11, 37, 69, 0.04) 100%);
+  border: 1px solid rgba(14, 159, 150, 0.3); border-left: 4px solid var(--teal);
+  border-radius: var(--radius-md); padding: 14px 20px; margin-bottom: 20px;
+}
+.pol-banner-text { font-size: 14px; font-weight: 700; color: var(--navy); }
+.pol-banner-link {
+  flex-shrink: 0; font-size: 13px; font-weight: 700; color: #fff; background: var(--teal);
+  padding: 7px 14px; border-radius: 999px; transition: all 0.2s;
+}
+.pol-banner-link:hover { background: var(--teal-6); color: #fff; }
+.sec-title .badge {
+  display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 700;
+  background: rgba(14, 159, 150, 0.12); color: var(--teal-6); border: 1px solid rgba(14, 159, 150, 0.3);
+}
+.pol-group-title {
+  font-size: 14px; font-weight: 800; color: var(--navy); margin: 18px 0 12px;
+}
+.pol-head b { color: var(--navy); }
+.pol-pin { border-color: rgba(14, 159, 150, 0.35); border-left: 4px solid var(--teal); }
+.pol h3 {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  font-size: 17px; font-weight: 800; color: var(--navy); margin: 0 0 8px; line-height: 1.45;
+}
+.lv {
+  display: inline-block; padding: 2px 9px; border-radius: 6px; font-size: 12px; font-weight: 700; flex-shrink: 0;
+}
+.lv-warn { background: #FEF2F2; color: var(--danger); border: 1px solid #FECACA; }
+.lv-info { background: #FFFBEB; color: #B45309; border: 1px solid #FDE68A; }
+.lv-check { background: #F0FDF4; color: var(--teal-6); border: 1px solid #BBF7D0; }
+.pin-tag {
+  display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 700;
+  background: var(--navy); color: #fff; flex-shrink: 0;
+}
+.pol-sub { margin: 0 0 10px !important; font-size: 12px; color: var(--muted); font-weight: 600; }
+.pol-sum { font-size: 14px; color: var(--ink); line-height: 1.7; margin: 0 0 12px; }
+.pol-impact {
+  background: var(--bg); border-left: 4px solid var(--teal); border-radius: var(--radius-sm);
+  padding: 10px 14px; font-size: 13px; color: var(--ink); margin-bottom: 12px; line-height: 1.6;
+}
+.pol-impact b { color: var(--navy); }
+.pol-src { display: flex; flex-wrap: wrap; gap: 8px 14px; font-size: 13px; font-weight: 600; }
+.pol-src a { color: var(--teal-6); }
+.pol-src a:hover { text-decoration: underline; }
+.pol-more {
+  margin: 18px 0 14px; background: var(--white); border: 1px solid var(--line);
+  border-radius: var(--radius-md); padding: 14px 18px; box-shadow: var(--shadow-card);
+}
+.pol-more summary { cursor: pointer; font-size: 14px; font-weight: 700; color: var(--navy); list-style: none; }
+.pol-more summary::-webkit-details-marker { display: none; }
+.pol-more summary::before { content: "▸ "; display: inline-block; color: var(--teal); }
+.pol-more[open] summary::before { content: "▾ "; }
+.pol-more-list { margin-top: 14px; }
+.pol-disc { margin-top: 12px; font-size: 12px; line-height: 1.6; }
+@media (max-width: 640px) {
+  .pol-banner { flex-direction: column; align-items: flex-start; padding: 12px 16px; }
+  .sec-title { flex-wrap: wrap; gap: 8px; }
+  .pol h3 { font-size: 16px; }
+}
