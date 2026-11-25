@@ -3,8 +3,10 @@
  * No network and no fixture bytes.
  */
 import assert from 'node:assert/strict';
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
+import vm from 'node:vm';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 
@@ -237,11 +239,20 @@ assert.ok(replayHandler.includes('previewReplayVerdict'));
 assert.equal(app.includes('signedSession = data'), true);
 assert.equal(/api\(\s*['"]postFourStatements['"]/.test(app), false);
 assert.equal(/api\(\s*['"]generateOfficialContract['"]/.test(app), false);
-assert.ok(read('site/admin/js/config.js').includes('__AC02_EXEC_URL__'));
-assert.equal(read('site/admin/js/config.js').includes('script.google.com'), false);
-assert.ok(read('site/admin/js/build.js').includes('TODO'));
-assert.ok(read('site/admin/js/build.js').includes('window.AC02_BUILD'));
-assert.equal(/buildId\s*:/.test(read('site/admin/js/build.js')), false);
+assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(root, 'site/admin/js/build.js'))).digest('hex'), '7a00612f09070faae8c493164c0c6c5f944c12df7eea274b386986bce76c94e1');
+assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(root, 'site/admin/js/config.js'))).digest('hex'), '351dfaa1f76eb459cddb27296a55f9259f8bbc374a33a25660ffbc6953f1b7cf');
+assert.equal(read('site/admin/js/config.js').includes('http'), false);
+assert.equal(read('site/admin/js/config.js').includes('script.google'), false);
+assert.equal(read('site/admin/js/config.js').includes('/exec'), false);
+{
+  const sandbox = { window: {} };
+  vm.createContext(sandbox);
+  vm.runInContext(read('site/admin/js/build.js'), sandbox, { filename: 'site/admin/js/build.js' });
+  assert.equal(sandbox.window.AC02_BUILD.productionData, false);
+  const identities = sandbox.window.AC02_IDENTITIES;
+  assert.equal(Array.isArray(identities) && identities.length, 2);
+  identities.forEach((item) => assert.equal(item.productionData, false));
+}
 assert.equal(read('apps-script/Code.gs').includes("buildId: 'ac02-preview'"), true);
 assert.equal(read('apps-script/Code.gs').includes('__AC02_SPREADSHEET_ID__'), true);
 assert.equal(read('apps-script/Code.gs').includes('__AC02_DRIVE_ROOT__'), true);

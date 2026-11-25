@@ -1,5 +1,7 @@
+import crypto from 'crypto';
 import fs from 'fs';
 import path from 'path';
+import vm from 'vm';
 import { createRequire } from 'module';
 import { fileURLToPath } from 'url';
 
@@ -51,8 +53,22 @@ for (const p of assetPaths) {
 }
 rec('R1', 'SYN-R1-ASSETS', assetPaths, '200', assetStatus, Object.values(assetStatus).every((s) => s === 200));
 
-const configOnDisk = fs.readFileSync(path.join(root, 'site/admin/js/config.js'), 'utf8');
-rec('R1', 'SYN-R1-CONFIG-PLACEHOLDER', { file: 'site/admin/js/config.js' }, 'TODO placeholder, no live exec URL', configOnDisk.indexOf('__AC02_EXEC_URL__') >= 0 && configOnDisk.indexOf('TODO') >= 0 && configOnDisk.indexOf('script.google.com') < 0, configOnDisk.indexOf('__AC02_EXEC_URL__') >= 0 && configOnDisk.indexOf('TODO') >= 0 && configOnDisk.indexOf('script.google.com') < 0);
+const configOnDisk = fs.readFileSync(path.join(root, 'site/admin/js/config.js'));
+const buildOnDisk = fs.readFileSync(path.join(root, 'site/admin/js/build.js'));
+const approvedBuild = (() => {
+  const sandbox = { window: {} };
+  vm.createContext(sandbox);
+  vm.runInContext(buildOnDisk.toString('utf8'), sandbox, { filename: 'site/admin/js/build.js' });
+  const identities = sandbox.window.AC02_IDENTITIES;
+  return crypto.createHash('sha256').update(buildOnDisk).digest('hex') === '7a00612f09070faae8c493164c0c6c5f944c12df7eea274b386986bce76c94e1'
+    && crypto.createHash('sha256').update(configOnDisk).digest('hex') === '351dfaa1f76eb459cddb27296a55f9259f8bbc374a33a25660ffbc6953f1b7cf'
+    && configOnDisk.toString('utf8').includes('http') === false
+    && configOnDisk.toString('utf8').includes('script.google') === false
+    && configOnDisk.toString('utf8').includes('/exec') === false
+    && sandbox.window.AC02_BUILD && sandbox.window.AC02_BUILD.productionData === false
+    && Array.isArray(identities) && identities.length === 2 && identities.every((item) => item.productionData === false);
+})();
+rec('R1', 'SYN-R1-CONFIG-PLACEHOLDER', { file: 'site/admin/js/build.js + site/admin/js/config.js' }, 'approved build and config', approvedBuild, approvedBuild === true);
 
 await page.goto(base + '/admin/login.html', { waitUntil: 'networkidle0' });
 const loginLeak = await page.evaluate(() => document.body.innerText.indexOf('__AC02_SPREADSHEET_ID__') >= 0 || document.body.innerText.indexOf('__AC02_DRIVE_ROOT__') >= 0);

@@ -3,6 +3,7 @@
  * No network. Does not log in, and does not call the live exec.
  */
 import assert from 'node:assert/strict';
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
@@ -14,8 +15,8 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const BUILD = 'ac02-preview';
 const MODE = 'ac02-preview';
 const OLD_BUILD = 'retired-preview-build';
-const CACHE = '?v=ac02-admin';
-const LOGIN_CACHE = '?v=ac02-admin';
+const CACHE = '?v=ac02-admin-20261125r2';
+const LOGIN_CACHE = '?v=ac02-admin-20261125r2';
 const OFFICIAL_BUILD = 'ac02-official';
 const OFFICIAL_MODE = 'ac02-official';
 
@@ -32,7 +33,20 @@ function loadBuild() {
   vm.runInContext(read('site/admin/js/build.js'), sandbox, { filename: 'site/admin/js/build.js' });
   return sandbox.window.AC02_BUILD;
 }
-assert.equal(loadBuild(), undefined, 'build.js stays a placeholder until QA accepts a draft');
+assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(root, 'site/admin/js/build.js'))).digest('hex'), '7a00612f09070faae8c493164c0c6c5f944c12df7eea274b386986bce76c94e1');
+assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(root, 'site/admin/js/config.js'))).digest('hex'), '351dfaa1f76eb459cddb27296a55f9259f8bbc374a33a25660ffbc6953f1b7cf');
+assert.equal(read('site/admin/js/config.js').includes('http'), false);
+assert.equal(read('site/admin/js/config.js').includes('script.google'), false);
+assert.equal(read('site/admin/js/config.js').includes('/exec'), false);
+assert.equal(loadBuild().productionData, false);
+{
+  const sandbox = { window: {} };
+  vm.createContext(sandbox);
+  vm.runInContext(read('site/admin/js/build.js'), sandbox, { filename: 'site/admin/js/build.js' });
+  const identities = sandbox.window.AC02_IDENTITIES;
+  assert.equal(Array.isArray(identities) && identities.length, 2);
+  identities.forEach((item) => assert.equal(item.productionData, false));
+}
 
 function matchPayload(extra) {
   const data = {
@@ -165,7 +179,7 @@ assertReject('page expects production', matchPayload(), {
 }, 'page-productionData');
 
 assert.deepEqual(JSON.parse(JSON.stringify(expected)), { buildId: BUILD, dataMode: MODE, productionData: false });
-assert.equal(CACHE, '?v=ac02-admin');
+assert.equal(CACHE, '?v=ac02-admin-20261125r2');
 assert.equal(LOGIN_CACHE, CACHE);
 assert.ok(read('site/admin/js/build.js').includes('TODO'));
 assert.ok(read('site/admin/js/build.js').includes('window.AC02_BUILD'));
